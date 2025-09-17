@@ -1,0 +1,59 @@
+### Build ###
+target/
+build/
+dist/
+out/
+nbbuild/
+nbdist/
+.apt_generated
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+*.ipr
+
+### Eclipse ###
+.classpath
+.project
+.settings/
+.factorypath
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Logs & Cache ###
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+.cache/
+*.pid
+
+### OS ###
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*~
+
+### Maven Wrapper ###
+!.mvn/wrapper/maven-wrapper.jar
+
+### Gradle Wrapper ###
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+### Env / Config ###
+*.env
+*.env.*
+*.properties
+*.yml
+*.yaml
