@@ -3,6 +3,8 @@
     <libraryInfo home="/Library/Java/JavaVirtualMachines/microsoft-11.jdk/Contents/Home" version="11.0.28"/>
     <libraryInfo home="/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home" version="21.0.8"/>
     <libraryInfo home="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.macosx.aarch64_21.0.7.v20250502-0916/jre" version="21.0.7"/>
+    <libraryInfo home="D:\MSA-JAVA\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.7.v20250502-0916\jre" version="21.0.7"/>
+    <libraryInfo home="C:\Program Files\Java\jdk-11" version="11.0.27"/>
     <libraryInfo home="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.macosx.aarch64_21.0.7.v20250502-0916" version="21.0.7">
         <bootpath>
             <entry path="null"/>
@@ -15,4 +17,15 @@
         </endorsedDirs>
     </libraryInfo>
     <libraryInfo home="/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home" version="17.0.12"/>
+    <libraryInfo home="D:\MSA-JAVA\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.7.v20250502-0916" version="21.0.7">
+        <bootpath>
+            <entry path="null"/>
+        </bootpath>
+        <extensionDirs>
+            <entry path="null"/>
+        </extensionDirs>
+        <endorsedDirs>
+            <entry path="null"/>
+        </endorsedDirs>
+    </libraryInfo>
 </libraryInfos>
