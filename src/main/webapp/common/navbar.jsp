@@ -1,23 +1,43 @@
+<%@ page contentType = "text/html; charset=UTF-8" pageEncoding = "UTF-8" %>
 <!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container px-5">
-        <a class="navbar-brand" href="index.jsp">
-            <img src="images/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
-            Travel Roulette
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="video.jsp">Video</a></li>
-                <li class="nav-item"><a class="nav-link" href="kanban.jsp">Kanban</a></li>
-                <li class="nav-item"><a class="nav-link" href="board.jsp">Board</a></li>
-                <li class="nav-item"><a class="nav-link" href="map.jsp">Map</a></li>
-                <li class="nav-item"><a class="nav-link" href="signup.jsp">Sign up</a></li>
-            </ul>
-        </div>
-    </div>
+<nav id = "mainNavbar" class = "navbar navbar-expand-lg navbar-light bg-light fixed-top"
+     style = "border-bottom: 1px solid #000000;">
+	<div class = "container px-5">
+		<a class = "navbar-brand" href = "${pageContext.request.contextPath}/index.jsp">
+			<img src = "${pageContext.request.contextPath}/images/logo.png" alt = "Logo" width = "30" height = "30"
+			     class = "d-inline-block align-text-top">
+			Travel Roulette
+		</a>
+
+		<!-- 햄버거 버튼 -->
+		<button class = "navbar-toggler" type = "button" data-bs-toggle = "offcanvas"
+		        data-bs-target = "#sidebarMenu" aria-controls = "sidebarMenu">
+			<span class = "navbar-toggler-icon"></span>
+		</button>
+
+		<!-- 메뉴 -->
+		<div class = "collapse navbar-collapse" id = "navbarSupportedContent">
+			<ul class = "navbar-nav ms-auto mb-2 mb-lg-0">
+				<li class = "nav-item"><a class = "nav-link"
+				                          href = "${pageContext.request.contextPath}/pages/kanban.jsp">카르반</a></li>
+				<li class = "nav-item"><a class = "nav-link"
+				                          href = "${pageContext.request.contextPath}/pages/board.jsp">보드</a></li>
+				<li class = "nav-item"><a class = "nav-link" href = "${pageContext.request.contextPath}/pages/map.jsp">지도</a>
+				</li>
+				<li class = "nav-item"><a class = "nav-link"
+				                          href = "${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
+				<li class = "nav-item"><a class = "nav-link"
+				                          href = "${pageContext.request.contextPath}/pages/signUp.jsp">회원가입</a></li>
+
+				<!-- 다크모드 토글 버튼 -->
+				<li class = "nav-item">
+					<button id = "modeToggle"
+					        class = "btn btn-outline-light btn-sm ms-3"
+					        style = "border:1px solid white;">
+						🌙
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div>
 </nav>
