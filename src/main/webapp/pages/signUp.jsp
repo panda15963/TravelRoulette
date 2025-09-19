@@ -9,6 +9,7 @@
     <script type="text/javascript">
         /*
          로그인창 색상 노란색 넣은거 시인성용임(박스 확인)
+        임시 css 스크립
         */
     </script>
 
@@ -53,6 +54,7 @@
         .signup-container .radio-group {
             display: flex;
             justify-content: center;
+            padding-left:10px;
             width: 100%;
             margin-bottom: 15px;
         }
