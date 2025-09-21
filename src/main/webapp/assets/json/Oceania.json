@@ -1,0 +1,16 @@
+[
+  { "name": "호주", "code": "AU", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/au.png" },
+  { "name": "피지", "code": "FJ", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/fj.png" },
+  { "name": "키리바시", "code": "KI", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/ki.png" },
+  { "name": "마셜 제도", "code": "MH", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/mh.png" },
+  { "name": "미크로네시아 연방", "code": "FM", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/fm.png" },
+  { "name": "나우루", "code": "NR", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/nr.png" },
+  { "name": "뉴질랜드", "code": "NZ", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/nz.png" },
+  { "name": "팔라우", "code": "PW", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/pw.png" },
+  { "name": "파푸아뉴기니", "code": "PG", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/pg.png" },
+  { "name": "사모아", "code": "WS", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/ws.png" },
+  { "name": "솔로몬 제도", "code": "SB", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/sb.png" },
+  { "name": "통가", "code": "TO", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/to.png" },
+  { "name": "투발루", "code": "TV", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/tv.png" },
+  { "name": "바누아투", "code": "VU", "continent": "오세아니아", "flag": "https://flagcdn.com/w40/vu.png" }
+]
