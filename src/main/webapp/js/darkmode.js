@@ -1,127 +1,104 @@
 document.addEventListener("DOMContentLoaded", function () {
     const body = document.getElementById("pageBody");
     const navbar = document.getElementById("mainNavbar");
-    const toggleBtn = document.getElementById("modeToggle");           // Navbar 버튼
-    const toggleBtnSidebar = document.getElementById("modeToggleSidebar"); // Sidebar 버튼
+    const toggleBtn = document.getElementById("modeToggle");
+    const toggleBtnSidebar = document.getElementById("modeToggleSidebar");
+    const sidebar = document.getElementById("sidebarMenu");
+    const aboutSection = document.getElementById("aboutSection");
+    const boardSection = document.getElementById("boardSection");
 
-    // 현재 모드 적용 함수
+    // 🎨 테마 스타일 정의
+    const themeConfig = {
+        dark: {
+            body: { bg: "#121212", color: "#eee" },
+            navbar: ["navbar-dark", "bg-dark"],
+            sidebar: { bg: "#212529", color: "#fff", link: "#fff" },
+            about: { bg: "#121212", color: "#eee" },
+            board: { bg: "#1e1e1e", color: "#eee", cardBg: "#2a2a2a", border: "#444", muted: "#bbb" },
+            hr: "3px solid #bbb",
+            btn: { text: "☀️", remove: "btn-outline-dark", add: "btn-outline-warning", border: "yellow" }
+        },
+        light: {
+            body: { bg: "#fff", color: "#000" },
+            navbar: ["navbar-light", "bg-light"],
+            sidebar: { bg: "#fff", color: "#000", link: "#000" },
+            about: { bg: "#fff", color: "#000" },
+            board: { bg: "#f8f9fa", color: "#000", cardBg: "#fff", border: "#ddd", muted: "#6c757d" },
+            hr: "3px solid #666",
+            btn: { text: "🌙", remove: "btn-outline-warning", add: "btn-outline-dark", border: "black" }
+        }
+    };
+
+    // 공통: 버튼 스타일 업데이트
+    function updateButtons(config) {
+        [toggleBtn, toggleBtnSidebar].forEach(btn => {
+            if (!btn) return;
+            btn.textContent = config.text;
+            btn.classList.remove(config.remove);
+            btn.classList.add(config.add);
+            btn.style.borderColor = config.border;
+        });
+    }
+
+    // 공통: 섹션 색상 업데이트
+    function updateSection(section, { bg, color }) {
+        if (!section) return;
+        section.style.backgroundColor = bg;
+        section.style.color = color;
+    }
+
+    // 공통: 카드 스타일 업데이트
+    function updateCards(section, { cardBg, border, muted }) {
+        if (!section) return;
+        section.querySelectorAll(".card").forEach(card => {
+            card.style.backgroundColor = cardBg;
+            card.style.borderColor = border;
+        });
+        section.querySelectorAll(".card .text-muted").forEach(el => {
+            el.style.color = muted;
+        });
+    }
+
+    // 현재 모드 적용
     function applyMode(mode) {
+        const config = themeConfig[mode];
         body.setAttribute("data-mode", mode);
 
-        if (mode === "dark") {
-            // Body
-            body.style.backgroundColor = "#121212";
-            body.style.color = "#eee";
+        // Body
+        body.style.backgroundColor = config.body.bg;
+        body.style.color = config.body.color;
 
-            // 버튼
-            [toggleBtn, toggleBtnSidebar].forEach(btn => {
-                if (btn) {
-                    btn.textContent = "☀️";
-                    btn.classList.remove("btn-outline-dark");
-                    btn.classList.add("btn-outline-warning");
-                    btn.style.borderColor = "yellow";
-                }
-            });
+        // 버튼
+        updateButtons(config.btn);
 
-            // Navbar
-            if (navbar) {
-                navbar.classList.remove("navbar-light", "bg-light");
-                navbar.classList.add("navbar-dark", "bg-dark");
-            }
+        // Navbar
+        if (navbar) {
+            navbar.classList.remove(...themeConfig.dark.navbar, ...themeConfig.light.navbar);
+            navbar.classList.add(...config.navbar);
+        }
 
-            // Sidebar
-            const sidebar = document.getElementById("sidebarMenu");
-            if (sidebar) {
-                sidebar.style.backgroundColor = "#212529";
-                sidebar.style.color = "#fff";
-                sidebar.querySelectorAll(".nav-link").forEach(link => {
-                    link.style.color = "#fff";
-                });
-            }
-
-            // About Section
-            const aboutSection = document.getElementById("aboutSection");
-            if (aboutSection) {
-                aboutSection.style.backgroundColor = "#121212";
-                aboutSection.style.color = "#eee";
-            }
-
-            // Board Section
-            const boardSection = document.getElementById("boardSection");
-            if (boardSection) {
-                boardSection.style.backgroundColor = "#1e1e1e";
-                boardSection.style.color = "#eee";
-                boardSection.querySelectorAll(".card").forEach(card => {
-                    card.style.backgroundColor = "#2a2a2a";
-                    card.style.borderColor = "#444";
-                });
-                boardSection.querySelectorAll(".card .text-muted").forEach(el => {
-                    el.style.color = "#bbb";
-                });
-            }
-
-            // 구분선(hr)
-            document.querySelectorAll("hr").forEach(hr => {
-                hr.style.borderTop = "3px solid #bbb";
-            });
-
-        } else {
-            // Body
-            body.style.backgroundColor = "#fff";
-            body.style.color = "#000";
-
-            // 버튼
-            [toggleBtn, toggleBtnSidebar].forEach(btn => {
-                if (btn) {
-                    btn.textContent = "🌙";
-                    btn.classList.remove("btn-outline-warning");
-                    btn.classList.add("btn-outline-dark");
-                    btn.style.borderColor = "black";
-                }
-            });
-
-            // Navbar
-            if (navbar) {
-                navbar.classList.remove("navbar-dark", "bg-dark");
-                navbar.classList.add("navbar-light", "bg-light");
-            }
-
-            // Sidebar
-            const sidebar = document.getElementById("sidebarMenu");
-            if (sidebar) {
-                sidebar.style.backgroundColor = "#fff";
-                sidebar.style.color = "#000";
-                sidebar.querySelectorAll(".nav-link").forEach(link => {
-                    link.style.color = "#000";
-                });
-            }
-
-            // About Section
-            const aboutSection = document.getElementById("aboutSection");
-            if (aboutSection) {
-                aboutSection.style.backgroundColor = "#fff";
-                aboutSection.style.color = "#000";
-            }
-
-            // Board Section
-            const boardSection = document.getElementById("boardSection");
-            if (boardSection) {
-                boardSection.style.backgroundColor = "#f8f9fa"; // 연회색
-                boardSection.style.color = "#000";
-                boardSection.querySelectorAll(".card").forEach(card => {
-                    card.style.backgroundColor = "#fff";
-                    card.style.borderColor = "#ddd";
-                });
-                boardSection.querySelectorAll(".card .text-muted").forEach(el => {
-                    el.style.color = "#6c757d";
-                });
-            }
-
-            // 구분선(hr)
-            document.querySelectorAll("hr").forEach(hr => {
-                hr.style.borderTop = "3px solid #666";
+        // Sidebar
+        if (sidebar) {
+            sidebar.style.backgroundColor = config.sidebar.bg;
+            sidebar.style.color = config.sidebar.color;
+            sidebar.querySelectorAll(".nav-link").forEach(link => {
+                link.style.color = config.sidebar.link;
             });
         }
+
+        // About Section
+        updateSection(aboutSection, config.about);
+
+        // Board Section
+        if (boardSection) {
+            updateSection(boardSection, config.board);
+            updateCards(boardSection, config.board);
+        }
+
+        // 구분선(hr)
+        document.querySelectorAll("hr").forEach(hr => {
+            hr.style.borderTop = config.hr;
+        });
 
         // localStorage 저장
         localStorage.setItem("themeMode", mode);
@@ -130,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 버튼 바인딩
     function bindToggle(btn) {
         if (!btn) return;
-        btn.addEventListener("click", function () {
+        btn.addEventListener("click", () => {
             const currentMode = body.getAttribute("data-mode");
             const newMode = currentMode === "dark" ? "light" : "dark";
             applyMode(newMode);
