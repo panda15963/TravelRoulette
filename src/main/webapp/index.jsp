@@ -39,7 +39,7 @@
 	<%@ include file = "/sections/about.jsp" %>
 
 	<!-- 구분선 -->
-	<hr class="my-5" style="border-top: 3px solid #666; opacity: 1;">
+	<hr class = "my-5" style = "border-top: 3px solid #666; opacity: 1;">
 
 	<%@ include file = "/sections/boardPreview.jsp" %>
 

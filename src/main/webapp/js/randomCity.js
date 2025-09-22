@@ -30,8 +30,6 @@ export function initRandomCityUI() {
     } else {
         pickBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            // countryInput / countryEnglishInput 등의 hidden input 값은
-            // menuUtils.selectCountry (countryUtils)로 채워지므로 pickRandomCity는 그 값을 사용함
             pickRandomCity();
         });
     }
