@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+[cite_start]<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +11,32 @@
          로그인창 색상 노란색 넣은거 시인성용임(박스 확인)
         임시 css 스크립
         */
+       
+    
+    const form = document.querySelector('form[name="signupForm"]');
+
+    가입 버튼 클릭 등실행될 함수
+    form.addEventListener('submit', function(event) {
+        // 비밀번호와 비밀번호 확인 input 요소
+        const password = document.getElementById('userPassword');
+        const passwordCheck = document.getElementById('passwordChk');
+
+        // 두 비밀번호의 값이 일치하지 않는 경우
+        if (password.value !== passwordCheck.value) {
+            
+            alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
+    
+            event.preventDefault();
+            
+            // 비밀번호 필드를 비우기
+            password.value = '';
+            passwordCheck.value = '';
+
+            // 비밀번호 필드에 커서
+            password.focus();
+        }
+    });
+
     </script>
 
     <style>
@@ -101,15 +127,16 @@
 <!-- Sign Up Form -->
 <div class="signup-container">
     <h2>회원가입</h2>
-    <form name="signupForm" action="#" method="post">
-        <input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요." required>
-        <input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요." required>
-        <input type="email" name="email" id="email" placeholder="이메일 주소를 입력해주세요." required>
-        <input type="text" name="name" id="name" placeholder="이름을 입력해주세요." required>
-        <input type="text" name="address" id="address" placeholder="주소를 입력해주세요." required>
+    <form name="signupForm" action="${pageContext.request.contextPath}/LoginServlet" method="post">
+        ID<input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요." required>
+        비밀번호<input type="password" name="userPassword" id="userPassword" placeholder="비밀번호를 입력해주세요." required>
+        비밀번호 확인<input type="password" name="passwordChk" id="passwordChk" placeholder="비밀번호를 입력해주세요." required>
+        이메일<input type="email" name="email" id="email" placeholder="이메일 주소를 입력해주세요." required>
+        이름<input type="text" name="name" id="name" placeholder="이름을 입력해주세요." required>
+        주소<input type="text" name="address" id="address" placeholder="주소를 입력해주세요." required>
 
         <div class="radio-group">
-            <input type="radio" id="male" name="gender" value="male">
+            <input type="radio" id="male" name="gender" value="male" checked>
             <label for="male">남성</label>
             <input type="radio" id="female" name="gender" value="female">
             <label for="female">여성</label>
