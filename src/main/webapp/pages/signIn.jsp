@@ -113,12 +113,20 @@
 <!-- Sign In 내용 -->
 <div class="signin-container">
     <h2>로그인</h2>
-    <form name="signinForm" action="#" method="post">
-        <input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요." required>
-        <input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요." required>
-        
-        <button type="submit">로그인</button>
-    </form>
+          
+        <% if ("login_fail".equals(request.getParameter("error"))) { %>
+            <div class="error-message">아이디 또는 비밀번호가 일치하지 않습니다.</div>
+        <% } %>
+
+        <form name="signinForm" action="${pageContext.request.contextPath}/LoginServlet" method="post">
+            
+            <input type="hidden" name="action" value="signin">
+            
+            <input type="text" name="userId" placeholder="아이디를 입력해주세요." required>
+            <input type="password" name="userPassword" placeholder="비밀번호를 입력해주세요." required>
+            
+            <button type="submit">로그인</button>
+        </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/darkmode.js"></script>

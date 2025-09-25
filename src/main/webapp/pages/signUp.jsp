@@ -11,7 +11,7 @@
          로그인창 색상 노란색 넣은거 시인성용임(박스 확인)
         임시 css 스크립
         */
-       
+   window.onload()   
     
     const form = document.querySelector('form[name="signupForm"]');
 
@@ -171,13 +171,37 @@
 <!-- Sign Up Form -->
 <div class="signup-container">
     <h2>회원가입</h2>
+    
+        <%-- 서버로부터 받은 에러 메시지 표시 --%>
+    <% 
+        String error = request.getParameter("error");
+        String errorMessage = "";
+        if (error != null) {
+            switch (error) {
+                case "id_duplicate":
+                    errorMessage = "이미 사용 중인 아이디입니다.";
+                    break;
+                case "email_duplicate":
+                    errorMessage = "이미 등록된 이메일입니다.";
+                    break;
+                case "validation_fail":
+                    errorMessage = "입력 형식이 올바르지 않습니다.";
+                    break;
+            }
+        }
+    %>
+    <% if (!errorMessage.isEmpty()) { %>
+        <div class="error-message"><%= errorMessage %></div>
+    <% } %>
+    
     <form name="signupForm" action="${pageContext.request.contextPath}/LoginServlet" method="post">
+    	<input type="hidden" name="action" value="signup">
         ID<input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요." required>
         비밀번호<input type="password" name="userPassword" id="userPassword" placeholder="비밀번호를 입력해주세요." required>
         비밀번호 확인<input type="password" name="passwordChk" id="passwordChk" placeholder="비밀번호를 입력해주세요." required>
-        이메일<input type="email" name="email" id="email" placeholder="이메일 주소를 입력해주세요." required>
+        이메일<input type="email" name="email" id="email" placeholder="이메일 주소를 입력해주세요. ~ @ ~ . ~ 형식이어야합니다." required>
         이름<input type="text" name="name" id="name" placeholder="이름을 입력해주세요." required>
-        주소<input type="text" name="address" id="address" placeholder="주소를 입력해주세요." required>
+        주소<input type="text" name="address" id="address" placeholder="주소를 입력해주세요. ~시여야합니다." required>
 
         <div class="radio-group">
             <input type="radio" id="male" name="gender" value="male" checked>
