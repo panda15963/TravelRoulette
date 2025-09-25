@@ -46,17 +46,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 aboutSection.style.color = "#eee";
             }
 
-            // Board Section
+            // Board Section (다크 모드 → 카드 밝게)
             const boardSection = document.getElementById("boardSection");
             if (boardSection) {
                 boardSection.style.backgroundColor = "#1e1e1e";
                 boardSection.style.color = "#eee";
                 boardSection.querySelectorAll(".card").forEach(card => {
-                    card.style.backgroundColor = "#2a2a2a";
-                    card.style.borderColor = "#444";
+                    card.style.backgroundColor = "#fff";   // 밝은 배경
+                    card.style.color = "#000";             // 어두운 글씨
+                    card.style.borderColor = "#ddd";
                 });
                 boardSection.querySelectorAll(".card .text-muted").forEach(el => {
-                    el.style.color = "#bbb";
+                    el.style.color = "#555";
+                });
+            }
+
+            // Intro Section (자기소개 페이지용, 다크 모드 → 카드 밝게)
+            const introSection = document.getElementById("introSection");
+            if (introSection) {
+                introSection.style.backgroundColor = "#1e1e1e";
+                introSection.style.color = "#eee";
+                introSection.querySelectorAll(".card").forEach(card => {
+                    card.style.backgroundColor = "#fff";   // 밝은 배경
+                    card.style.color = "#000";             // 어두운 글씨
+                    card.style.borderColor = "#ddd";
                 });
             }
 
@@ -103,17 +116,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 aboutSection.style.color = "#000";
             }
 
-            // Board Section
+            // Board Section (라이트 모드 → 카드 어둡게)
             const boardSection = document.getElementById("boardSection");
             if (boardSection) {
                 boardSection.style.backgroundColor = "#f8f9fa"; // 연회색
                 boardSection.style.color = "#000";
                 boardSection.querySelectorAll(".card").forEach(card => {
-                    card.style.backgroundColor = "#fff";
-                    card.style.borderColor = "#ddd";
+                    card.style.backgroundColor = "#2a2a2a"; // 어두운 배경
+                    card.style.color = "#f1f1f1";           // 밝은 글씨
+                    card.style.borderColor = "#444";
                 });
                 boardSection.querySelectorAll(".card .text-muted").forEach(el => {
-                    el.style.color = "#6c757d";
+                    el.style.color = "#bbb";
+                });
+            }
+
+            // Intro Section (자기소개 페이지용, 라이트 모드 → 카드 어둡게)
+            const introSection = document.getElementById("introSection");
+            if (introSection) {
+                introSection.style.backgroundColor = "#fff";
+                introSection.style.color = "#000";
+                introSection.querySelectorAll(".card").forEach(card => {
+                    card.style.backgroundColor = "#2a2a2a"; // 어두운 배경
+                    card.style.color = "#f1f1f1";           // 밝은 글씨
+                    card.style.borderColor = "#444";
                 });
             }
 
