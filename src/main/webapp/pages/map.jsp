@@ -64,11 +64,11 @@
 <!-- Bootstrap JS -->
 <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Dark/Light Mode JS -->
-<script src = "../js/darkmode.js"></script>
+<script src = "../js/features/darkmode.js"></script>
 
 <!-- 랜덤 도시 UI 초기화 -->
 <script type = "module">
-    import {initRandomCityUI} from "../js/randomCity.js";
+    import {initRandomCityUI} from "../js/features/randomCity.js";
 
     initRandomCityUI();
 </script>

@@ -1,5 +1,5 @@
 import { selectCountry } from "./countryUtils.js";
-import { continentFileMap } from "./config/continentMap.js";
+import { continentFileMap } from "../config/continentMap.js";
 
 export function resetCountryMenu(message, isError = false) {
     const menu = document.getElementById("countryMenu");

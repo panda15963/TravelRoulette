@@ -1,6 +1,6 @@
-import { pickRandomCity } from "./utils/cityUtils.js";
-import { loadCountriesByContinent } from "./utils/menuUtils.js";
-import { continentFileMap } from "./utils/config/continentMap.js";
+import { pickRandomCity } from "../utils/cityUtils.js";
+import { loadCountriesByContinent } from "../utils/menuUtils.js";
+import { continentFileMap } from "../config/continentMap.js";
 
 export function initRandomCityUI() {
     const continentMenu = document.getElementById("continentMenu");
