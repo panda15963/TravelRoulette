@@ -165,7 +165,7 @@
 
 <!-- 여기에 Board 관련 내용 작성 -->
 
-<main class="wrap">
+<main class="wrap pt-5">
     <h1>간단 게시판</h1>
 
     <!-- 툴바 -->
