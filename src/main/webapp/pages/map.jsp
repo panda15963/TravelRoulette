@@ -19,23 +19,22 @@
 	<div class = "row g-3 align-items-center">
 		<!-- 대륙 선택 -->
 		<div class = "col-md-6">
-			<span class = "form-label">대륙</span>
+			<span class = "form-label text-center d-block w-100">대륙</span>
 			<div class = "dropdown">
 				<button class = "btn btn-light dropdown-toggle w-100 border pe-4"
 				        id = "continentDropdown" data-bs-toggle = "dropdown">
 					대륙 선택
 				</button>
-				<!-- initRandomCityUI()가 실행되면 자동으로 채워짐 -->
 				<ul class = "dropdown-menu w-100" id = "continentMenu"></ul>
 			</div>
 		</div>
 
 		<!-- 나라 선택 -->
 		<div class = "col-md-6">
-			<span class = "form-label">나라</span>
+			<span class = "form-label text-center d-block w-100">나라</span>
 			<div class = "dropdown">
 				<button class = "btn btn-light dropdown-toggle w-100 border pe-4"
-				        id = "countryDropdown" data-bs-toggle = "dropdown">
+				        id = "countryDropdown" data-bs-toggle = "dropdown" disabled>
 					나라 선택
 				</button>
 				<ul class = "dropdown-menu w-100" id = "countryMenu" style = "max-height:250px; overflow-y:auto;"></ul>
@@ -52,7 +51,10 @@
 
 	<!-- 랜덤 도시 버튼 -->
 	<div class = "mt-3">
-		<button type = "button" class = "btn btn-primary" id = "pickRandomCityBtn">랜덤 도시 뽑기</button>
+		<!-- JSP -->
+		<button type = "button" class = "btn btn-primary" id = "pickRandomCityBtn" disabled>
+			랜덤 도시 뽑기
+		</button>
 	</div>
 
 	<!-- 결과 표시 -->

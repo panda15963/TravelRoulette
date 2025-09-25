@@ -34,8 +34,12 @@ export function loadCountriesByContinent(continentKr) {
             }
             createCountryList(countries, selectCountry);
 
-            document.getElementById("continentDropdown").textContent = continentKr;
-            document.getElementById("countryDropdown").textContent = "나라 선택";
+            document.getElementById("continentDropdown").innerHTML =
+                `<span class="me-auto pe-2">${continentKr}</span>`;
+
+            document.getElementById("countryDropdown").innerHTML =
+                `<span class="me-auto pe-2">나라 선택</span>`;
+
             document.getElementById("continentInput").value = continentKr;
         })
         .catch(err => {
