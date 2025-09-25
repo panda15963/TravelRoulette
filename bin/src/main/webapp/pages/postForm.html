@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+
+<body>
+
+<!-- Prac03_PostForm.html : 조각 파일( fragment )이라 body 없음 -->
+<form id="postForm" autocomplete="off">
+    <label> <span class="sr-only">제목</span> <input name="title"
+                                                   id="title" placeholder="제목" required maxlength="200" />
+    </label> <label> <span class="sr-only">작성자</span> <input name="author"
+                                                             id="author" placeholder="작성자" required maxlength="50" />
+</label> <label> <span class="sr-only">내용</span> <textarea
+        name="content" id="content" placeholder="내용" rows="6" required></textarea>
+</label>
+    <div
+            style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px">
+        <button type="button" id="cancelBtn" class="ghost">닫기</button>
+        <button type="reset" class="ghost">초기화</button>
+        <button type="submit">등록</button>
+    </div>
+    <p class="muted">※ 데이터는 이 브라우저의 로컬스토리지에 저장됩니다.</p>
+</form>
+
+
+</body>
+
+</html>
+
