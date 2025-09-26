@@ -22,10 +22,12 @@
 				                          href = "${pageContext.request.contextPath}/pages/kanban.jsp">카르반</a></li>
 				<li class = "nav-item"><a class = "nav-link"
 				                          href = "${pageContext.request.contextPath}/pages/board.jsp">보드</a></li>
+				<li class = "nav-item"><a class = "nav-link"
+				                          href = "${pageContext.request.contextPath}/pages/video.jsp">비디오</a></li>
 				<li class = "nav-item"><a class = "nav-link" href = "${pageContext.request.contextPath}/pages/map.jsp">지도</a>
 				</li>
 				<li class = "nav-item"><a class = "nav-link" href =
-						"${pageContext.request.contextPath}/pages/intros.jsp">소개글</a>
+						"${pageContext.request.contextPath}/pages/introduction/introofindex.jsp">소개글</a>
 				</li>
 				<li class = "nav-item"><a class = "nav-link"
 				                          href = "${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
