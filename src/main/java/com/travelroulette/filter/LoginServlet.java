@@ -1,4 +1,4 @@
-package com.travelroulette;
+package com.travelroulette.filter;
 
 import java.io.IOException;
 import java.sql.Connection;

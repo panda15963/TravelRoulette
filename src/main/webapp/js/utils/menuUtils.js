@@ -25,8 +25,11 @@ export function createCountryList(countries, onSelect) {
 
 export function loadCountriesByContinent(continentKr) {
     const fileName = continentFileMap[continentKr];
-    fetch(`../assets/json/${fileName}.json`)
-        .then(res => res.json())
+    fetch(`/assets/json/${fileName}.json`)
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP 오류! ${res.status}`);
+            return res.json();
+        })
         .then(countries => {
             if (!countries || countries.length === 0) {
                 resetCountryMenu("등록된 나라 없음");

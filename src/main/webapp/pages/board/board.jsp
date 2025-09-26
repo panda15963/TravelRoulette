@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<title>Board</title>
-	<link href="../css/styles.css" rel="stylesheet" />
+	<link href="../../css/styles.css" rel="stylesheet" />
 	<!-- Bootstrap CSS (필요하다면 추가) -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -229,10 +229,10 @@
 </main>
 
 <!-- JS 연결 -->
-<script defer src="../js/board.js"></script>
+<script defer src="../../js/utils/board.js"></script>
 
 <!-- Bootstrap JS (필요하다면 추가) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/features/darkmode.js"></script>
+<script src="../../js/features/darkmode.js"></script>
 </body>
 </html>

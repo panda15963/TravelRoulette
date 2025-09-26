@@ -14,7 +14,7 @@
 		<ul class="navbar-nav">
 			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/video.jsp">비디오</a></li>
 			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/kanban.jsp">칸반</a></li>
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/board.jsp">게시판</a></li>
+			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/board/board.jsp">게시판</a></li>
 			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/map.jsp">지도</a></li>
             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/introduction/introofindex.jsp">소개글</a></li>
 			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
