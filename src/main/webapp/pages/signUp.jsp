@@ -3,167 +3,75 @@
 <html lang="en">
 <head>
     <title>Sign Up</title>
-    <link href="../css/styles.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-
-    <script type="text/javascript">
-        /*
-         로그인창 색상 노란색 넣은거 시인성용임(박스 확인)
-        임시 css 스크립
-        */
-   window.onload()   
-    
-    const form = document.querySelector('form[name="signupForm"]');
-
-    가입 버튼 클릭 등실행될 함수
-    form.addEventListener('submit', function(event) {
-        // 비밀번호와 비밀번호 확인 input 요소
-        const password = document.getElementById('userPassword');
-        const passwordCheck = document.getElementById('passwordChk');
-
-        // 두 비밀번호의 값이 일치하지 않는 경우
-        if (password.value !== passwordCheck.value) {
-            
-            alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
-    
-            event.preventDefault();
-            
-            // 비밀번호 필드를 비우기
-            password.value = '';
-            passwordCheck.value = '';
-
-            // 비밀번호 필드에 커서
-            password.focus();
-        }
-    });
-
-    </script>
+    <link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet"/>
 
     <style>
+        /* --- 기본 Body 스타일 --- */
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            /* 라이트 모드 배경은 body에 직접 지정되어 있으므로, 여기서는 기본 스타일만 유지 */
+            padding-top: 10rem;
+            padding-bottom: 2rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
 
+        /* --- 회원가입 컨테이너 스타일 --- */
         .signup-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 680px;
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
             padding: 40px;
             border-radius: 12px;
-            border: 1px solid black; /* 라이트 모드 테두리 */
-            background-color: white; /* 라이트 모드 배경 (기존 yellow 대신 흰색으로 변경) */
-            color: black; /* 라이트 모드 글자색 */
+            border: 1px solid #ccc;
+            background-color: #fff;
         }
 
-        /* ---------------------------------
-           다크 모드: 컨테이너 스타일 오버라이드
-           --------------------------------- */
-        body[data-mode="dark"] .signup-container {
-            background-color: #1e1e1e; /* 어두운 배경 */
-            border: 1px solid #444; /* 밝은 테두리 */
-            color: #eee; /* 밝은 글자색 */
-        }
-
-        .signup-container h2 {
-            margin-bottom: 20px;
-            color: black; /* 라이트 모드 글자색 */
-        }
-
-        /* ---------------------------------
-           다크 모드: 제목 스타일 오버라이드
-           --------------------------------- */
-        body[data-mode="dark"] .signup-container h2 {
-            color: #eee; /* 다크 모드 글자색 */
-        }
-
+        /* --- 폼 내부 요소 스타일 --- */
+        .signup-container h2 { margin-bottom: 20px; text-align: center; }
         .signup-container input[type="text"],
         .signup-container input[type="password"],
         .signup-container input[type="email"] {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc; /* 라이트 모드 테두리 (기존 black 대신 연한 회색으로 변경) */
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 16px;
-            background-color: #fff; /* 라이트 모드 배경 */
-            color: #000; /* 라이트 모드 글자색 */
+            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc;
+            border-radius: 6px; box-sizing: border-box; font-size: 16px;
         }
+        .signup-container .radio-group { display: flex; justify-content: center; width: 100%; margin-bottom: 15px; }
+        .signup-container .radio-group label { margin: 0 10px; }
+        .signup-container .terms-checkbox { display: flex; align-items: center; justify-content: center; width: 100%; margin-bottom: 20px; }
+        .signup-container .terms-checkbox input { margin-right: 10px; }
+        .signup-container button {
+            width: 100%; padding: 15px; border: none; border-radius: 6px;
+            background-color: skyblue; color: white; font-size: 18px;
+            cursor: pointer; transition: background-color 0.3s;
+        }
+        .signup-container button:hover { background-color: blue; }
+        .error-message { color: red; margin-bottom: 15px; font-size: 0.9rem; text-align: center; }
 
-        /* ---------------------------------
-           다크 모드: 입력 필드 스타일 오버라이드
-           --------------------------------- */
+        /* --- 다크 모드 스타일 --- */
+        body[data-mode="dark"] {
+            background-color: #121212;
+            color: #eee;
+        }
+        body[data-mode="dark"] .signup-container {
+            background-color: #1e1e1e; border: 1px solid #444; color: #eee;
+        }
         body[data-mode="dark"] .signup-container input[type="text"],
         body[data-mode="dark"] .signup-container input[type="password"],
-        body[data-mode="dark"] .signup-container input[type="email"]
-        {
-            background-color: #212121;
-            color: #eee;
-            border: 1px solid #555;
+        body[data-mode="dark"] .signup-container input[type="email"] {
+            background-color: #212121; color: #eee; border: 1px solid #555;
         }
 
-        .signup-container .radio-group {
-            display: flex;
-            justify-content: center;
-            padding-left:10px;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .signup-container .radio-group label {
-            margin-right: 20px;
-        }
-
-        /* 라디오 버튼 텍스트도 컨테이너 글자색을 따라가므로 별도 설정 불필요 */
-
-        .signup-container .terms-checkbox {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .signup-container .terms-checkbox input {
-            margin-right: 10px;
-        }
-
-        /* ---------------------------------
-           버튼 스타일 (다크 모드에 맞춰 색상 조정)
-           --------------------------------- */
-        .signup-container button {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 6px;
-            background-color: skyblue; /* 라이트 모드 기본 */
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .signup-container button:hover {
-            background-color: blue; /* 라이트 모드 호버 */
-        }
-
-        body[data-mode="dark"] .signup-container button {
-            background-color: #007bff; /* 다크 모드 기본 */
-        }
-
-        body[data-mode="dark"] .signup-container button:hover {
-            background-color: #0056b3; /* 다크 모드 호버 */
+        /* --- 반응형 디자인 --- */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 8rem;
+            }
+            .signup-container {
+                padding: 20px;
+            }
         }
     </style>
 </head>
-<body id="pageBody" class="d-flex flex-column h-100"
-      style="background-color:#fff; color:#000;" data-mode="light">
+<body id="pageBody" data-mode="light">
 
 <%@ include file="/common/navbar.jsp" %>
 <%@ include file="/common/sidebar.jsp" %>
@@ -193,8 +101,8 @@
     <% if (!errorMessage.isEmpty()) { %>
         <div class="error-message"><%= errorMessage %></div>
     <% } %>
-    
-    <form name="signupForm" action="${pageContext.request.contextPath}/LoginServlet" method="post">
+    <form name="signupForm">
+    <%-- <form name="signupForm" action="${pageContext.request.contextPath}/LoginServlet" method="post"> --%>
     	<input type="hidden" name="action" value="signup">
         ID<input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요." required>
         비밀번호<input type="password" name="userPassword" id="userPassword" placeholder="비밀번호를 입력해주세요." required>
@@ -220,6 +128,13 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/darkmode.js"></script>
+<script src="${pageContext.request.contextPath}/js/darkmode.js"></script>
+
+<script>
+    const CONTEXT_PATH = "${pageContext.request.contextPath}";
+</script>
+
+<script defer src="${pageContext.request.contextPath}/js/signUpAndValidate.js"></script>
+
 </body>
 </html>

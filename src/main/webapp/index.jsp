@@ -49,5 +49,12 @@
 <!-- Bootstrap JS -->
 <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src = "js/darkmode.js"></script>
+<!-- 로컬스토리지 로그인 자바스크립트 삽 -->
+
+<script>
+    const CONTEXT_PATH = "${pageContext.request.contextPath}";
+</script>
+<script defer src="js/signUpAndValidate.js"></script> </body>
+<!--                                                         -->
 </body>
 </html>
