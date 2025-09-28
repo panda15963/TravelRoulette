@@ -78,7 +78,7 @@
 <!-- 전체 레이아웃 컨테이너 -->
 <div class="container my-4">
     <h1 class="mb-3 mt-5" >Red Dog</h1>
-    <p class="text-muted">세 장의 카드로 승·패를 겨루는 카드 게임</p>
+    <p class="text-muted">세 장의 카드를 이용한 간단한 카드게임</p>
 
     <!-- 메인 카드(박스) 영역: 게임판, 버튼, 상태를 담음 -->
     <div class="card p-3">
@@ -219,7 +219,7 @@
     let pairMode; //페어 규칙 모드
     let gameOver; //게임 종료 여부
 
-    //상태 및 결과 메시지를 특정 DOM에 반영하는 헬퍼
+    //상태 및 결과 메시지 반영
     const setStatus = msg => { document.querySelector('#status').textContent = msg; };
     const setResult = msg => { document.querySelector('#result').textContent = msg; };
 
@@ -252,7 +252,7 @@
         //남은 카드 수, 라운드 수, 승/패/무 표시
         document.querySelector('#remain').textContent = deck.length;
         document.querySelector('#rounds').textContent = rounds;
-        document.querySelector('#wlp').textContent = `${wins} / ${losses} / ${pushes}`;
+        document.querySelector('#wlp').textContent = wins + " / " + losses + " / " + pushes;
 
         //세 번째 카드 버튼은 조건이 충족될 때만 활성화
         document.querySelector('#btnThird').disabled = !canDrawThird||gameOver;
@@ -325,11 +325,11 @@
     const checkDeck = (n=3) => {
         if(deck.length<n) {
             gameOver = true;
-            const score = wins-losses; //단순 점수 계산: 승 수 - 패 수
+            const score = wins-losses; //점수 계산: 승 수 - 패 수
 
             //모달의 결과 및 통계 텍스트 채우기
-            document.getElementById("modalResult").textContent = `최종점수: ${score}점`;
-            document.getElementById("modalStats").textContent = `승:${wins}, 패:${losses}, 무승부:${pushes}`;
+            document.getElementById("modalResult").textContent = "최종점수: " + score + "점";
+            document.getElementById("modalStats").textContent = "승:" + wins + ", 패:" + losses + ", 무승부:" + pushes;
 
             //모달 생성 및 보여주기
             const modal = new bootstrap.Modal(document.getElementById("gameModal"));
@@ -337,7 +337,7 @@
 
             refreshUI();
             saveState();
-            return false; //더 이상 진행 불가
+            return false; //진행 불가
         }
         return true; //진행 가능
     };
@@ -361,18 +361,18 @@
             pairMode = true; //페어 규칙 발동
             canDrawThird = true; //세 번째 카드를 반드시 확인해야 결과가 나옴
             setStatus('페어! 세 번째 카드를 확인하세요.');
-            setResult(`초기 카드: ${first.rank}${first.suit}, ${second.rank}${second.suit} (페어)`);
+            setResult("초기 카드: " + first.rank + first.suit + ", " + second.rank + second.suit + " (페어)");
         }else if(Math.abs(first.value-second.value) === 1) {
             //연속(값 차가 1)인 경우: 사이 값이 존재하지 않으므로 무승부 확정
             rounds++; //라운드 수 증가
             pushes++; //무승부
             setStatus('연속 → 무승부!');
-            setResult(`초기 카드: ${first.rank}${first.suit}, ${second.rank}${second.suit} → 무승부`);
+            setResult("초기 카드: " + first.rank + first.suit + ", " + second.rank + second.suit + " → 무승부");
         }else {
             //일반적인 경우: 세 번째 카드를 뽑아 사이에 들어오는지로 승패 결정
             canDrawThird = true; //세 번쨰 카드 버튼 활성화
             setStatus('세 번째 카드를 뽑으세요.');
-            setResult(`초기 카드: ${first.rank}${first.suit}, ${second.rank}${second.suit}`);
+            setResult("초기 카드: " + first.rank + first.suit + ", " + second.rank + second.suit);
         }
 
         refreshUI();
@@ -384,18 +384,18 @@
         if(!canDrawThird||gameOver) return; //뽑을 수 없는 상태면 중단
 
         third = deck.pop(); //세 번째 카드 오픈
-        rounds++; //라운드 수 증가(연속 무승부 분기는 newRound에서 증가)
+        rounds++; //라운드 수 증가
 
         if(pairMode) {
             //페어 상태에서 세 번째 카드가 같은 랭크면 트리플(승리), 아니면 무승부
             if(third.rank === first.rank) {
                 wins++;
                 setStatus('트리플! 승리!');
-                setResult(`세 번째 카드: ${third.rank}${third.suit} → 트리플`);
+                setResult("세 번째 카드: " + third.rank + third.suit + " → 트리플");
             }else {
                 pushes++;
                 setStatus('트리플 실패 → 무승부');
-                setResult(`세 번째 카드: ${third.rank}${third.suit} → 무승부`);
+                setResult("세 번째 카드: " + third.rank + third.suit + " → 무승부");
             }
         }else {
             //세 번째 카드가 첫/둘 사이 값이면 승리, 아니면 패배
@@ -405,12 +405,12 @@
             if(third.value>lo && third.value<hi){
                 wins++;
                 setStatus('승리!');
-                setResult(`세 번째 카드: ${third.rank}${third.suit} → 사이`);
+                setResult("세 번째 카드: " + third.rank + third.suit + " → 사이");
             }
             else {
                 losses++;
                 setStatus('패배…');
-                setResult(`세 번째 카드: ${third.rank}${third.suit} → 범위 밖`);
+                setResult("세 번째 카드: " + third.rank + third.suit + " → 범위 밖");
             }
         }
 
