@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const sidebar = document.getElementById("sidebarMenu");
     const aboutSection = document.getElementById("aboutSection");
     const boardSection = document.getElementById("boardSection");
+    const introSection = document.getElementById("introSection"); // ✅ 자기소개 섹션
 
     // 🎨 테마 스타일 정의
     const themeConfig = {
@@ -14,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
             navbar: ["navbar-dark", "bg-dark"],
             sidebar: { bg: "#212529", color: "#fff", link: "#fff" },
             about: { bg: "#121212", color: "#eee" },
-            board: { bg: "#1e1e1e", color: "#eee", cardBg: "#2a2a2a", border: "#444", muted: "#bbb" },
+            // ✅ 다크 모드에서 카드 = 흰색 / 텍스트 = 검정
+            board: { bg: "#1e1e1e", color: "#eee", cardBg: "#fff", cardColor: "#000", border: "#444", muted: "#555" },
             hr: "3px solid #bbb",
             btn: { text: "☀️", remove: "btn-outline-dark", add: "btn-outline-warning", border: "yellow" }
         },
@@ -23,13 +25,13 @@ document.addEventListener("DOMContentLoaded", function () {
             navbar: ["navbar-light", "bg-light"],
             sidebar: { bg: "#fff", color: "#000", link: "#000" },
             about: { bg: "#fff", color: "#000" },
-            board: { bg: "#f8f9fa", color: "#000", cardBg: "#fff", border: "#ddd", muted: "#6c757d" },
+            // ✅ 라이트 모드에서 카드 = 검정 / 텍스트 = 흰색
+            board: { bg: "#fff", color: "#000", cardBg: "#000", cardColor: "#fff", border: "#444", muted: "#ccc" },
             hr: "3px solid #666",
             btn: { text: "🌙", remove: "btn-outline-warning", add: "btn-outline-dark", border: "black" }
         }
     };
 
-    // 공통: 버튼 스타일 업데이트
     function updateButtons(config) {
         [toggleBtn, toggleBtnSidebar].forEach(btn => {
             if (!btn) return;
@@ -40,26 +42,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 공통: 섹션 색상 업데이트
     function updateSection(section, { bg, color }) {
         if (!section) return;
         section.style.backgroundColor = bg;
         section.style.color = color;
     }
 
-    // 공통: 카드 스타일 업데이트
-    function updateCards(section, { cardBg, border, muted }) {
+    function updateCards(section, { cardBg, cardColor, border, muted }) {
         if (!section) return;
         section.querySelectorAll(".card").forEach(card => {
             card.style.backgroundColor = cardBg;
             card.style.borderColor = border;
+            card.style.color = cardColor; // ✅ 카드 안 텍스트 색
         });
         section.querySelectorAll(".card .text-muted").forEach(el => {
             el.style.color = muted;
         });
     }
 
-    // 현재 모드 적용
     function applyMode(mode) {
         const config = themeConfig[mode];
         body.setAttribute("data-mode", mode);
@@ -95,6 +95,12 @@ document.addEventListener("DOMContentLoaded", function () {
             updateCards(boardSection, config.board);
         }
 
+        // Intro Section ✅ 자기소개 카드에도 적용
+        if (introSection) {
+            updateSection(introSection, config.board);
+            updateCards(introSection, config.board);
+        }
+
         // 구분선(hr)
         document.querySelectorAll("hr").forEach(hr => {
             hr.style.borderTop = config.hr;
@@ -104,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("themeMode", mode);
     }
 
-    // 버튼 바인딩
     function bindToggle(btn) {
         if (!btn) return;
         btn.addEventListener("click", () => {
@@ -117,7 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
     bindToggle(toggleBtn);
     bindToggle(toggleBtnSidebar);
 
-    // 저장된 모드 불러오기
     const savedMode = localStorage.getItem("themeMode") || "light";
     applyMode(savedMode);
 });

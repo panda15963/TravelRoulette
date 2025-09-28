@@ -50,23 +50,56 @@
     <input type="hidden" id="cityInput" name="city">
 
     <!-- 랜덤 도시 버튼 -->
-    <div class="mt-3 d-flex align-items-center gap-2">
-        <button type="button" class="btn btn-primary d-flex align-items-center gap-2"
-                id="pickRandomCityBtn" disabled>
-            <span>랜덤 도시 뽑기</span>
-            <output id="loadingSpinner"
-                    class="spinner-border spinner-border-sm text-light d-none"
-                    aria-live="polite">
-                <span class="visually-hidden">Loading...</span>
-            </output>
-        </button>
+    <div class="mt-3 row g-3">
+        <div class="col-md-12">
+            <button type="button"
+                    class="btn btn-primary d-flex align-items-center justify-content-center gap-2 w-100"
+                    id="pickRandomCityBtn" disabled>
+                <span>랜덤 도시 뽑기</span>
+                <output id="loadingSpinner"
+                        class="spinner-border spinner-border-sm text-light d-none"
+                        aria-live="polite">
+                    <span class="visually-hidden">Loading...</span>
+                </output>
+            </button>
+        </div>
     </div>
 
-    <!-- 결과 표시 -->
-    <div id="randomCityResult" class="mt-3"></div>
+    <!-- 지도 + 장소 리스트 -->
+    <div class="d-flex mt-3">
+        <!-- 지도 -->
+        <div class="position-relative" style="width:70%; height:500px;">
+            <!-- ✅ 지도 위 투명 배너 -->
+            <div id="currentCityBanner"
+                 class="position-absolute top-0 start-50 translate-middle-x p-2 px-4 rounded"
+                 style="background: rgba(0,0,0,0.5); color:#fff; z-index:1000; margin-top:10px; display:none;">
+                <h5 class="m-0">현재 도시: <span id="selectedCityName"></span></h5>
+            </div>
+            <!-- 지도 -->
+            <div id="map" class="rounded shadow" style="width:100%; height:100%;"></div>
+        </div>
 
-    <!-- 지도 영역 -->
-    <div id="map" class="w-100 mt-3 rounded shadow" style="height:500px;"></div>
+        <!-- 장소 패널 -->
+        <div id="placesPanel" class="ms-3 border rounded bg-light d-flex flex-column"
+             style="width:30%; height:500px;">
+            <!-- 고정 영역 -->
+            <div class="p-2 border-bottom bg-light sticky-top" style="z-index: 10;">
+                <h5 class="mb-2">주변 장소</h5>
+                <div class="btn-group w-100">
+                    <button class="btn btn-outline-primary active" id="btnAttractions">관광지</button>
+                    <button class="btn btn-outline-success" id="btnRestaurants">식당</button>
+                    <button class="btn btn-outline-warning" id="btnHotels">호텔</button>
+                </div>
+            </div>
+
+            <!-- 스크롤되는 리스트 -->
+            <div class="flex-grow-1 overflow-auto p-2">
+                <ul id="placesAttractions" class="list-group"></ul>
+                <ul id="placesRestaurants" class="list-group"></ul>
+                <ul id="placesHotels" class="list-group"></ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Bootstrap JS -->
@@ -78,13 +111,23 @@
     initRandomCityUI();
 </script>
 
-<!-- Google Maps JS API -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIobZGCZzf-wbQlKQb6Ae2VWP2RrEdlog&callback=initMap" async defer></script>
+<!-- Google Maps JS API (Places 포함) -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK_cxakbGGco-bruqrtL1PPdKYYj_a1UA&libraries=places&callback=initMap" async defer></script>
 
 <!-- 랜덤 도시 UI 초기화 -->
 <script type="module" src="../js/features/randomCity.js"></script>
-<!-- 분리된 맵 JS -->
+<!-- 분리된 맵 + Places JS -->
 <script type="module" src="../js/features/googleMap.js"></script>
+<script type="module">
+    import { triggerMapResize } from "../js/features/googleMap.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // 지도가 다 로드된 후 강제로 리사이즈 이벤트 발생
+        setTimeout(() => {
+            triggerMapResize();
+        }, 300);
+    });
+</script>
 
 </body>
 </html>

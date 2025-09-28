@@ -8,7 +8,7 @@ export function initRandomCityUI() {
     const pickBtn = document.getElementById("pickRandomCityBtn");
     const countryDropdown = document.getElementById("countryDropdown");
     const countryMenu = document.getElementById("countryMenu");
-    const spinner = document.getElementById("loadingSpinner"); // 👉 로딩 스피너 (버튼 옆)
+    const spinner = document.getElementById("loadingSpinner");
 
     // 초기 비활성화
     countryDropdown?.setAttribute("disabled", true);
@@ -24,8 +24,6 @@ export function initRandomCityUI() {
 
             li.addEventListener("click", async (e) => {
                 e.preventDefault();
-
-                // 대륙 클릭 시 → 나라 목록만 로드 (스피너 ❌)
                 try {
                     await loadCountriesByContinent(continentKr);
                     if (countryDropdown?.disabled) {
@@ -38,64 +36,46 @@ export function initRandomCityUI() {
 
             continentMenu.appendChild(li);
         });
-    } else {
-        console.warn("continentMenu 요소를 찾을 수 없습니다.");
     }
 
-    // 나라 선택 시 도시 데이터 로드 + 스피너 표시
+    // 나라 선택 시
     countryMenu?.addEventListener("click", async (e) => {
         if (e.target.matches(".dropdown-item")) {
             e.preventDefault();
-
             const continent = document.getElementById("continentInput").value;
             const country = e.target.textContent.trim();
             const countryEnglish = e.target.getAttribute("data-country-english");
 
-            spinner?.classList.remove("d-none"); // 👉 버튼 옆 로딩 표시
+            spinner?.classList.remove("d-none");
             try {
                 await loadCitiesOnCountrySelect(continent, country, countryEnglish);
-                pickBtn?.removeAttribute("disabled"); // 도시 데이터 준비 완료 → 버튼 활성화
+                pickBtn?.removeAttribute("disabled");
             } catch (err) {
                 console.error("나라 선택 오류:", err);
             } finally {
-                spinner?.classList.add("d-none"); // 👉 로딩 종료
+                spinner?.classList.add("d-none");
             }
         }
     });
 
-    // 랜덤 도시 버튼 클릭 이벤트
+    // 랜덤 도시 버튼 클릭
     pickBtn?.addEventListener("click", (e) => {
         e.preventDefault();
+        spinner?.classList.remove("d-none");
 
-        spinner?.classList.remove("d-none"); // 👉 버튼 옆 로딩 표시
         try {
-            const city = pickRandomCity(); // { title, lat, lon }
-
+            const city = pickRandomCity();
             if (city) {
-                const continent = document.getElementById("continentInput").value;
-                const country = document.getElementById("countryInput").value;
-                const countryEnglish = document.getElementById("countryEnglishInput").value;
+                // 👉 지도 마커 & 투명 배너 업데이트
+                updateMarker(city.lat, city.lon, city.title);
 
-                const resultDiv = document.getElementById("randomCityResult");
-                if (resultDiv) {
-                    resultDiv.innerHTML = `
-                        <div class="card mt-3 p-3">
-                            <h5 class="card-title">랜덤 도시 결과</h5>
-                            <p><strong>대륙:</strong> ${continent}</p>
-                            <p><strong>나라:</strong> ${country} (${countryEnglish})</p>
-                            <p><strong>도시:</strong> ${city.title}</p>
-                            <p><strong>좌표:</strong> lat=${city.lat}, lon=${city.lon}</p>
-                        </div>
-                    `;
-                }
-
-                updateMarker?.(city.lat, city.lon, city.title);
+                // 👉 hidden input에도 반영
+                document.getElementById("cityInput").value = city.title;
             }
         } catch (err) {
-            console.error("도시 선택 중 오류:", err);
-            alert("도시 선택 중 오류가 발생했습니다.");
+            console.error("도시 선택 오류:", err);
         } finally {
-            spinner?.classList.add("d-none"); // 👉 로딩 종료
+            spinner?.classList.add("d-none");
         }
     });
 }
