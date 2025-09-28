@@ -16,8 +16,8 @@
 <div class="container mt-4">
     <h3 class="mb-3">랜덤 도시 선택</h3>
 
+    <!-- 대륙/나라 선택 -->
     <div class="row g-3 align-items-center">
-        <!-- 대륙 선택 -->
         <div class="col-md-6">
             <span class="form-label text-center d-block w-100">대륙</span>
             <div class="dropdown">
@@ -28,8 +28,6 @@
                 <ul class="dropdown-menu w-100" id="continentMenu"></ul>
             </div>
         </div>
-
-        <!-- 나라 선택 -->
         <div class="col-md-6">
             <span class="form-label text-center d-block w-100">나라</span>
             <div class="dropdown">
@@ -67,9 +65,8 @@
 
     <!-- 지도 + 장소 리스트 -->
     <div class="d-flex mt-3">
-        <!-- 지도 -->
         <div class="position-relative" style="width:70%; height:500px;">
-            <!-- ✅ 지도 위 투명 배너 -->
+            <!-- 지도 위 배너 -->
             <div id="currentCityBanner"
                  class="position-absolute top-0 start-50 translate-middle-x p-2 px-4 rounded"
                  style="background: rgba(0,0,0,0.5); color:#fff; z-index:1000; margin-top:10px; display:none;">
@@ -82,7 +79,6 @@
         <!-- 장소 패널 -->
         <div id="placesPanel" class="ms-3 border rounded bg-light d-flex flex-column"
              style="width:30%; height:500px;">
-            <!-- 고정 영역 -->
             <div class="p-2 border-bottom bg-light sticky-top" style="z-index: 10;">
                 <h5 class="mb-2">주변 장소</h5>
                 <div class="btn-group w-100">
@@ -91,8 +87,6 @@
                     <button class="btn btn-outline-warning" id="btnHotels">호텔</button>
                 </div>
             </div>
-
-            <!-- 스크롤되는 리스트 -->
             <div class="flex-grow-1 overflow-auto p-2">
                 <ul id="placesAttractions" class="list-group"></ul>
                 <ul id="placesRestaurants" class="list-group"></ul>
@@ -106,26 +100,23 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Dark/Light Mode JS -->
 <script src="../js/features/darkmode.js"></script>
+
+<!-- Random City UI 초기화 -->
 <script type="module">
     import { initRandomCityUI } from "../js/features/randomCity.js";
     initRandomCityUI();
 </script>
 
-<!-- Google Maps JS API (Places 포함) -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK_cxakbGGco-bruqrtL1PPdKYYj_a1UA&libraries=places&callback=initMap" async defer></script>
+<!-- Google Maps JS API (callback 제거) -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK_cxakbGGco-bruqrtL1PPdKYYj_a1UA&libraries=places" async defer></script>
 
-<!-- 랜덤 도시 UI 초기화 -->
-<script type="module" src="../js/features/randomCity.js"></script>
-<!-- 분리된 맵 + Places JS -->
-<script type="module" src="../js/features/googleMap.js"></script>
+<!-- Google Map Logic (모듈 + 수동 실행) -->
 <script type="module">
-    import { triggerMapResize } from "../js/features/googleMap.js";
+    import { initMap, triggerMapResize } from "../js/features/googleMap.js";
 
-    document.addEventListener("DOMContentLoaded", () => {
-        // 지도가 다 로드된 후 강제로 리사이즈 이벤트 발생
-        setTimeout(() => {
-            triggerMapResize();
-        }, 300);
+    window.addEventListener("load", () => {
+        initMap();
+        setTimeout(() => triggerMapResize(), 300);
     });
 </script>
 

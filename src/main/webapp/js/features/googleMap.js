@@ -4,6 +4,7 @@ let service;
 let infowindow;
 let placeMarkers = []; // 👉 검색 결과 마커 저장소
 
+// ✅ 지도 초기화 (수동 실행)
 export function initMap() {
     const itTowerSongpa = { lat: 37.497913, lng: 127.119530 };
 
@@ -18,18 +19,27 @@ export function initMap() {
     marker = new google.maps.Marker({
         position: itTowerSongpa,
         map,
-        title: "IT벤처타워 (송파구)",
+        title: "IT벤처타워 (송파구)"
     });
 
     infowindow = new google.maps.InfoWindow();
     service = new google.maps.places.PlacesService(map);
 
-    // ✅ 초기 관광지 검색 + 버튼 활성화
+    // ✅ 초기 관광지 검색
     searchPlaces("tourist_attraction", itTowerSongpa, "placesAttractions");
     setActiveButton("btnAttractions");
 
     // ✅ 초기 도시명 배너 표시
     updateCityBanner("IT벤처타워 (송파구)");
+}
+
+// ✅ 지도 리사이즈 강제 호출
+export function triggerMapResize() {
+    if (map) {
+        google.maps.event.trigger(map, "resize");
+        const center = map.getCenter();
+        if (center) map.setCenter(center);
+    }
 }
 
 // ✅ 도시명 투명 배너 업데이트
@@ -71,13 +81,13 @@ export function searchPlaces(type, location, listId) {
     });
 
     const request = {
-        location: new google.maps.LatLng(location.lat, location.lng), // ⭐ 안전하게 변환
-        radius: 3000, // 5km → 3km로 축소 (도심에서 결과 더 잘 나옴)
+        location: new google.maps.LatLng(location.lat, location.lng),
+        radius: 3000, // 3km 반경
         type
     };
 
     service.nearbySearch(request, (results, status) => {
-        console.log("검색 상태:", status, results); // 🔍 상태 출력
+        console.log("검색 상태:", status, results);
         if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
             displayPlaces(results, listId);
         } else {
@@ -89,7 +99,7 @@ export function searchPlaces(type, location, listId) {
     });
 }
 
-// ✅ Place Details API 요청 (InfoWindow 전용)
+// ✅ Place Details API 요청
 function getPlaceDetails(placeId, placeMarker) {
     if (!service) return;
 
@@ -145,11 +155,10 @@ function displayPlaces(places, listId) {
     if (!list) return;
     list.innerHTML = "";
 
-    // 👉 마커 색상 매핑
     const markerIcons = {
-        placesAttractions: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",   // 관광지 → 파란색
-        placesRestaurants: "http://maps.google.com/mapfiles/ms/icons/green-dot.png", // 식당 → 초록색
-        placesHotels: "http://maps.google.com/mapfiles/ms/icons/orange-dot.png"      // 호텔 → 주황색
+        placesAttractions: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+        placesRestaurants: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+        placesHotels: "http://maps.google.com/mapfiles/ms/icons/orange-dot.png"
     };
 
     places.forEach((place) => {
@@ -159,16 +168,14 @@ function displayPlaces(places, listId) {
             map,
             position: place.geometry.location,
             title: place.name,
-            icon: markerIcons[listId] || null // ✅ 색상 적용
+            icon: markerIcons[listId] || null
         });
         placeMarkers.push(placeMarker);
 
-        // 마커 클릭 → InfoWindow 표시
         google.maps.event.addListener(placeMarker, "click", () => {
             getPlaceDetails(place.place_id, placeMarker);
         });
 
-        // 리스트 항목
         const li = document.createElement("li");
         li.className = "list-group-item list-group-item-action";
         li.innerHTML = `
@@ -177,7 +184,6 @@ function displayPlaces(places, listId) {
             ⭐ ${place.rating || "N/A"} (${place.user_ratings_total || 0} 리뷰)
         `;
 
-        // 리스트 클릭 → InfoWindow 표시
         li.onclick = () => {
             map.setCenter(place.geometry.location);
             getPlaceDetails(place.place_id, placeMarker);
@@ -187,7 +193,7 @@ function displayPlaces(places, listId) {
     });
 }
 
-// ✅ 버튼 상태 갱신 함수
+// ✅ 버튼 상태 갱신
 function setActiveButton(activeId) {
     ["btnAttractions", "btnRestaurants", "btnHotels"].forEach(id => {
         const btn = document.getElementById(id);
@@ -218,5 +224,3 @@ document.addEventListener("DOMContentLoaded", () => {
         setActiveButton("btnHotels");
     });
 });
-
-window.initMap = initMap;
