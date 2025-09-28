@@ -22,11 +22,10 @@ function fetchCityCoordinates(cityTitle) {
 // 🚩 나라 선택 시 도시 목록 불러오기 + 좌표 필터링
 export async function loadCitiesOnCountrySelect(continent, country, countryEnglish) {
     const randomBtn = document.getElementById("pickRandomCityBtn");
-    if (randomBtn) randomBtn.disabled = true; // 🔹 먼저 비활성화
+    randomBtn?.setAttribute("disabled", true);
 
     if (!continent || !countryEnglish) {
-        alert("대륙과 나라를 모두 선택하세요!");
-        return;
+        throw new Error("대륙과 나라를 모두 선택하세요!");
     }
 
     const wikiCountry = countryEnglish.replace(/\s+/g, "_");
@@ -65,46 +64,20 @@ export async function loadCitiesOnCountrySelect(continent, country, countryEngli
         }
     }
 
-    const resultDiv = document.getElementById("cityFilterResult");
-    if (resultDiv) {
-        resultDiv.innerHTML = `
-            <div class="card mt-3 p-3">
-                <h6>도시 데이터 정리 완료</h6>
-                <p><strong>좌표 있는 도시:</strong> ${validCitiesCache.length}개</p>
-                <p><strong>좌표 없는 도시:</strong> ${noCoordCitiesCache.length}개</p>
-            </div>
-        `;
-    }
-    if (randomBtn) {
-        randomBtn.disabled = validCitiesCache.length === 0;
-    }
+    // 🚩 UI는 여기서 최소화
+    randomBtn?.toggleAttribute("disabled", validCitiesCache.length === 0);
+
+    return {
+        validCount: validCitiesCache.length,
+        invalidCount: noCoordCitiesCache.length
+    };
 }
 
-// 🚩 랜덤 도시 뽑기 (이미 필터링된 validCitiesCache 사용)
+// 🚩 랜덤 도시 뽑기 (데이터만 리턴)
 export function pickRandomCity() {
     if (validCitiesCache.length === 0) {
-        alert("좌표가 있는 도시를 찾을 수 없습니다. (나라 선택 시 필터링 실패)");
-        return;
+        throw new Error("좌표가 있는 도시를 찾을 수 없습니다.");
     }
 
-    const continent = document.getElementById("continentInput").value;
-    const country = document.getElementById("countryInput").value;
-    const countryEnglish = document.getElementById("countryEnglishInput").value;
-
-    // 🚩 랜덤 선택
-    const randomCity = validCitiesCache[Math.floor(Math.random() * validCitiesCache.length)];
-    console.log(`🎯 선택된 랜덤 도시: ${randomCity.title}`);
-    console.log(`📍 좌표: lat=${randomCity.lat}, lon=${randomCity.lon}`);
-
-    const resultDiv = document.getElementById("randomCityResult");
-    if (resultDiv) {
-        resultDiv.innerHTML = `
-            <div class="card mt-3 p-3">
-                <h5 class="card-title">랜덤 도시 결과</h5>
-                <p><strong>대륙:</strong> ${continent}</p>
-                <p><strong>나라:</strong> ${country} (${countryEnglish})</p>
-                <p><strong>도시:</strong> ${randomCity.title}</p>
-            </div>
-        `;
-    }
+    return validCitiesCache[Math.floor(Math.random() * validCitiesCache.length)];
 }

@@ -15,7 +15,9 @@ export function createCountryList(countries, onSelect) {
     countries.forEach(c => {
         const li = document.createElement("li");
         li.innerHTML = `
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item" href="#"
+               data-country="${c.name}"
+               data-country-english="${c.englishName}">
                 <img src="${c.flag}" width="20" style="margin-right:8px;" alt="${c.englishName} flag"> ${c.name}
             </a>`;
         li.onclick = () => onSelect(c);

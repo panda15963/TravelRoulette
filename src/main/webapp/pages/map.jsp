@@ -50,9 +50,15 @@
     <input type="hidden" id="cityInput" name="city">
 
     <!-- 랜덤 도시 버튼 -->
-    <div class="mt-3">
-        <button type="button" class="btn btn-primary" id="pickRandomCityBtn" disabled>
-            랜덤 도시 뽑기
+    <div class="mt-3 d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-primary d-flex align-items-center gap-2"
+                id="pickRandomCityBtn" disabled>
+            <span>랜덤 도시 뽑기</span>
+            <output id="loadingSpinner"
+                    class="spinner-border spinner-border-sm text-light d-none"
+                    aria-live="polite">
+                <span class="visually-hidden">Loading...</span>
+            </output>
         </button>
     </div>
 
@@ -67,6 +73,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Dark/Light Mode JS -->
 <script src="../js/features/darkmode.js"></script>
+<script type="module">
+    import { initRandomCityUI } from "../js/features/randomCity.js";
+    initRandomCityUI();
+</script>
 
 <!-- Google Maps JS API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIobZGCZzf-wbQlKQb6Ae2VWP2RrEdlog&callback=initMap" async defer></script>
@@ -74,7 +84,7 @@
 <!-- 랜덤 도시 UI 초기화 -->
 <script type="module" src="../js/features/randomCity.js"></script>
 <!-- 분리된 맵 JS -->
-<script type="module" src="../js/features/map.js"></script>
+<script type="module" src="../js/features/googleMap.js"></script>
 
 </body>
 </html>
