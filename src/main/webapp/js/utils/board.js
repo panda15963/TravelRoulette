@@ -131,8 +131,10 @@
                 + '<td>' + escapeHtml(p.author) + '</td>'
                 + '<td>' + formatDate(p.createdAt) + '</td>'
                 + '<td>'
-                + '<button class="ghost" data-action="view">보기</button> '
-                + '<button class="ghost" data-action="remove">삭제</button>'
+
+                + '<button id="viewBtn" type="button" class="btn btn-outline-secondary" data-action="view">보기</button> '
+                + '<button id="removeBtn" type="button" class="btn btn-outline-secondary" data-action="remove">삭제</button>'
+
                 + '</td>'
                 + '</tr>';
         }
@@ -228,26 +230,44 @@
 
 
 
-    //보기 모달 열기 함수
+    // 보기 모달 열기 함수 (카드 제거, 담백한 레이아웃)
     const openView = (item) => {
-        if(!viewDialog || !viewMount){
-            const msg = '제목: ' + item.title + '\n' + '작성자: ' + item.author + '\n' + '작성일: ' + formatDate(item.createdAt) + '\n\n' + item.content;
-            alert(msg);
+        if (!viewDialog || !viewMount) {
+            alert(
+                '제목: ' + item.title + '\n' +
+                '작성자: ' + item.author + '\n' +
+                '작성일: ' + formatDate(item.createdAt) + '\n\n' +
+                item.content
+            );
             return;
         }
+
         const safeContent = escapeHtml(item.content || '').replace(/\r?\n/g, '<br>');
 
-        let html = '';
-        html +='<strong>제목</strong><div>' + escapeHtml(item.title  || '') + '</div>';
-        + '<strong>작성자</strong><div>' + escapeHtml(item.author || '') + '</div>';
-        + '<strong>작성일</strong><div>' + formatDate(item.createdAt) + '</div>';
-        + '</div>';
-        + '<div class="view-content">' + safeContent + '</div>';
+        const html = `
+	    <div class="p-2 p-md-3">
+	      <!-- 제목 -->
+	      <h4 class="mb-2 fw-semibold">${escapeHtml(item.title || '')}</h4>
+
+	      <!-- 작성자/작성일 -->
+	      <div class="text-muted small mb-4 d-flex flex-wrap gap-3">
+	        <span>작성자: ${escapeHtml(item.author || '')}</span>
+	        <span>작성일: ${formatDate(item.createdAt)}</span>
+	      </div>
+
+	      <hr class="my-4">
+
+	      <!-- 본문 -->
+	      <div class="fs-6 lh-lg text-break">
+	        ${safeContent}
+	      </div>
+	    </div>
+	  `;
 
         viewMount.innerHTML = html;
         viewDialog.showModal();
+    };
 
-    }
 
     let writeLoaded = false;
 
