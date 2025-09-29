@@ -1,1 +1,15 @@
-<Context reloadable="true" />
+<?xml version="1.0" encoding="UTF-8"?>
+<Context reloadable="true">
+
+    <Resource name="jdbc/mysql"
+              auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/DB이름?serverTimezone=UTC"
+              username="DB계정"
+              password="DB비밀번호"
+              maxTotal="20"
+              maxIdle="10"
+              maxWaitMillis="-1"/>
+
+</Context>
