@@ -39,7 +39,7 @@
 	<%@ include file = "/sections/about.jsp" %>
 
 	<!-- 구분선 -->
-	<hr class = "my-5" style = "border-top: 3px solid #666; opacity: 1;">
+	<hr class="my-5" style="border-top: 3px solid #666; opacity: 1;">
 
 	<%@ include file = "/sections/boardPreview.jsp" %>
 
@@ -48,6 +48,15 @@
 
 <!-- Bootstrap JS -->
 <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src = "js/features/darkmode.js"></script>
+<script src = "js/darkmode.js"></script>
+<!-- 로컬스토리지 로그인이랑 로그인인식 자바스크립트 -->
+
+<script>
+    const CONTEXT_PATH = "${pageContext.request.contextPath}";
+</script>
+<script defer src="js/signUpAndValidate.js"></script> </body>
+<script src="${pageContext.request.contextPath}/js/auth.js"></script>
+
+<!--                                                         -->
 </body>
 </html>

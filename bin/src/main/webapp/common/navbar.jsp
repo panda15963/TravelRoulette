@@ -21,7 +21,7 @@
 				<li class = "nav-item"><a class = "nav-link"
 				                          href = "${pageContext.request.contextPath}/pages/kanban.jsp">카르반</a></li>
 				<li class = "nav-item"><a class = "nav-link"
-				                          href = "${pageContext.request.contextPath}/pages/board/board.jsp">보드</a></li>
+				                          href = "${pageContext.request.contextPath}/pages/board.jsp">보드</a></li>
 				<li class = "nav-item"><a class = "nav-link"
 				                          href = "${pageContext.request.contextPath}/pages/video.jsp">비디오</a></li>
 				<li class = "nav-item"><a class = "nav-link" href = "${pageContext.request.contextPath}/pages/map.jsp">지도</a>
@@ -29,9 +29,9 @@
 				<li class = "nav-item"><a class = "nav-link" href =
 						"${pageContext.request.contextPath}/pages/introduction/introofindex.jsp">소개글</a>
 				</li>
-				<li class = "nav-item"><a class = "nav-link" id="nav-login"
+				<li class = "nav-item"><a class = "nav-link"
 				                          href = "${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
-				<li class = "nav-item"><a class = "nav-link" id="nav-signup"
+				<li class = "nav-item"><a class = "nav-link"
 				                          href = "${pageContext.request.contextPath}/pages/signUp.jsp">회원가입</a></li>
 
 				<!-- 다크모드 토글 버튼 -->
@@ -46,6 +46,3 @@
 		</div>
 	</div>
 </nav>
-<!-- 로그인 감지해서 로그인 회원가입 바꿔치기
-<script src="${pageContext.request.contextPath}/js/common.js"></script>
--->
