@@ -6,7 +6,6 @@
     padding-bottom: 2rem;
     padding-left: 20px;
     padding-right: 20px;
-    background-color: #fff; /* 기본 라이트 모드 배경색 */
 }
 
 /* --- 공용 컨테이너 스타일 --- */
@@ -25,20 +24,11 @@
 }
 
 /* --- 개별 컨테이너 최대 너비 설정 --- */
-.signin-container {
-    max-width: 500px;
-}
-
-.signup-container {
-    max-width: 680px;
-}
+.signin-container { max-width: 500px; }
+.signup-container { max-width: 680px; }
 
 /* --- 폼 내부 요소 공통 스타일 --- */
-.sign-container h2 {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
+.sign-container h2 { margin-bottom: 20px; text-align: center; }
 .sign-container input[type="text"],
 .sign-container input[type="password"],
 .sign-container input[type="email"] {
@@ -50,7 +40,6 @@
     box-sizing: border-box;
     font-size: 16px;
 }
-
 .sign-container button {
     width: 100%;
     padding: 15px;
@@ -62,47 +51,23 @@
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
-.sign-container button:hover {
-    background-color: blue;
-}
-
-.error-message {
-    color: red;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-    text-align: center;
-}
+.sign-container button:hover { background-color: blue; }
+.error-message { color: red; margin-bottom: 15px; font-size: 0.9rem; text-align: center; }
 
 /* 회원가입 페이지 전용 스타일 */
-.signup-container .radio-group {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 15px;
-}
+.signup-container .radio-group { display: flex; justify-content: center; width: 100%; margin-bottom: 15px; }
 .signup-container .radio-group label { margin: 0 10px; }
-.signup-container .terms-checkbox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 20px;
-}
+.signup-container .terms-checkbox { display: flex; align-items: center; justify-content: center; width: 100%; margin-bottom: 20px; }
 .signup-container .terms-checkbox input { margin-right: 10px; }
 
 
 /* --- 다크 모드 스타일 --- */
-body[data-mode="dark"] .sign-page-body {
-    background-color: #121212;
-}
-
+body[data-mode="dark"] { background-color: #121212; }
 body[data-mode="dark"] .sign-container {
     background-color: #1e1e1e;
     border: 1px solid #444;
-    color: #eee;
+    color: tomato; /* [요청사항] 폼 내부 글자색 토마토로 변경 */
 }
-
 body[data-mode="dark"] .sign-container input[type="text"],
 body[data-mode="dark"] .sign-container input[type="password"],
 body[data-mode="dark"] .sign-container input[type="email"] {
@@ -110,14 +75,23 @@ body[data-mode="dark"] .sign-container input[type="email"] {
     color: #eee;
     border: 1px solid #555;
 }
+body[data-mode="dark"] .sign-container button { background-color: #1E90FF; }
+body[data-mode="dark"] .sign-container button:hover { background-color: #4682B4; }
+
+/* --- [추가] 다크모드 모달 스타일 --- */
+body[data-mode="dark"] .modal-content {
+    background-color: #212529; /* 부트스트랩 다크모드 배경색 */
+    border: 1px solid #555;
+    color: #dee2e6;
+}
+body[data-mode="dark"] .modal-header { border-bottom: 1px solid #495057; }
+body[data-mode="dark"] .modal-footer { border-top: 1px solid #495057; }
+/* [요청사항] 모달창 환영 메시지만 토마토색으로 적용 */
+body[data-mode="dark"] #modal-welcome-message { color: tomato; }
 
 
 /* --- 반응형 디자인 --- */
 @media (max-width: 768px) {
-    .sign-page-body {
-        padding-top: 8rem;
-    }
-    .sign-container {
-        padding: 20px;
-    }
+    .sign-page-body { padding-top: 8rem; }
+    .sign-container { padding: 20px; }
 }
