@@ -25,30 +25,43 @@ export function createCountryList(countries, onSelect) {
     });
 }
 
-export function loadCountriesByContinent(continentKr) {
+export async function loadCountriesByContinent(continentKr) {
     const fileName = continentFileMap[continentKr];
-    fetch(`/assets/json/${fileName}.json`)
-        .then(res => {
-            if (!res.ok) throw new Error(`HTTP 오류! ${res.status}`);
-            return res.json();
-        })
-        .then(countries => {
-            if (!countries || countries.length === 0) {
-                resetCountryMenu("등록된 나라 없음");
-                return;
-            }
-            createCountryList(countries, selectCountry);
 
-            document.getElementById("continentDropdown").innerHTML =
-                `<span class="me-auto pe-2">${continentKr}</span>`;
+    try {
+        const res = await fetch(`/assets/json/${fileName}.json`);
 
-            document.getElementById("countryDropdown").innerHTML =
-                `<span class="me-auto pe-2">나라 선택</span>`;
+        // 응답 상태 확인 (throw 대신 조건문 처리)
+        if (!res.ok) {
+            let errorMsg = res.status === 404
+                ? "데이터 파일을 찾을 수 없습니다."
+                : `서버 오류 (코드: ${res.status})`;
 
-            document.getElementById("continentInput").value = continentKr;
-        })
-        .catch(err => {
-            console.error("JSON 로드 실패:", err);
+            console.warn("나라 목록 불러오기 실패:", errorMsg);
             resetCountryMenu("나라 목록 불러오기 실패", true);
-        });
+            return; // 에러 발생 시 여기서 함수 종료
+        }
+
+        const countries = await res.json();
+
+        if (!countries || countries.length === 0) {
+            resetCountryMenu("등록된 나라 없음");
+            return;
+        }
+
+        createCountryList(countries, selectCountry);
+
+        document.getElementById("continentDropdown").innerHTML =
+            `<span class="me-auto pe-2">${continentKr}</span>`;
+
+        document.getElementById("countryDropdown").innerHTML =
+            `<span class="me-auto pe-2">나라 선택</span>`;
+
+        document.getElementById("continentInput").value = continentKr;
+
+    } catch (err) {
+        // 네트워크 오류(fetch 자체 실패)만 여기서 처리됨
+        console.warn("나라 목록 불러오기 실패 (네트워크 오류):", err.message);
+        resetCountryMenu("나라 목록 불러오기 실패", true);
+    }
 }

@@ -61,5 +61,40 @@
     "code": "VU",
     "continent": "오세아니아",
     "flag": "https://flagcdn.com/w40/vu.png"
+  },
+  {
+    "name": "호주",
+    "englishName": "Australia",
+    "code": "AU",
+    "continent": "오세아니아",
+    "flag": "https://flagcdn.com/w40/au.png"
+  },
+  {
+    "name": "뉴질랜드",
+    "englishName": "New Zealand",
+    "code": "NZ",
+    "continent": "오세아니아",
+    "flag": "https://flagcdn.com/w40/nz.png"
+  },
+  {
+    "name": "미크로네시아 연방",
+    "englishName": "Micronesia",
+    "code": "FM",
+    "continent": "오세아니아",
+    "flag": "https://flagcdn.com/w40/fm.png"
+  },
+  {
+    "name": "마셜 제도",
+    "englishName": "Marshall Islands",
+    "code": "MH",
+    "continent": "오세아니아",
+    "flag": "https://flagcdn.com/w40/mh.png"
+  },
+  {
+    "name": "솔로몬 제도",
+    "englishName": "Solomon Islands",
+    "code": "SB",
+    "continent": "오세아니아",
+    "flag": "https://flagcdn.com/w40/sb.png"
   }
 ]

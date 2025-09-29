@@ -18,9 +18,10 @@
 
     <!-- 대륙/나라 선택 -->
     <div class="row g-3 align-items-center">
+        <!-- 대륙 선택 -->
         <div class="col-md-6">
             <span class="form-label text-center d-block w-100">대륙</span>
-            <div class="dropdown">
+            <div class="dropdown" data-bs-container="body">
                 <button class="btn btn-light dropdown-toggle w-100 border pe-4"
                         id="continentDropdown" data-bs-toggle="dropdown">
                     대륙 선택
@@ -28,14 +29,17 @@
                 <ul class="dropdown-menu w-100" id="continentMenu"></ul>
             </div>
         </div>
+
+        <!-- 나라 선택 -->
         <div class="col-md-6">
             <span class="form-label text-center d-block w-100">나라</span>
-            <div class="dropdown">
+            <div class="dropdown" data-bs-container="body">
                 <button class="btn btn-light dropdown-toggle w-100 border pe-4"
                         id="countryDropdown" data-bs-toggle="dropdown" disabled>
                     나라 선택
                 </button>
-                <ul class="dropdown-menu w-100" id="countryMenu" style="max-height:250px; overflow-y:auto;"></ul>
+                <ul class="dropdown-menu w-100" id="countryMenu"
+                    style="max-height:250px; overflow-y:auto;"></ul>
             </div>
         </div>
     </div>
@@ -69,7 +73,7 @@
             <!-- 지도 위 배너 -->
             <div id="currentCityBanner"
                  class="position-absolute top-0 start-50 translate-middle-x p-2 px-4 rounded"
-                 style="background: rgba(0,0,0,0.5); color:#fff; z-index:1000; margin-top:10px; display:none;">
+                 style="background: rgba(0,0,0,0.5); color:#fff; z-index:50; margin-top:10px; display:none;">
                 <h5 class="m-0">현재 도시: <span id="selectedCityName"></span></h5>
             </div>
             <!-- 지도 -->

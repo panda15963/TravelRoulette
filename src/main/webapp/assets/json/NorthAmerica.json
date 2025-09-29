@@ -124,5 +124,47 @@
     "code": "TT",
     "continent": "북아메리카",
     "flag": "https://flagcdn.com/w40/tt.png"
+  },
+  {
+    "name": "캐나다",
+    "englishName": "Canada",
+    "code": "CA",
+    "continent": "북아메리카",
+    "flag": "https://flagcdn.com/w40/ca.png"
+  },
+  {
+    "name": "미국",
+    "englishName": "United States",
+    "code": "US",
+    "continent": "북아메리카",
+    "flag": "https://flagcdn.com/w40/us.png"
+  },
+  {
+    "name": "도미니카 공화국",
+    "englishName": "Dominican Republic",
+    "code": "DO",
+    "continent": "북아메리카",
+    "flag": "https://flagcdn.com/w40/do.png"
+  },
+  {
+    "name": "벨리즈",
+    "englishName": "Belize",
+    "code": "BZ",
+    "continent": "북아메리카",
+    "flag": "https://flagcdn.com/w40/bz.png"
+  },
+  {
+    "name": "바하마",
+    "englishName": "Bahamas",
+    "code": "BS",
+    "continent": "북아메리카",
+    "flag": "https://flagcdn.com/w40/bs.png"
+  },
+  {
+    "name": "세인트피에르 미클롱",
+    "englishName": "Saint Pierre and Miquelon",
+    "code": "PM",
+    "continent": "북아메리카",
+    "flag": "https://flagcdn.com/w40/pm.png"
   }
 ]

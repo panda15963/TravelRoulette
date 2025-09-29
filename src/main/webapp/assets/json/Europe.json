@@ -257,5 +257,75 @@
     "code": "TR",
     "continent": "유럽",
     "flag": "https://flagcdn.com/w40/tr.png"
+  },
+  {
+    "name": "벨기에",
+    "englishName": "Belgium",
+    "code": "BE",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/be.png"
+  },
+  {
+    "name": "크로아티아",
+    "englishName": "Croatia",
+    "code": "HR",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/hr.png"
+  },
+  {
+    "name": "체코",
+    "englishName": "Czechia",
+    "code": "CZ",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/cz.png"
+  },
+  {
+    "name": "에스토니아",
+    "englishName": "Estonia",
+    "code": "EE",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/ee.png"
+  },
+  {
+    "name": "아일랜드",
+    "englishName": "Ireland",
+    "code": "IE",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/ie.png"
+  },
+  {
+    "name": "라트비아",
+    "englishName": "Latvia",
+    "code": "LV",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/lv.png"
+  },
+  {
+    "name": "네덜란드",
+    "englishName": "Netherlands",
+    "code": "NL",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/nl.png"
+  },
+  {
+    "name": "산마리노",
+    "englishName": "San Marino",
+    "code": "SM",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/sm.png"
+  },
+  {
+    "name": "영국",
+    "englishName": "United Kingdom",
+    "code": "GB",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/gb.png"
+  },
+  {
+    "name": "바티칸 시국",
+    "englishName": "Vatican City",
+    "code": "VA",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/va.png"
   }
 ]

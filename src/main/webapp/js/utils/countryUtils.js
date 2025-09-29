@@ -1,12 +1,5 @@
 import { loadCitiesOnCountrySelect } from "./cityUtils.js";
 
-// 공통: hidden input 값 업데이트
-function updateHiddenInputs({ code, name, englishName, flag }) {
-    document.getElementById("countryInput").value = name;
-    document.getElementById("countryEnglishInput").value = englishName;
-    document.getElementById("countryCodeInput").value = code;
-}
-
 // 나라 선택
 export function selectCountry({ code, name, englishName, flag }) {
     // 🔹 국기 + 이름을 span으로 감싸서 화살표와 간격 유지

@@ -236,5 +236,68 @@
     "code": "YE",
     "continent": "아시아",
     "flag": "https://flagcdn.com/w40/ye.png"
+  },
+  {
+    "name": "대한민국",
+    "englishName": "South Korea",
+    "code": "KR",
+    "continent": "아시아",
+    "flag": "https://flagcdn.com/w40/kr.png"
+  },
+  {
+    "name": "북한",
+    "englishName": "North Korea",
+    "code": "KP",
+    "continent": "아시아",
+    "flag": "https://flagcdn.com/w40/kp.png"
+  },
+  {
+    "name": "싱가포르",
+    "englishName": "Singapore",
+    "code": "SG",
+    "continent": "아시아",
+    "flag": "https://flagcdn.com/w40/sg.png"
+  },
+  {
+    "name": "레바논",
+    "englishName": "Lebanon",
+    "code": "LB",
+    "continent": "아시아",
+    "flag": "https://flagcdn.com/w40/lb.png"
+  },
+  {
+    "name": "말디브",
+    "englishName": "Maldives",
+    "code": "MV",
+    "continent": "아시아",
+    "flag": "https://flagcdn.com/w40/mv.png"
+  },
+  {
+    "name": "조지아",
+    "englishName": "Georgia",
+    "code": "GE",
+    "continent": "아시아",
+    "flag": "https://flagcdn.com/w40/ge.png"
+  },
+  {
+    "name": "카자흐스탄",
+    "englishName": "Kazakhstan",
+    "code": "KZ",
+    "continent": "아시아",
+    "flag": "https://flagcdn.com/w40/kz.png"
+  },
+  {
+    "name": "태국",
+    "englishName": "Thailand",
+    "code": "TH",
+    "continent": "아시아",
+    "flag": "https://flagcdn.com/w40/th.png"
+  },
+  {
+    "name": "필리핀",
+    "englishName": "Philippines",
+    "code": "PH",
+    "continent": "아시아",
+    "flag": "https://flagcdn.com/w40/ph.png"
   }
 ]

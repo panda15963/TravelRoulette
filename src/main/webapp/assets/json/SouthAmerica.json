@@ -68,5 +68,26 @@
     "code": "VE",
     "continent": "남아메리카",
     "flag": "https://flagcdn.com/w40/ve.png"
+  },
+  {
+    "name": "에콰도르",
+    "englishName": "Ecuador",
+    "code": "EC",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/ec.png"
+  },
+  {
+    "name": "수리남",
+    "englishName": "Suriname",
+    "code": "SR",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/sr.png"
+  },
+  {
+    "name": "프랑스령 기아나",
+    "englishName": "French Guiana",
+    "code": "GF",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/gf.png"
   }
 ]

@@ -55,6 +55,13 @@ function updateCityBanner(name) {
 // ✅ 마커 업데이트 (랜덤 도시 선택 시 호출)
 export function updateMarker(lat, lng, title = "랜덤 도시") {
     if (!map) return;
+
+    // 🚩 유효성 검사
+    if (lat == null || lng == null || isNaN(lat) || isNaN(lng)) {
+        console.warn("⚠️ updateMarker: 잘못된 좌표로 마커 업데이트를 건너뜀:", { lat, lng });
+        return;
+    }
+
     const position = { lat, lng };
     map.setCenter(position);
     map.setZoom(13);
