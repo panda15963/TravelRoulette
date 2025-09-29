@@ -1,0 +1,331 @@
+[
+  {
+    "name": "알바니아",
+    "englishName": "Albania",
+    "code": "AL",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/al.png"
+  },
+  {
+    "name": "안도라",
+    "englishName": "Andorra",
+    "code": "AD",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/ad.png"
+  },
+  {
+    "name": "아르메니아",
+    "englishName": "Armenia",
+    "code": "AM",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/am.png"
+  },
+  {
+    "name": "오스트리아",
+    "englishName": "Austria",
+    "code": "AT",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/at.png"
+  },
+  {
+    "name": "아제르바이잔",
+    "englishName": "Azerbaijan",
+    "code": "AZ",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/az.png"
+  },
+  {
+    "name": "벨라루스",
+    "englishName": "Belarus",
+    "code": "BY",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/by.png"
+  },
+  {
+    "name": "보스니아 헤르체고비나",
+    "englishName": "Bosnia and Herzegovina",
+    "code": "BA",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/ba.png"
+  },
+  {
+    "name": "불가리아",
+    "englishName": "Bulgaria",
+    "code": "BG",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/bg.png"
+  },
+  {
+    "name": "덴마크",
+    "englishName": "Denmark",
+    "code": "DK",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/dk.png"
+  },
+  {
+    "name": "핀란드",
+    "englishName": "Finland",
+    "code": "FI",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/fi.png"
+  },
+  {
+    "name": "프랑스",
+    "englishName": "France",
+    "code": "FR",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/fr.png"
+  },
+  {
+    "name": "독일",
+    "englishName": "Germany",
+    "code": "DE",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/de.png"
+  },
+  {
+    "name": "그리스",
+    "englishName": "Greece",
+    "code": "GR",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/gr.png"
+  },
+  {
+    "name": "헝가리",
+    "englishName": "Hungary",
+    "code": "HU",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/hu.png"
+  },
+  {
+    "name": "아이슬란드",
+    "englishName": "Iceland",
+    "code": "IS",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/is.png"
+  },
+  {
+    "name": "이탈리아",
+    "englishName": "Italy",
+    "code": "IT",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/it.png"
+  },
+  {
+    "name": "코소보",
+    "englishName": "Kosovo",
+    "code": "XK",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/xk.png"
+  },
+  {
+    "name": "리히텐슈타인",
+    "englishName": "Liechtenstein",
+    "code": "LI",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/li.png"
+  },
+  {
+    "name": "리투아니아",
+    "englishName": "Lithuania",
+    "code": "LT",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/lt.png"
+  },
+  {
+    "name": "룩셈부르크",
+    "englishName": "Luxembourg",
+    "code": "LU",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/lu.png"
+  },
+  {
+    "name": "몰타",
+    "englishName": "Malta",
+    "code": "MT",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/mt.png"
+  },
+  {
+    "name": "몰도바",
+    "englishName": "Moldova",
+    "code": "MD",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/md.png"
+  },
+  {
+    "name": "모나코",
+    "englishName": "Monaco",
+    "code": "MC",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/mc.png"
+  },
+  {
+    "name": "몬테네그로",
+    "englishName": "Montenegro",
+    "code": "ME",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/me.png"
+  },
+  {
+    "name": "북마케도니아",
+    "englishName": "North Macedonia",
+    "code": "MK",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/mk.png"
+  },
+  {
+    "name": "노르웨이",
+    "englishName": "Norway",
+    "code": "NO",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/no.png"
+  },
+  {
+    "name": "폴란드",
+    "englishName": "Poland",
+    "code": "PL",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/pl.png"
+  },
+  {
+    "name": "포르투갈",
+    "englishName": "Portugal",
+    "code": "PT",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/pt.png"
+  },
+  {
+    "name": "루마니아",
+    "englishName": "Romania",
+    "code": "RO",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/ro.png"
+  },
+  {
+    "name": "러시아",
+    "englishName": "Russia",
+    "code": "RU",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/ru.png"
+  },
+  {
+    "name": "세르비아",
+    "englishName": "Serbia",
+    "code": "RS",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/rs.png"
+  },
+  {
+    "name": "슬로바키아",
+    "englishName": "Slovakia",
+    "code": "SK",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/sk.png"
+  },
+  {
+    "name": "슬로베니아",
+    "englishName": "Slovenia",
+    "code": "SI",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/si.png"
+  },
+  {
+    "name": "스페인",
+    "englishName": "Spain",
+    "code": "ES",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/es.png"
+  },
+  {
+    "name": "스웨덴",
+    "englishName": "Sweden",
+    "code": "SE",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/se.png"
+  },
+  {
+    "name": "스위스",
+    "englishName": "Switzerland",
+    "code": "CH",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/ch.png"
+  },
+  {
+    "name": "터키",
+    "englishName": "Turkey",
+    "code": "TR",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/tr.png"
+  },
+  {
+    "name": "벨기에",
+    "englishName": "Belgium",
+    "code": "BE",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/be.png"
+  },
+  {
+    "name": "크로아티아",
+    "englishName": "Croatia",
+    "code": "HR",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/hr.png"
+  },
+  {
+    "name": "체코",
+    "englishName": "Czechia",
+    "code": "CZ",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/cz.png"
+  },
+  {
+    "name": "에스토니아",
+    "englishName": "Estonia",
+    "code": "EE",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/ee.png"
+  },
+  {
+    "name": "아일랜드",
+    "englishName": "Ireland",
+    "code": "IE",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/ie.png"
+  },
+  {
+    "name": "라트비아",
+    "englishName": "Latvia",
+    "code": "LV",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/lv.png"
+  },
+  {
+    "name": "네덜란드",
+    "englishName": "Netherlands",
+    "code": "NL",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/nl.png"
+  },
+  {
+    "name": "산마리노",
+    "englishName": "San Marino",
+    "code": "SM",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/sm.png"
+  },
+  {
+    "name": "영국",
+    "englishName": "United Kingdom",
+    "code": "GB",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/gb.png"
+  },
+  {
+    "name": "바티칸 시국",
+    "englishName": "Vatican City",
+    "code": "VA",
+    "continent": "유럽",
+    "flag": "https://flagcdn.com/w40/va.png"
+  }
+]

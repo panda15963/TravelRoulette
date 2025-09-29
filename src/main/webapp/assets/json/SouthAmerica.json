@@ -1,0 +1,93 @@
+[
+  {
+    "name": "아르헨티나",
+    "englishName": "Argentina",
+    "code": "AR",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/ar.png"
+  },
+  {
+    "name": "볼리비아",
+    "englishName": "Bolivia",
+    "code": "BO",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/bo.png"
+  },
+  {
+    "name": "브라질",
+    "englishName": "Brazil",
+    "code": "BR",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/br.png"
+  },
+  {
+    "name": "칠레",
+    "englishName": "Chile",
+    "code": "CL",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/cl.png"
+  },
+  {
+    "name": "콜롬비아",
+    "englishName": "Colombia",
+    "code": "CO",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/co.png"
+  },
+  {
+    "name": "가이아나",
+    "englishName": "Guyana",
+    "code": "GY",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/gy.png"
+  },
+  {
+    "name": "파라과이",
+    "englishName": "Paraguay",
+    "code": "PY",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/py.png"
+  },
+  {
+    "name": "페루",
+    "englishName": "Peru",
+    "code": "PE",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/pe.png"
+  },
+  {
+    "name": "우루과이",
+    "englishName": "Uruguay",
+    "code": "UY",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/uy.png"
+  },
+  {
+    "name": "베네수엘라",
+    "englishName": "Venezuela",
+    "code": "VE",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/ve.png"
+  },
+  {
+    "name": "에콰도르",
+    "englishName": "Ecuador",
+    "code": "EC",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/ec.png"
+  },
+  {
+    "name": "수리남",
+    "englishName": "Suriname",
+    "code": "SR",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/sr.png"
+  },
+  {
+    "name": "프랑스령 기아나",
+    "englishName": "French Guiana",
+    "code": "GF",
+    "continent": "남아메리카",
+    "flag": "https://flagcdn.com/w40/gf.png"
+  }
+]

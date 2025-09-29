@@ -5,7 +5,7 @@
          version="6.0">
 
     <!-- UTF-8 Encoding Filter -->
-<!--    이클립스 docker 톰캣에서 에러
+<!--    이클립스 docker 톰캣에서 에러  주석건다면 여기서부터 -->
 		 <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>com.travelroulette.filter.EncodingFilter</filter-class>
@@ -18,6 +18,6 @@
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping> -->
-
+    </filter-mapping>
+<!--    이클립스 docker 톰캣에서 에러  주석건다면 여기까지 -->
 </web-app>
