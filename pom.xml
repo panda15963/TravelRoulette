@@ -25,6 +25,13 @@
             <version>6.1.0</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Lombok (DTO, 엔티티 등 보일러플레이트 코드 제거) -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Jakarta JSP API -->
         <dependency>
