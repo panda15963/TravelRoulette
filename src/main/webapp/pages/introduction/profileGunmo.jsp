@@ -1,5 +1,6 @@
 <%@ page contentType = "text/html; charset=UTF-8" pageEncoding = "UTF-8" %>
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
 	<title>Gunmo's Profile</title>
 	<link href = "../../css/styles.css" rel = "stylesheet" />
@@ -16,6 +17,6 @@
 
 <!-- Bootstrap JS -->
 <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src = "../../js/darkmode.js"></script>
+<script src = "../../js/features/darkmode.js"></script>
 </body>
 </html>
