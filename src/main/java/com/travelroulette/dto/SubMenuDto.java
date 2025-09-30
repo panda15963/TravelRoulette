@@ -14,6 +14,4 @@ public class SubMenuDto {
     private Integer id; // auto increment -> insert
     private Integer main_menu_id; //fk mainmenu id
     private String name;
-
-    }
 }

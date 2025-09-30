@@ -13,6 +13,4 @@ public class MainMenuDto {
 
     private Integer id;
     private String name;
-
-    }
 }

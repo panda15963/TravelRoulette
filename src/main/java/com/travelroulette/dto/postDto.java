@@ -15,5 +15,4 @@ public class postDto {
     private Integer user_id;
     private String title;
     private String content;
-    private
 }
