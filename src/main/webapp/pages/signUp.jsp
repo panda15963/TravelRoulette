@@ -32,7 +32,7 @@
 
     <form name="signupForm" action="${pageContext.request.contextPath}/LoginServlet" method="post">
         <input type="hidden" name="action" value="signup">
-        ID<input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요." required>
+        ID<input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요.영문만 가능합니다." required>
         비밀번호<input type="password" name="userPassword" id="userPassword" placeholder="비밀번호를 입력해주세요." required>
         비밀번호 확인<input type="password" name="passwordChk" id="passwordChk" placeholder="비밀번호를 입력해주세요." required>
         이메일<input type="email" name="email" id="email" placeholder="이메일 주소를 입력해주세요." required>
