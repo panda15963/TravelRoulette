@@ -29,12 +29,39 @@ document.addEventListener('DOMContentLoaded', () => {
         timeEl.textContent = fmt(player.currentTime) + ' / ' + fmt(player.duration || 0);
     };
     //재생 버튼 글자 표시
+    /*
     const updatePlayBtn = () => {
-        if (btnPlay) btnPlay.textContent = player.paused ? '▶️ 재생' : '⏸️ 일시정지';
+        if (btnPlay) btnPlay.textContent = player.paused ? '▶️' : '⏯️';
     };
+    */
+    const updatePlayBtn = () => {
+        if (!btnPlay) return;
+        if (player.paused) {
+            btnPlay.textContent = '▶️';
+            btnPlay.title = '재생';
+
+        } else {
+            btnPlay.textContent = '⏯️';
+            btnPlay.title = '일시정지';
+        }
+    };
+
     //음소거 버튼 글자 표시
+    /*
     const syncMuteBtn = () => {
-        if (btnMute) btnMute.textContent = player.muted ? '🔊 음소거 해제' : '🔇 음소거';
+        if (btnMute) btnMute.textContent = player.muted ? '🔊' : '🔇';
+    };
+    */
+    const syncMuteBtn = () => {
+
+        if (player.muted) {
+            btnMute.textContent = '🔇';
+            btnMute.title = '음소거 해제';
+
+        } else {
+            btnMute.textContent = '🔊';
+            btnMute.title = '음소거';
+        }
     };
 
     //초기 상태 세팅
