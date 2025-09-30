@@ -1,0 +1,145 @@
+/* ===== CSS 부분: 기존 그대로 유지 ===== */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fafafa;
+    color: #333;
+}
+
+#add-column-btn {
+    margin: 15px;
+    padding: 10px 15px;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#add-column-btn:hover {
+    background: #0056b3;
+}
+
+#board {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 80px 15px 15px;
+    box-sizing: border-box;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+}
+
+.column {
+    background: #ffffff;
+    padding: 12px;
+    flex: 1 1 calc(25% - 15px);
+    min-width: 260px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#board .column h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #000 !important;
+}
+
+.delete-column-btn {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.delete-column-btn:hover {
+    color: #e74c3c;
+}
+
+.card-list {
+    min-height: 60px;
+    flex-grow: 1;
+}
+
+.kanban-card {
+    background: #fff !important;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 6px;
+    cursor: grab;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #000 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.15s;
+}
+
+.kanban-card:hover {
+    transform: scale(1.02);
+}
+
+.kanban-card span {
+    color: #000 !important;
+    font-size: 14px;
+    flex-grow: 1;
+}
+
+.delete-btn {
+    background: none;
+    color: #999;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 2px 6px;
+    transition: color 0.2s;
+}
+
+.delete-btn:hover {
+    color: #e74c3c;
+}
+
+.add-card-btn {
+    margin-top: 10px;
+    padding: 6px;
+    font-size: 13px;
+    border: none;
+    border-radius: 5px;
+    background: #f1f1f1;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-card-btn:hover {
+    background: #e0e0e0;
+}
+
+@media (max-width: 1200px) {
+    .column {
+        flex: 1 1 calc(33.333% - 15px);
+    }
+}
+
+@media (max-width: 900px) {
+    .column {
+        flex: 1 1 calc(50% - 15px);
+    }
+}
+
+@media (max-width: 600px) {
+    .column {
+        flex: 1 1 calc(100% - 15px);
+    }
+}

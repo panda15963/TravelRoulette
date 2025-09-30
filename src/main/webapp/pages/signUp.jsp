@@ -57,7 +57,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
-<script src="${pageContext.request.contextPath}/js/auth.js"></script>
+<script src="${pageContext.request.contextPath}/js/auth/auth.js"></script>
 <script defer src="${pageContext.request.contextPath}/js/features/signUpAndValidate.js"></script>
 </body>
 </html>

@@ -55,7 +55,7 @@
     const CONTEXT_PATH = "${pageContext.request.contextPath}";
 </script>
 <script defer src="js/signUpAndValidate.js"></script> </body>
-<script src="${pageContext.request.contextPath}/js/auth.js"></script>
+<script src="${pageContext.request.contextPath}/js/auth/auth.js"></script>
 
 <!--                                                         -->
 </body>

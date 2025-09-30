@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const sidebar = document.getElementById("sidebarMenu");
     const aboutSection = document.getElementById("aboutSection");
     const boardSection = document.getElementById("boardSection");
-    const introSection = document.getElementById("introSection"); // ✅ 자기소개 섹션
+    const introSection = document.getElementById("introSection");
+    const header = document.querySelector("header"); // ✅ 헤더
 
     // 🎨 테마 스타일 정의
     const themeConfig = {
@@ -15,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
             navbar: ["navbar-dark", "bg-dark"],
             sidebar: { bg: "#212529", color: "#fff", link: "#fff" },
             about: { bg: "#121212", color: "#eee" },
-            // ✅ 다크 모드에서 카드 = 흰색 / 텍스트 = 검정
             board: { bg: "#1e1e1e", color: "#eee", cardBg: "#fff", cardColor: "#000", border: "#444", muted: "#555" },
+            header: { bg: "#f8f9fa", color: "#212529" }, // ✅ 다크 모드일 땐 밝은 헤더 + 어두운 글씨
             hr: "3px solid #bbb",
             btn: { text: "☀️", remove: "btn-outline-dark", add: "btn-outline-warning", border: "yellow" }
         },
@@ -25,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
             navbar: ["navbar-light", "bg-light"],
             sidebar: { bg: "#fff", color: "#000", link: "#000" },
             about: { bg: "#fff", color: "#000" },
-            // ✅ 라이트 모드에서 카드 = 검정 / 텍스트 = 흰색
             board: { bg: "#fff", color: "#000", cardBg: "#000", cardColor: "#fff", border: "#444", muted: "#ccc" },
+            header: { bg: "#212529", color: "#fff" }, // ✅ 라이트 모드일 땐 어두운 헤더 + 밝은 글씨
             hr: "3px solid #666",
             btn: { text: "🌙", remove: "btn-outline-warning", add: "btn-outline-dark", border: "black" }
         }
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
         section.querySelectorAll(".card").forEach(card => {
             card.style.backgroundColor = cardBg;
             card.style.borderColor = border;
-            card.style.color = cardColor; // ✅ 카드 안 텍스트 색
+            card.style.color = cardColor;
         });
         section.querySelectorAll(".card .text-muted").forEach(el => {
             el.style.color = muted;
@@ -95,18 +96,23 @@ document.addEventListener("DOMContentLoaded", function () {
             updateCards(boardSection, config.board);
         }
 
-        // Intro Section ✅ 자기소개 카드에도 적용
+        // Intro Section
         if (introSection) {
             updateSection(introSection, config.board);
             updateCards(introSection, config.board);
         }
 
-        // 구분선(hr)
+        // ✅ Header
+        if (header) {
+            updateSection(header, config.header);
+        }
+
+        // hr
         document.querySelectorAll("hr").forEach(hr => {
             hr.style.borderTop = config.hr;
         });
 
-        // localStorage 저장
+        // 저장
         localStorage.setItem("themeMode", mode);
     }
 
