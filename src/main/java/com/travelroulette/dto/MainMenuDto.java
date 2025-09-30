@@ -1,18 +1,18 @@
-package com.travelroulette.dto;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class MainMenuDto {
-
-    private Integer id;
-    private String name;
-
-    }
-}
+//package com.travelroulette.dto;
+//
+//import lombok.AllArgsConstructor;
+//import lombok.Builder;
+//import lombok.Data;
+//import lombok.NoArgsConstructor;
+//
+//@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Builder
+//public class MainMenuDto {
+//
+//    private Integer id;
+//    private String name;
+//
+//    }
+//}
