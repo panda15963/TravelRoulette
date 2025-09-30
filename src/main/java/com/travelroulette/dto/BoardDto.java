@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class BoardDto {
-    private Integer id;
-    private Integer submenu_id;
-    private String name;
-    private String description;
-
+//    private Integer id;
+//    private Integer submenu_id;
+//    private String name;
+//    private String description;
 }

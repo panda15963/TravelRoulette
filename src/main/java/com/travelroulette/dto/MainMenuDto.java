@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MainMenuDto {
-
-    private Integer id;
-    private String name;
+//    private Integer id;
+//    private String name;
 }
