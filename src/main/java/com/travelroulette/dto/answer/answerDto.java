@@ -14,5 +14,6 @@ public class answerDto {
     private String userId;
     private String answerDescription;
     private LocalDateTime dateWritten;
+    private String answerId;
     private Integer postNumber;
 }

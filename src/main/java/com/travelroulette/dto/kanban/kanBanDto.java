@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class kanBanDto {
-    private Integer taskId;
+    private String taskId;
     private String taskDescription;
     private String taskStatus;
     private LocalDateTime dueDate;
