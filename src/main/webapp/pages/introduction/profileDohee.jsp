@@ -190,7 +190,7 @@
     <section id="intro">
         <h2>Intro</h2>
         <div class="jin-profile">
-            <img class="jin-avatar" src="images/1.jpg" alt="진이 프로필 사진" />
+            <img class="jin-avatar" src="../../images/dohee/1.jpg" alt="진이 프로필 사진" />
             <div class="jin-meta">
                 <h3>양 진</h3>
                 <div class="chips">
@@ -206,11 +206,14 @@
                 </div>
 
                 <details class="mt-2">
-                    <summary>Timeline</summary>
+                    <summary>Info</summary>
                     <ul class="mt-2 ms-3">
+                        <li>2016-05-22: 진이 생일</li>
                         <li>2016-09-17: 가족 된 날</li>
-                        <li>2017-03: 첫 바다 여행</li>
-                        <li>2024-06: 같ㅇ</li>
+                        <li>개인기 잘해요</li>
+                        <li>물을 좋아해요</li>
+                        <li>언니들을 좋아해요</li>
+                        <li>요크셔테리어아니고 실키테리어</li>
                     </ul>
                 </details>
 
@@ -230,7 +233,7 @@
     <section id="gallery">
         <h2>JIN'S GALLERY</h2>
         <div class="gallery-frame">
-            <img id="imgs" src="images/1.jpg" alt="인형 물고 있는 진이" />
+            <img id="imgs" src="../../images/dohee/1.jpg" alt="인형 물고 있는 진이" />
         </div>
         <div class="gallery-controls">
             <button id="prv"  type="button" class="btn btn-outline-secondary btn-sm">이전</button>
@@ -286,15 +289,15 @@
         <h2>JIN'S VIDEO</h2>
         <div class="video-grid">
             <figure class="video-card">
-                <video src="videos/1.mp4" autoplay muted loop playsinline poster="images/1-thumb.jpg"></video>
+                <video src="../../videos/1.mp4" autoplay muted loop playsinline poster="images/1-thumb.jpg"></video>
                 <figcaption>식탁 위에서</figcaption>
             </figure>
             <figure class="video-card">
-                <video src="videos/2.mp4" autoplay muted loop playsinline poster="images/2-thumb.jpg"></video>
+                <video src="../../videos/2.mp4" autoplay muted loop playsinline poster="images/2-thumb.jpg"></video>
                 <figcaption>기절잠 자는 중</figcaption>
             </figure>
             <figure class="video-card">
-                <video src="videos/3.mp4" autoplay muted loop playsinline poster="images/3-thumb.jpg"></video>
+                <video src="../../videos/3.mp4" autoplay muted loop playsinline poster="images/3-thumb.jpg"></video>
                 <figcaption>자는 진이 건드리기</figcaption>
             </figure>
         </div>
@@ -328,7 +331,7 @@
            1) 갤러리(슬라이드)
         ========================== */
         (function initGallery(){
-            var myPhotos = ["images/1.jpg","images/2.jpg","images/3.jpg","images/4.jpg","images/5.jpg"];
+            var myPhotos = ["../../images/dohee/1.jpg","../../images/dohee/2.jpg","../../images/dohee/3.jpg","../../images/dohee/4.jpg","../../images/dohee/5.jpg"];
             var SLIDE_MS = 3000;
             var index = 0, timerId = null, isPlaying = true;
 
