@@ -275,7 +275,7 @@
     if(writeBtn && writeDialog && writeMount) {
         writeBtn.addEventListener('click', () => {
             if(!writeLoaded) {
-                fetch('../pages/postForm.html')
+                fetch('../../pages/board/postForm.html')
                     .then(function(res) {return res.text();})
                     .then(function(html) {
                         writeMount.innerHTML = html;
