@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Board</title>
+    <title>TripWiki</title>
+    <!-- Favicon -->
+    <link rel = "icon" type = "image/x-icon" href = "../../assets/favicon.ico?v=2" />
 	<link href="../../css/styles.css" rel="stylesheet" />
 	<!-- Bootstrap CSS (필요하다면 추가) -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />

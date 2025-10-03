@@ -6,7 +6,7 @@
 		<a class = "navbar-brand" href = "${pageContext.request.contextPath}/index.jsp">
 			<img src = "${pageContext.request.contextPath}/images/logo.png" alt = "Logo" width = "30" height = "30"
 			     class = "d-inline-block align-text-top">
-			Travel Roulette
+			TripWiki
 		</a>
 
 		<!-- 햄버거 버튼 -->
@@ -19,16 +19,16 @@
 		<div class = "collapse navbar-collapse" id = "navbarSupportedContent">
 			<ul class = "navbar-nav ms-auto mb-2 mb-lg-0">
 				<li class = "nav-item"><a class = "nav-link"
-				                          href = "${pageContext.request.contextPath}/pages/kanban.jsp">카르반</a></li>
+				                          href = "${pageContext.request.contextPath}/pages/kanban.jsp">칸반</a></li>
 				<li class = "nav-item"><a class = "nav-link"
-				                          href = "${pageContext.request.contextPath}/pages/board/board.jsp">보드</a></li>
+				                          href = "${pageContext.request.contextPath}/pages/board/board.jsp">게시판</a></li>
 				<li class = "nav-item"><a class = "nav-link"
-				                          href = "${pageContext.request.contextPath}/pages/video.jsp">비디오</a></li>
+				                          href = "${pageContext.request.contextPath}/pages/video.jsp">도시홍보영상</a></li>
 				<li class = "nav-item"><a class = "nav-link" href = "${pageContext.request.contextPath}/pages/map.jsp">지도</a>
 				</li>
-				<li class = "nav-item"><a class = "nav-link" href =
-						"${pageContext.request.contextPath}/pages/introduction/introofindex.jsp">소개글</a>
-				</li>
+<%--				<li class = "nav-item"><a class = "nav-link" href =--%>
+<%--						"${pageContext.request.contextPath}/pages/introduction/introofindex.jsp">소개글</a>--%>
+<%--				</li>--%>
 				<li class = "nav-item"><a class = "nav-link" id="nav-login"
 				                          href = "${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
 				<li class = "nav-item"><a class = "nav-link" id="nav-signup"

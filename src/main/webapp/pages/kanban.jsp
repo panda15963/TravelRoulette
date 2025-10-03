@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>Karban</title>
+    <title>TripWiki</title>
+    <!-- Favicon -->
+    <link rel = "icon" type = "image/x-icon" href = "../assets/favicon.ico?v=2" />
     <link href="../css/styles.css" rel="stylesheet"/>
     <link href="../css/features/kanban/kanban.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>

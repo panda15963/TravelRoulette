@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>Video</title>
+    <title>TripWiki</title>
+    <!-- Favicon -->
+    <link rel = "icon" type = "image/x-icon" href = "../assets/favicon.ico?v=2" />
     <link href="../css/styles.css" rel="stylesheet" />
     <link href="../css/features/video/video.css" rel="stylesheet" />
 </head>

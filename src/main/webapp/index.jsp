@@ -4,9 +4,9 @@
 <head>
 	<meta charset = "utf-8" />
 	<meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta name = "description" content = "Travel Roulette" />
+	<meta name = "description" content = "TripWiki" />
 
-	<title>Travel Roulette</title>
+	<title>TripWiki</title>
 
 	<!-- Favicon -->
 	<link rel = "icon" type = "image/x-icon" href = "assets/favicon.ico?v=2" />
@@ -31,7 +31,7 @@
 	        style = "background: url('images/travel_title.jpg') center/cover no-repeat;
                min-height: 500px; display: table; width: 100%;">
 		<div style = "display: table-cell; vertical-align: middle; text-align: center;">
-			<h1 class = "display-4 fw-bolder">Travel Roulette</h1>
+			<h1 class = "display-4 fw-bolder">TripWiki</h1>
 			<p class = "lead fw-normal text-white-50 mb-0">세상을 여행하는 새로운 방법</p>
 		</div>
 	</header>
