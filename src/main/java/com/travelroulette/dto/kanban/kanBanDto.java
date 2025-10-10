@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class KanBanDto {
+public class kanBanDto {
     private String taskId;
     private String taskDescription;
     private TaskStatus taskStatus;
