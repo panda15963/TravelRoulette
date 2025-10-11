@@ -21,7 +21,7 @@
 				<li class = "nav-item"><a class = "nav-link"
 				                          href = "${pageContext.request.contextPath}/pages/kanban.jsp">칸반</a></li>
 				<li class = "nav-item"><a class = "nav-link"
-				                          href = "${pageContext.request.contextPath}/pages/board/board.jsp">게시판</a></li>
+				                          href = "${pageContext.request.contextPath}/pages/board/common/mainBoard.jsp">게시판</a></li>
 				<li class = "nav-item"><a class = "nav-link"
 				                          href = "${pageContext.request.contextPath}/pages/video.jsp">도시홍보영상</a></li>
 				<li class = "nav-item"><a class = "nav-link" href = "${pageContext.request.contextPath}/pages/map.jsp">지도</a>
