@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,11 +18,15 @@
 <div class="sign-container signin-container">
     <h2>로그인</h2>
 
-    <% if ("login_fail".equals(request.getParameter("error"))) { %>
+    <c:if test="${param.status eq 'signupSuccess'}">
+    <div class="alert alert-success">회원가입이 완료되었습니다. 로그인해주세요.</div>
+    </c:if>
+
+    <% if ("loginFail".equals(request.getParameter("error"))) { %>
     <div class="error-message">아이디 또는 비밀번호가 일치하지 않습니다.</div>
     <% } %>
 
-    <form name="signinForm" action="${pageContext.request.contextPath}/LoginServlet" method="post">
+    <form name="signinForm" action="${pageContext.request.contextPath}/auth" method="post">
         <input type="hidden" name="action" value="signin">
         <input type="text" name="userId" placeholder="아이디를 입력해주세요." required>
         <input type="password" name="userPassword" placeholder="비밀번호를 입력해주세요." required>
@@ -55,7 +60,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
-<script src="${pageContext.request.contextPath}/js/auth/auth.js"></script>
 <script defer src="${pageContext.request.contextPath}/js/features/signUpAndValidate.js"></script>
 </body>
 </html>
