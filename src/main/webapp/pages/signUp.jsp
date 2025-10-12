@@ -22,9 +22,9 @@
         String errorMessage = "";
         if (error != null) {
             switch (error) {
-                case "id_duplicate": errorMessage = "이미 사용 중인 아이디입니다."; break;
-                case "email_duplicate": errorMessage = "이미 등록된 이메일입니다."; break;
-                case "validation_fail": errorMessage = "입력 형식이 올바르지 않습니다."; break;
+                case "idDuplicate": errorMessage = "이미 사용 중인 아이디입니다."; break;
+                case "emailDuplicate": errorMessage = "이미 등록된 이메일입니다."; break;
+                case "validationFail": errorMessage = "입력 형식이 올바르지 않습니다."; break;
             }
         }
     %>
@@ -32,14 +32,12 @@
     <div class="error-message"><%= errorMessage %></div>
     <% } %>
 
-    <form name="signupForm" action="${pageContext.request.contextPath}/LoginServlet" method="post">
+    <form name="signupForm" action="${pageContext.request.contextPath}/auth" method="post">
         <input type="hidden" name="action" value="signup">
-        ID<input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요.영문만 가능합니다." required>
+        ID<input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요." required>
         비밀번호<input type="password" name="userPassword" id="userPassword" placeholder="비밀번호를 입력해주세요." required>
-        비밀번호 확인<input type="password" name="passwordChk" id="passwordChk" placeholder="비밀번호를 입력해주세요." required>
+        비밀번호 확인<input type="password" name="passwordChk" id="passwordChk" placeholder="비밀번호를 다시 입력해주세요." required>
         이메일<input type="email" name="email" id="email" placeholder="이메일 주소를 입력해주세요." required>
-        이름<input type="text" name="name" id="name" placeholder="이름을 입력해주세요." required>
-        주소<input type="text" name="address" id="address" placeholder="주소를 입력해주세요." required>
 
         <div class="radio-group">
             <input type="radio" id="male" name="gender" value="male" checked>
@@ -48,18 +46,12 @@
             <label for="female">여성</label>
         </div>
 
-        <div class="terms-checkbox">
-            <input type="checkbox" name="terms" id="terms" required>
-            <label for="terms">회원가입에 동의하십니까?</label>
-        </div>
-
         <button type="submit">가입</button>
     </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
-<script src="${pageContext.request.contextPath}/js/auth/auth.js"></script>
 <script defer src="${pageContext.request.contextPath}/js/features/signUpAndValidate.js"></script>
 </body>
 </html>
