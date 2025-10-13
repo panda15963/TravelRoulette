@@ -4,9 +4,8 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
-    <!-- UTF-8 Encoding Filter -->
-<!--    이클립스 docker 톰캣에서 에러  주석건다면 여기서부터 -->
-		 <filter>
+    <!-- ✅ UTF-8 Encoding Filter -->
+    <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>com.travelroulette.filter.EncodingFilter</filter-class>
         <init-param>
@@ -19,5 +18,16 @@
         <filter-name>EncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-<!--    이클립스 docker 톰캣에서 에러  주석건다면 여기까지 -->
+
+    <!-- ✅ ContinentController Servlet 등록 -->
+    <servlet>
+        <servlet-name>ContinentController</servlet-name>
+        <servlet-class>com.travelroulette.controller.ContinentController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ContinentController</servlet-name>
+        <url-pattern>/api/continents</url-pattern>
+    </servlet-mapping>
+
 </web-app>

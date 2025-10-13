@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class listOfCountriesDto {
     private String countryCode;
     private String userId;
+    private String ContinentNumber;
     private String checkContWishList;
 }
