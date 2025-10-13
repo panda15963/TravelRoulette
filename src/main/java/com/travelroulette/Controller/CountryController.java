@@ -1,30 +1,39 @@
 package com.travelroulette.Controller;
 
 import com.google.gson.Gson;
-import com.travelroulette.Dto.Continent.ContinentDto;
-import com.travelroulette.Service.ContinentService;
+import com.travelroulette.Dto.Country.CountryDto;
+import com.travelroulette.Service.CountryService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/continent")  // ✅ 여기가 반드시 있어야 함!
-public class ContinentController extends HttpServlet {
+@WebServlet("/countries")
+public class CountryController extends HttpServlet {
 
-    private final ContinentService service = new ContinentService();
+    private final CountryService service = new CountryService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         resp.setContentType("application/json; charset=UTF-8");
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-
         Gson gson = new Gson();
 
         try {
-            List<ContinentDto> list = service.getAllContinents();
+            // 🌍 continentNumber 파라미터 받기
+            String continentNumStr = req.getParameter("continentNumber");
+            if (continentNumStr == null) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                resp.getWriter().write("{\"error\":\"continentNumber parameter is required\"}");
+                return;
+            }
+
+            int continentNumber = Integer.parseInt(continentNumStr);
+
+            List<CountryDto> list = service.getCountriesByContinent(continentNumber);
             String json = gson.toJson(list);
             resp.getWriter().write(json);
         } catch (Exception e) {

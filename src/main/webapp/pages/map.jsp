@@ -47,7 +47,8 @@
     </div>
 
     <!-- hidden inputs -->
-    <input type="hidden" id="continentInput" name="continent">
+    <input type="hidden" id="continentInput" />
+    <input type="hidden" id="continentInputNumber" />
     <input type="hidden" id="countryInput" name="country">
     <input type="hidden" id="countryEnglishInput" name="countryEnglish">
     <input type="hidden" id="countryCodeInput" name="countryCode">

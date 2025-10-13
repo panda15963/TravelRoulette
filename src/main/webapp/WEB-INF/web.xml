@@ -22,7 +22,7 @@
     <!-- ✅ ContinentController Servlet 등록 -->
     <servlet>
         <servlet-name>ContinentController</servlet-name>
-        <servlet-class>com.travelroulette.controller.ContinentController</servlet-class>
+        <servlet-class>com.travelroulette.Controller.ContinentController</servlet-class>
     </servlet>
 
     <servlet-mapping>

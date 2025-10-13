@@ -1,5 +1,5 @@
 // mvc2 패턴화해야됨
-// package com.travelroulette.service;
+// package com.travelroulette.Service;
 
 // import java.io.IOException;
 // import java.io.PrintWriter;
