@@ -1,7 +1,7 @@
-package com.travelroulette.dao;
+package com.travelroulette.Dao;
 
-import com.travelroulette.dto.continent.ContinentDto;
-import com.travelroulette.utils.ConnectionPoolHelper;
+import com.travelroulette.Dto.Continent.ContinentDto;
+import com.travelroulette.Utils.ConnectionPoolHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

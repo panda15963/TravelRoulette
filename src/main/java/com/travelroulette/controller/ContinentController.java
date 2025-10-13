@@ -1,8 +1,8 @@
-package com.travelroulette.controller;
+package com.travelroulette.Controller;
 
 import com.google.gson.Gson;
-import com.travelroulette.dto.continent.ContinentDto;
-import com.travelroulette.service.ContinentService;
+import com.travelroulette.Dto.Continent.ContinentDto;
+import com.travelroulette.Service.ContinentService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.IOException;

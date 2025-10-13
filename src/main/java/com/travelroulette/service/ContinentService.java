@@ -1,7 +1,7 @@
-package com.travelroulette.service;
+package com.travelroulette.Service;
 
-import com.travelroulette.dao.ContinentDAO;
-import com.travelroulette.dto.continent.ContinentDto;
+import com.travelroulette.Dao.ContinentDAO;
+import com.travelroulette.Dto.Continent.ContinentDto;
 
 import java.util.List;
 
