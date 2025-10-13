@@ -19,8 +19,8 @@
 			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/video.jsp">도시홍보영상</a></li>
 			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/map.jsp">지도</a></li>
 <%--            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/introduction/introofindex.jsp">소개글</a></li>--%>
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/signUp.jsp">회원가입</a></li>
+			<li class="nav-item"><a class="nav-link" id="sidebar-login" href="${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
+			<li class="nav-item"><a class="nav-link" id="sidebar-signup" href="${pageContext.request.contextPath}/pages/signUp.jsp">회원가입</a></li>
 
 			<!-- 다크모드 토글 버튼 -->
 			<li class="nav-item mt-3">
@@ -33,3 +33,6 @@
 		</ul>
 	</div>
 </div>
+
+<!-- 로그인 상태 관리 -->
+<script src="${pageContext.request.contextPath}/js/utils/authManager.js"></script>

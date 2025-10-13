@@ -46,53 +46,88 @@ const AuthManager = {
     /**
      * 로그인 필요한 페이지 접근 체크
      * @param {string} redirectUrl - 로그인 후 돌아갈 URL (선택사항)
-     */
+
     requireLogin(redirectUrl = null) {
         if (!this.isLoggedIn()) {
             const returnUrl = redirectUrl || window.location.href;
             const contextPath = this.getContextPath();
             alert('로그인이 필요한 서비스입니다.');
-            window.location.href = `${contextPath}/pages/signIn.jsp?returnUrl=${encodeURIComponent(returnUrl)}`;
+            window.location.href = `${contextPath}/signIn.jsp?returnUrl=${encodeURIComponent(returnUrl)}`;
+            return false;
+        }
+        return true;
+    },
+    */
+    getContextPath() {
+        const path = window.location.pathname;
+        const index = path.indexOf('/', 1);
+        return index > 0 ? path.substring(0, index) : '';
+    },
+
+    requireLogin(redirectUrl = null) {
+        if (!this.isLoggedIn()) {
+            const contextPath = this.getContextPath();
+            alert('로그인이 필요한 서비스입니다.');
+            // returnUrl 제거하고 단순 이동
+            window.location.href = `${contextPath}/pages/signIn.jsp`;
             return false;
         }
         return true;
     },
 
+
     /**
      * 네비게이션 바 UI 업데이트
      */
     updateNavbar() {
-        const loginLink = document.getElementById('nav-login');
-        const signupLink = document.getElementById('nav-signup');
+        const contextPath = this.getContextPath();
 
-        if (!loginLink || !signupLink) return;
+        // navbar와 sidebar의 로그인/회원가입 링크들 가져오기
+        const navbarLoginLink = document.getElementById('nav-login');
+        const navbarSignupLink = document.getElementById('nav-signup');
+        const sidebarLoginLink = document.getElementById('sidebar-login');
+        const sidebarSignupLink = document.getElementById('sidebar-signup');
+
+        const loginLinks = [navbarLoginLink, sidebarLoginLink].filter(link => link !== null);
+        const signupLinks = [navbarSignupLink, sidebarSignupLink].filter(link => link !== null);
+
+        if (loginLinks.length === 0 || signupLinks.length === 0) return;
 
         if (this.isLoggedIn()) {
             const user = this.getUser();
             const userId = user ? user.userId : '사용자';
 
-            // 로그인/회원가입을 사용자명/로그아웃으로 변경
-            loginLink.textContent = `${userId}님`;
-            loginLink.href = '#';
-            loginLink.style.cursor = 'default';
-            loginLink.classList.add('text-primary', 'fw-bold');
+            // 모든 로그인 링크를 사용자명으로 변경
+            loginLinks.forEach(loginLink => {
+                loginLink.textContent = `${userId}님`;
+                loginLink.href = '#';
+                loginLink.style.cursor = 'default';
+                loginLink.classList.add('text-primary', 'fw-bold');
+            });
 
-            signupLink.textContent = '로그아웃';
-            signupLink.href = '#';
-            signupLink.onclick = (e) => {
-                e.preventDefault();
-                this.logout();
-            };
+            // 모든 회원가입 링크를 로그아웃으로 변경
+            signupLinks.forEach(signupLink => {
+                signupLink.textContent = '로그아웃';
+                signupLink.href = '#';
+                signupLink.onclick = (e) => {
+                    e.preventDefault();
+                    this.logout();
+                };
+            });
         } else {
             // 로그아웃 상태로 복원
-            loginLink.textContent = '로그인';
-            loginLink.href = `${this.getContextPath()}/pages/signIn.jsp`;
-            loginLink.style.cursor = 'pointer';
-            loginLink.classList.remove('text-primary', 'fw-bold');
+            loginLinks.forEach(loginLink => {
+                loginLink.textContent = '로그인';
+                loginLink.href = `${contextPath}/pages/signIn.jsp`;
+                loginLink.style.cursor = 'pointer';
+                loginLink.classList.remove('text-primary', 'fw-bold');
+            });
 
-            signupLink.textContent = '회원가입';
-            signupLink.href = `${this.getContextPath()}/pages/signUp.jsp`;
-            signupLink.onclick = null;
+            signupLinks.forEach(signupLink => {
+                signupLink.textContent = '회원가입';
+                signupLink.href = `${contextPath}/pages/signUp.jsp`;
+                signupLink.onclick = null;
+            });
         }
     },
 
