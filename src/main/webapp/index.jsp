@@ -36,12 +36,12 @@
 		</div>
 	</header>
 
-	<%@ include file = "/sections/about.jsp" %>
+	<%@ include file = "/Sections/about.jsp" %>
 
 	<!-- 구분선 -->
 	<hr class="my-5" style="border-top: 3px solid #666; opacity: 1;">
 
-	<%@ include file = "/sections/boardPreview.jsp" %>
+	<%@ include file = "/Sections/boardPreview.jsp" %>
 
 	<%@ include file = "/Common/footer.jsp" %>
 </main>
