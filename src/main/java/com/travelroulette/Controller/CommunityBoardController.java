@@ -2,6 +2,7 @@ package com.travelroulette.Controller;
 
 import com.google.gson.Gson;
 import com.travelroulette.Dto.Post.PostDto;
+import com.travelroulette.Service.board.community.CommunityBoardDetailService;
 import com.travelroulette.Service.board.community.CommunityBoardListService;
 import com.travelroulette.Service.board.community.CommunityBoardWriteService;
 import jakarta.servlet.ServletException;
@@ -97,36 +98,24 @@ public class CommunityBoardController extends HttpServlet {
         out.flush();
         }
 
-/*
-        else if (command.equals("/board/community/write.do")) {
-            System.out.println("글쓰기 요청 처리");
+        else if (command.equals("/board/community/detail.do")) {
+            System.out.println("상세보기 요청 처리");
 
-            CommunityBoardWriteService service = new CommunityBoardWriteService();
-            int result = service.execute(request, response); //(0: 실패, 1: 성공)
+            CommunityBoardDetailService service = new CommunityBoardDetailService();
+            PostDto post = service.execute(request, response);
 
-            //JSON으로 변환
+            //JSON 문자열로 변환
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (src, typeOfSrc, context) ->
+                            new com.google.gson.JsonPrimitive(src.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                    ).create();
+            String jsonPost = gson.toJson(post);
+
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
-
-            if (result > 0) {
-                //성공했을 때
-                out.print("{\"status\":\"success\"}"); //JSON 형식으로 성공 메시지를 보냄
-            } else {
-                //실패했을 때
-                out.print("{\"status\":\"fail\"}");    //JSON 형식으로 실패 메시지를 보냄
-            }
+            out.print(jsonPost);
             out.flush();
-
-
-        }
-*/
-
-
-
-        else if (command.equals("/board/community/detail.do")) {
-            //TODO: 나중에 상세보기 기능 구현
-            System.out.println("상세보기 요청 처리");
         }
 
 
