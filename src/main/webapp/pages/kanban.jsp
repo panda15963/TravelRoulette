@@ -15,10 +15,31 @@
 
 <%@ include file="/common/navbar.jsp" %>
 <%@ include file="/common/sidebar.jsp" %>
+<header>
+    <div class="wrap row">
+      <h1>Kanban 보드 <small class="code"></small></h1>
+    </div>
+  </header>
 
-<div id="board"></div>
-<button id="add-column-btn">칼럼 추가</button>
+  <main>
+    <section class="board" id="board"></section>
 
+    <form class="new-form" id="newTaskForm">
+      <input class="full" type="text" id="content" placeholder="무엇을 할까요? (TASK_CONTENT)" required />
+      <select id="status" title="상태">
+        <option value="todo">todo</option>
+        <option value="inprogress">inprogress</option>
+        <option value="done">done</option>
+      </select>
+      <input type="date" id="due" />
+      <select id="priority" title="우선순위">
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+        <option value="Low">Low</option>
+      </select>
+      <button class="primary" type="submit">카드 추가</button>
+    </form>
+  </main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/features/darkmode.js"></script>
 <script src="../js/features/kanban.js"></script>
