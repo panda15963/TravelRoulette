@@ -22,12 +22,26 @@
     <!-- ✅ ContinentController Servlet 등록 -->
     <servlet>
         <servlet-name>ContinentController</servlet-name>
-        <servlet-class>com.travelroulette.controller.ContinentController</servlet-class>
+        <servlet-class>com.travelroulette.Controller.ContinentController</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>ContinentController</servlet-name>
         <url-pattern>/api/continents</url-pattern>
     </servlet-mapping>
+
+
+    <!-- ✅ CommunityBoardController 서블릿 등록 -->
+    <servlet>
+        <servlet-name>CommunityBoardController</servlet-name>
+        <servlet-class>com.travelroulette.Controller.CommunityBoardController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CommunityBoardController</servlet-name>
+        <url-pattern>/board/community/*</url-pattern>
+    </servlet-mapping>
+
+
 
 </web-app>

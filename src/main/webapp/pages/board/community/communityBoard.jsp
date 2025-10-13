@@ -72,7 +72,7 @@
                             </thead>
 
                             <!-- ✅ tbody: 제목 클릭 시 상세 페이지로 이동 -->
-                            <tbody class="text-center">
+                            <tbody id="post-list-body" class="text-center">
                             <tr>
                                 <td>3</td>
                                 <td>
@@ -118,6 +118,45 @@
 <script defer src="../../../js/utils/board.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../../js/features/darkmode.js"></script>
+
+<script>
+    //웹페이지가 모두 로드된 이후 실행
+    window.onload = function() {
+        //게시글 목록 데이터를 요청(fetch로 비동기 통신)
+        fetch('/TravelRoulette_war/board/community/list.do')
+            .then(response => {
+                //JSON 데이터만 추출
+                return response.json();
+            })
+            .then(data => {
+                //화면 그리기
+                console.log("서버로부터 받은 데이터:", data); //F12 확인용
+
+                const tbody = document.getElementById('post-list-body');
+                tbody.innerHTML = '';
+
+                let html = ''; //테이블에 추가할 HTML 코드
+
+                //게시글 배열을 순회
+                data.forEach(post => {
+                    html += '<tr>' +
+                        '<td>' + post.postNumber + '</td>' +
+                        '<td>' + post.postTitle + '</td>' +
+                        '<td>' + post.userId + '</td>' +
+                        '<td>' + post.postDateWritten + '</td>' +
+                        '</tr>';
+                });
+
+                //tbody에 삽입
+                tbody.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('게시글 목록 로딩 중 오류 발생:', error);
+                const tbody = document.getElementById('post-list-body');
+                tbody.innerHTML = '<tr><td colspan="5">게시글을 불러오는 데 실패했습니다.</td></tr>';
+            });
+    };
+</script>
 
 </body>
 </html>
