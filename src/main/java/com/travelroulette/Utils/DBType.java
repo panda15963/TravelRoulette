@@ -1,4 +1,4 @@
-package com.travelroulette.utils;
+package com.travelroulette.Utils;
 
 public enum DBType {
     ORACLE, //혹시모르니

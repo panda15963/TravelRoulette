@@ -1,4 +1,4 @@
-package com.travelroulette.filter;
+package com.travelroulette.Filter;
 
 import jakarta.servlet.*;
 import java.io.IOException;

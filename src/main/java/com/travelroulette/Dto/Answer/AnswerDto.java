@@ -1,4 +1,4 @@
-package com.travelroulette.dto.answer;
+package com.travelroulette.Dto.Answer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class answerDto {
+public class AnswerDto {
     private Integer QnQNumber;
     private String QnATitle;
     private String QnADescription;

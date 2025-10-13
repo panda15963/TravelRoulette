@@ -1,4 +1,4 @@
-package com.travelroulette.dto.country;
+package com.travelroulette.Dto.Continent;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class countryDto {
-    private String countryCode;
-    private String countryNameKor;
-    private String countryNameEng;
-    private String flagURL;
+public class ContinentDto {
     private String continentNumber;
+    private String continentNameKor;
+    private String continentNameEng;
 }
