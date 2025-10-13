@@ -42,7 +42,7 @@
 			</div>
 		</div>
 		<div class = "text-center">
-			<a href = "${pageContext.request.contextPath}/pages/board/common/mainBoard.jsp" class = "btn btn-primary">
+			<a href = "${pageContext.request.contextPath}/pages/board/Common/mainBoard.jsp" class = "btn btn-primary">
 				게시판 더 보기
 			</a>
 		</div>

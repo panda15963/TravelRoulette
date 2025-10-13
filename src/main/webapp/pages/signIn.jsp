@@ -26,7 +26,7 @@
     <div class="error-message">아이디 또는 비밀번호가 일치하지 않습니다.</div>
     <% } %>
 
-    <form name="signinForm" action="${pageContext.request.contextPath}/auth" method="post">
+    <form name="signinForm" action="${pageContext.request.contextPath}/auth" method="post" id="signinForm">
         <input type="hidden" name="action" value="signin">
         <input type="text" name="userId" placeholder="아이디를 입력해주세요." required>
         <input type="password" name="userPassword" placeholder="비밀번호를 입력해주세요." required>
@@ -60,6 +60,50 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
+<script src="${pageContext.request.contextPath}/js/utils/authManager.js"></script>
 <script defer src="${pageContext.request.contextPath}/js/features/signUpAndValidate.js"></script>
+<script>
+    // AJAX 로그인 처리
+    document.addEventListener('DOMContentLoaded', function() {
+        const signinForm = document.getElementById('signinForm');
+
+        if (signinForm) {
+            signinForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(signinForm);
+                formData.append('ajax', 'true');
+
+                fetch('${pageContext.request.contextPath}/auth', {
+                    method: 'POST',
+                    body: new URLSearchParams(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // 세션 스토리지에 사용자 정보 저장
+                        AuthManager.setUser({
+                            userId: data.userId,
+                            email: data.email
+                        });
+
+                        // 로그인 성공 메시지
+                        alert(data.userId + '님 환영합니다!');
+
+                        // 메인 페이지로 이동
+                        window.location.href = '${pageContext.request.contextPath}/index.jsp';
+                    } else {
+                        // 로그인 실패
+                        alert(data.message || '로그인에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('로그인 오류:', error);
+                    alert('로그인 처리 중 오류가 발생했습니다.');
+                });
+            });
+        }
+    });
+</script>
 </body>
 </html>
