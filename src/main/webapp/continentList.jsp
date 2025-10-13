@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, com.travelroulette.dto.continent.ContinentDto" %>
+<%@ page import="java.util.*, com.travelroulette.Dto.Continent.ContinentDto" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <html>
 <head><title>대륙 목록</title></head>

@@ -12,8 +12,8 @@
 </head>
 <body id="pageBody" class="sign-page-body" data-mode="light">
 
-<%@ include file="/common/navbar.jsp" %>
-<%@ include file="/common/sidebar.jsp" %>
+<%@ include file="/Common/navbar.jsp" %>
+<%@ include file="/Common/sidebar.jsp" %>
 
 <div class="sign-container signin-container">
     <h2>로그인</h2>

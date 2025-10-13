@@ -13,8 +13,8 @@
 <body id="pageBody" class="d-flex flex-column h-100"
       style="background-color:#fff; color:#000;" data-mode="light">
 
-<%@ include file="/common/navbar.jsp" %>
-<%@ include file="/common/sidebar.jsp" %>
+<%@ include file="/Common/navbar.jsp" %>
+<%@ include file="/Common/sidebar.jsp" %>
 <header>
     <div class="wrap row">
       <h1>Kanban 보드 <small class="code"></small></h1>

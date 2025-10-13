@@ -11,8 +11,8 @@
 </head>
 <body id = "pageBody" class = "d-flex flex-column h-100" data-mode = "light">
 
-<%@ include file = "/common/navbar.jsp" %>
-<%@ include file = "/common/sidebar.jsp" %>
+<%@ include file = "/Common/navbar.jsp" %>
+<%@ include file = "/Common/sidebar.jsp" %>
 
 <!-- 자기소개 카드 섹션 -->
 <main id="introSection" class = "flex-shrink-0 pt-5">
