@@ -9,8 +9,7 @@ nbdist/
 
 
 ### 스마트톰캣 ###
-smarttomcat/
-!.smarttomcat/
+.smarttomcat/
 
 ### IntelliJ IDEA ###
 .idea/
