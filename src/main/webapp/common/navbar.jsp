@@ -46,6 +46,5 @@
 		</div>
 	</div>
 </nav>
-<!-- 로그인 감지해서 로그인 회원가입 바꿔치기
-<script src="${pageContext.request.contextPath}/js/common.js"></script>
--->
+<!-- 로그인 상태 관리 -->
+<script src="${pageContext.request.contextPath}/js/utils/authManager.js"></script>

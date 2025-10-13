@@ -68,13 +68,31 @@ public class AuthServlet extends HttpServlet {
     private void handleSignIn(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userId = request.getParameter("userId");
         String rawPassword = request.getParameter("userPassword");
+        String ajax = request.getParameter("ajax");
+
         try {
             AuthenticatedUser authenticatedUser = userService.authenticate(userId, rawPassword);
             HttpSession session = request.getSession(true);
             session.setAttribute("authenticatedUser", authenticatedUser);
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+
+            // AJAX 요청인 경우 JSON 응답
+            if ("true".equals(ajax)) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write("{\"success\":true,\"userId\":\"" + authenticatedUser.getUserId() + "\",\"email\":\"" + authenticatedUser.getEmail() + "\"}");
+            } else {
+                // 일반 폼 제출인 경우 리다이렉트
+                response.sendRedirect(request.getContextPath() + "/index.jsp");
+            }
         } catch (AuthenticationException e) {
-            response.sendRedirect(request.getContextPath() + "/pages/signIn.jsp?error=loginFail");
+            // AJAX 요청인 경우 JSON 응답
+            if ("true".equals(ajax)) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write("{\"success\":false,\"message\":\"아이디 또는 비밀번호가 일치하지 않습니다.\"}");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/pages/signIn.jsp?error=loginFail");
+            }
         }
     }
 
