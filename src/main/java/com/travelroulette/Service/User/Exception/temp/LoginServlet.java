@@ -1,5 +1,5 @@
 // mvc2 화 해야됨
-//package com.travelroulette.service;
+//package com.travelroulette.Service;
 //
 //import java.io.IOException;
 //import java.sql.Connection;

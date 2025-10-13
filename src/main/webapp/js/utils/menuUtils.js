@@ -7,6 +7,7 @@ export function resetCountryMenu(message, isError = false) {
     `;
 }
 
+// ✅ 수정된 createCountryList() — selectCountry()와 데이터 구조 일치시킴
 export function createCountryList(countries, onSelect) {
     const menu = document.getElementById("countryMenu");
     menu.innerHTML = "";
@@ -19,15 +20,26 @@ export function createCountryList(countries, onSelect) {
                data-country-english="${c.countryNameEng}">
                 <img src="${c.flagURL}" width="20" style="margin-right:8px;" alt="${c.countryNameEng} flag"> ${c.countryNameKor}
             </a>`;
-        li.onclick = () => onSelect(c);
+
+        // ✅ selectCountry()가 { code, name, englishName, flag }를 받도록 수정
+        li.querySelector("a").onclick = (e) => {
+            e.preventDefault();
+            onSelect({
+                code: c.countryCode ?? "",        // countryCode가 있을 경우
+                name: c.countryNameKor,
+                englishName: c.countryNameEng,
+                flag: c.flagURL
+            });
+        };
+
         menu.appendChild(li);
     });
 }
 
-export async function loadCountriesByContinent(continentKr) {
+export async function loadCountriesByContinent(continentNumber, continentNameKor) {
     try {
-        // ✅ DB 연동 API 호출 (Controller → DAO → DB)
-        const res = await fetch(`/TravelRoulette/api/countries?continent=${encodeURIComponent(continentKr)}`);
+        // ✅ 번호로 요청
+        const res = await fetch(`/countries?continentNumber=${continentNumber}`);
 
         if (!res.ok) {
             const errorMsg = res.status === 404
@@ -45,17 +57,18 @@ export async function loadCountriesByContinent(continentKr) {
             return;
         }
 
-        // ✅ DB에서 가져온 나라 목록 표시
+        // ✅ 나라 목록 표시
         createCountryList(countries, selectCountry);
 
+        // ✅ 드롭다운 제목을 대륙 이름으로 갱신
         document.getElementById("continentDropdown").innerHTML =
-            `<span class="me-auto pe-2">${continentKr}</span>`;
+            `<span class="me-auto pe-2">${continentNameKor}</span>`;
 
+        // ✅ 나라 선택 초기화
         document.getElementById("countryDropdown").innerHTML =
             `<span class="me-auto pe-2">나라 선택</span>`;
 
-        document.getElementById("continentInput").value = continentKr;
-
+        console.log(`🌍 ${continentNameKor} (${continentNumber}번) 국가 ${countries.length}개 로드 완료`);
     } catch (err) {
         console.warn("나라 목록 불러오기 실패 (네트워크 오류):", err.message);
         resetCountryMenu("나라 목록 불러오기 실패", true);

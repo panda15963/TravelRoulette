@@ -3,7 +3,9 @@ let citiesCache = [];
 // ✅ 국가명 보정 (Google Geocoding에서 인식 잘 되도록)
 const countryFix = {
     "Korea": "South Korea",
+    "Republic of Korea": "South Korea",
     "United States of America": "United States",
+    "USA": "United States",
     "Russia": "Russian Federation",
     "UAE": "United Arab Emirates",
     // 필요 시 추가...
@@ -17,6 +19,11 @@ async function fetchCitiesByCountry(countryEnglish) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ country: countryEnglish }),
     });
+
+    if (!res.ok) {
+        throw new Error(`도시 API 요청 실패 (status: ${res.status})`);
+    }
+
     return res.json();
 }
 
@@ -25,20 +32,16 @@ async function getCoordinates(cityName, countryEnglish) {
     const baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
     const apiKey = "AIzaSyDK_cxakbGGco-bruqrtL1PPdKYYj_a1UA";
 
-    // 보정된 국가명 적용
     const fixedCountry = countryFix[countryEnglish] || countryEnglish;
-
-    // 1차 요청: 도시 + 국가
     let query = `${cityName}, ${fixedCountry}`;
     let url = `${baseUrl}?address=${encodeURIComponent(query)}&key=${apiKey}`;
 
     let res = await fetch(url);
     let data = await res.json();
 
-    // 2차 요청: 도시명만 (1차 실패 시)
-    if (data.status !== "OK" || data.results.length === 0) {
+    // 1차 실패 시 → 도시명 단독 재시도
+    if (data.status !== "OK" || !data.results.length) {
         console.warn("Geocoding 1차 실패:", query, data.status, data.error_message);
-
         query = cityName;
         url = `${baseUrl}?address=${encodeURIComponent(query)}&key=${apiKey}`;
         res = await fetch(url);
@@ -50,18 +53,19 @@ async function getCoordinates(cityName, countryEnglish) {
         return { lat: loc.lat, lng: loc.lng };
     } else {
         console.error("Geocoding 최종 실패:", query, data.status, data.error_message);
-        return null; // 🚩 좌표 못 찾으면 null 반환
+        return null;
     }
 }
 
 // 🚩 랜덤 도시 뽑기 + 좌표 얻기
 export async function pickRandomCity(countryEnglish) {
     if (citiesCache.length === 0) {
+        alert("도시 목록이 없습니다. 먼저 나라를 선택하세요!");
         throw new Error("도시를 찾을 수 없습니다.");
     }
 
     const city = citiesCache[Math.floor(Math.random() * citiesCache.length)];
-    console.log("pickRandomCity 선택:", city);
+    console.log("🎯 pickRandomCity 선택:", city);
 
     const coords = await getCoordinates(city, countryEnglish);
 
@@ -78,8 +82,16 @@ export async function loadCitiesOnCountrySelect(continent, country, countryEngli
     const randomBtn = document.getElementById("pickRandomCityBtn");
     randomBtn?.setAttribute("disabled", true);
 
-    if (!continent || !countryEnglish) {
-        throw new Error("대륙과 나라를 모두 선택하세요!");
+    // ✅ 필수 값 확인 (방어 코드)
+    if (!continent) {
+        console.warn("⚠️ 대륙 값이 없습니다. loadCitiesOnCountrySelect 호출 무시됨.");
+        alert("먼저 대륙을 선택하세요!");
+        return { validCount: 0 };
+    }
+    if (!countryEnglish) {
+        console.warn("⚠️ countryEnglish 값이 없습니다. loadCitiesOnCountrySelect 호출 무시됨.");
+        alert("나라 영어 이름이 올바르지 않습니다.");
+        return { validCount: 0 };
     }
 
     // ✅ 보정 적용
@@ -88,20 +100,25 @@ export async function loadCitiesOnCountrySelect(continent, country, countryEngli
     try {
         const data = await fetchCitiesByCountry(countryEnglish);
 
-        if (data.error) {
+        if (data.error || !data.data) {
             console.warn("API 오류:", data.msg);
             citiesCache = [];
             return { validCount: 0 };
         }
 
-        citiesCache = data.data || [];
-        console.log("도시 목록:", citiesCache);
+        citiesCache = data.data;
+        console.log(`🏙️ ${countryEnglish}의 도시 ${citiesCache.length}개 로드 완료`);
+
+        if (citiesCache.length === 0) {
+            alert(`${country}의 도시 목록을 찾을 수 없습니다.`);
+        }
 
         randomBtn?.toggleAttribute("disabled", citiesCache.length === 0);
 
         return { validCount: citiesCache.length };
     } catch (err) {
         console.error("도시 불러오기 오류:", err);
+        citiesCache = [];
         return { validCount: 0 };
     }
 }
