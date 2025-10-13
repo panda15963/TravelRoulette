@@ -13,7 +13,7 @@ public class JdbcUserDao implements UserDao {
     private static final String USER_SELECT_BY_ID =
             "SELECT userId, pwd, email, gender, salt, hashIterations\n" +
                     "FROM user\n" +
-                    "WHERE user_id = ?";
+                    "WHERE userId = ?";
 
     private static final String USER_EXISTS_BY_ID =
             "SELECT 1\n" +
