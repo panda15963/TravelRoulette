@@ -11,8 +11,8 @@
 </head>
 <body id="pageBody" class="sign-page-body" data-mode="light">
 
-<%@ include file="/common/navbar.jsp" %>
-<%@ include file="/common/sidebar.jsp" %>
+<%@ include file="/Common/navbar.jsp" %>
+<%@ include file="/Common/sidebar.jsp" %>
 
 <div class="sign-container signup-container">
     <h2>회원가입</h2>

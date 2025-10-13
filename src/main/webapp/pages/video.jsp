@@ -10,8 +10,8 @@
 </head>
 <body id="pageBody" class="d-flex flex-column min-vh-100" data-mode="light">
 
-<%@ include file="/common/navbar.jsp" %>
-<%@ include file="/common/sidebar.jsp" %>
+<%@ include file="/Common/navbar.jsp" %>
+<%@ include file="/Common/sidebar.jsp" %>
 
 <header class="bg-dark text-white py-5 mb-4 mt-5">
     <div class="container">

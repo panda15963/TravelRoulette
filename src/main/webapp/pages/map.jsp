@@ -12,8 +12,8 @@
 <body id="pageBody" class="d-flex flex-column h-100"
       data-mode="light" style="background-color:#fff; color:#000;">
 
-<%@ include file="/common/navbar.jsp" %>
-<%@ include file="/common/sidebar.jsp" %>
+<%@ include file="/Common/navbar.jsp" %>
+<%@ include file="/Common/sidebar.jsp" %>
 
 <div class="container mt-4">
     <h3 class="mb-3">랜덤 도시 선택</h3>

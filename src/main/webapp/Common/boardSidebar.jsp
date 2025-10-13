@@ -10,7 +10,7 @@
     <ul class="nav nav-pills flex-column">
         <!-- 전체 게시판 -->
         <li class="nav-item mb-2">
-            <a href="../common/mainBoard.jsp"
+            <a href="../Common/mainBoard.jsp"
                class="nav-link fw-semibold
                <%= currentPath.endsWith("mainBoard.jsp") ? "active bg-info text-dark fw-bold" : "text-dark" %>">
                 전체게시판
