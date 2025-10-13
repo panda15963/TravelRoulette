@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @Builder
 public class postDto {
     private Integer postNumber;
-    private String title;
-    private String description;
-    private LocalDateTime dateWritten;
-    private String userId;
+    private String postTitle;
+    private String postDescription;
+    private LocalDateTime postDateWritten;
     private Integer boardNumber;
+    private String userId;
 }

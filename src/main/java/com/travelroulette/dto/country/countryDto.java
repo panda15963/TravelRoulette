@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class countryDto {
     private String countryCode;
-    private String countryName;
+    private String countryNameKor;
+    private String countryNameEng;
     private String flagURL;
-    private String continentId;
+    private String continentNumber;
 }

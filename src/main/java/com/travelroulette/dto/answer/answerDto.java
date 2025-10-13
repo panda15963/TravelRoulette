@@ -11,9 +11,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class answerDto {
+    private Integer QnQNumber;
+    private String QnATitle;
+    private String QnADescription;
+    
+    private LocalDateTime QnADateWritten;
+    private Integer QnAref;
+    private Integer QnADepth;
+    private Integer QnAStep;
+
     private String userId;
-    private String answerDescription;
-    private LocalDateTime dateWritten;
-    private String answerId;
-    private Integer postNumber;
+    
 }
