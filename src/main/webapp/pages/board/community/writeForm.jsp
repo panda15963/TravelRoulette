@@ -25,7 +25,11 @@
                 <h1 class="h3 fw-bold text-primary mb-4">자유게시판</h1>
 
                 <!-- 글쓰기 폼 -->
+                <!--
                 <form action="/board/community/savePost.jsp" method="post" class="border-0">
+                -->
+                <form id="write-form" class="border-0">
+
                     <!-- 제목 입력 -->
                     <div class="mb-3">
                         <label for="title" class="form-label fw-semibold text-secondary">제목</label>
@@ -65,6 +69,7 @@
                         </a>
 
                         <!-- 등록 버튼 -->
+                        <!--
                         <button
                                 type="submit"
                                 class="btn text-white fw-semibold px-4"
@@ -72,6 +77,16 @@
                         >
                             등록
                         </button>
+                        -->
+
+                        <button type="button"
+                                id="submit-button"
+                                class="btn text-white fw-semibold px-4"
+                                style="background-color: #64A5E6;"
+                        >
+                            등록
+                        </button>
+
                     </div>
                 </form>
             </div>
@@ -83,6 +98,47 @@
 <script defer src="../../../js/utils/board.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../../js/features/darkmode.js"></script>
+
+<script>
+    //등록 버튼을 클릭 시 실행될 코드 연결
+    document.getElementById('submit-button').addEventListener('click', function() {
+        //입력값 가져오기
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+
+        if (!title || !content) {
+            alert('제목과 내용을 모두 입력해주세요.');
+            return; // 함수를 여기서 중단합니다.
+        }
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+
+
+        //비동기
+        fetch('/TravelRoulette_war/board/community/write.do', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('글이 성공적으로 등록되었습니다.');
+                    location.href = 'communityBoard.jsp';
+                } else {
+                    //등록 실패
+                    alert('오류 발생: ' + data.message);
+                }
+            })
+            .catch(error => {
+                //네트워크 오류 등 문제가 발생하면 실행
+                console.error('Error:', error);
+                alert('글 등록 중 오류가 발생했습니다.');
+            });
+    });
+</script>
+
 
 </body>
 </html>
