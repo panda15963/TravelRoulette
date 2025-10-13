@@ -1,4 +1,4 @@
-package com.travelroulette.dto.kanban;
+package com.travelroulette.Dto.Kanban;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class kanBanDto {
+public class KanBanDto {
     private String taskId;
     private String taskDescription;
     private TaskStatus taskStatus;

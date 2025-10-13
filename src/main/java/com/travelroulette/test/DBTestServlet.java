@@ -1,6 +1,6 @@
 package com.travelroulette.test;
 
-import com.travelroulette.utils.ConnectionPoolHelper;
+import com.travelroulette.Utils.ConnectionPoolHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

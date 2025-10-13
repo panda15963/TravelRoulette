@@ -1,4 +1,4 @@
-package com.travelroulette.utils;
+package com.travelroulette.Utils;
 
 import java.sql.*;
 import javax.naming.Context;

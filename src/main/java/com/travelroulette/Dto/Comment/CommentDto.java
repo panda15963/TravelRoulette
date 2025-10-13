@@ -1,4 +1,4 @@
-package com.travelroulette.dto.comment;
+package com.travelroulette.Dto.Comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class commentDto {
+public class CommentDto {
     private Integer commentNumber;
     private String commentDescription;
     private LocalDateTime dateWritten;

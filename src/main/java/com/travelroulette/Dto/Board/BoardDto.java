@@ -1,4 +1,4 @@
-package com.travelroulette.dto.user;
+package com.travelroulette.Dto.Board;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class userDto {
-    private String userId;
-    private String pwd;
-    private String email;
-    private String gender;
+public class BoardDto {
+    private Integer boardNumber;
+    private String boardName;
 }
