@@ -15,6 +15,7 @@ public class kanBanDto {
     private String taskDescription;
     private TaskStatus taskStatus;
     private LocalDateTime dueDate;
+    private Integer taskOrder;
     private Priority priority;
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
