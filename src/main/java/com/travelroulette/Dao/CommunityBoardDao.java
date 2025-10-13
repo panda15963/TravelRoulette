@@ -16,8 +16,6 @@ public class CommunityBoardDao {
     //게시글 목록 불러오기
     public List<PostDto> selectAllPosts(int boardNumber) {
 
-        System.out.println("===== 3. DAO: selectAllPosts 시작 =====");
-
 
         Connection conn = null;
         PreparedStatement pstmt = null;

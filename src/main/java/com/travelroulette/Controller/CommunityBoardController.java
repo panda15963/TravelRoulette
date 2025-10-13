@@ -41,13 +41,11 @@ public class CommunityBoardController extends HttpServlet {
         //작업 분기
         if (command.equals("/board/community/list.do")) {
             System.out.println("커뮤니티 게시판 목록 요청 처리");
-            System.out.println("===== 1. Controller: list.do 요청 접수 =====");
 
             //서비스 객체 생성 및 실행
             CommunityBoardListService service = new CommunityBoardListService();
             List<PostDto> postList = service.execute(request, response);
 
-            System.out.println("===== 5. Controller: Service로부터 목록 받음 (개수: " + postList.size() + ") =====");
 
             //JSON으로 변환
             /*
@@ -61,8 +59,6 @@ public class CommunityBoardController extends HttpServlet {
                     ).create();
 
             String jsonPostList = gson.toJson(postList);
-
-            System.out.println("===== 6. Controller: JSON 변환 성공 =====");
 
             //JSON 데이터로 응답
             response.setContentType("application/json");

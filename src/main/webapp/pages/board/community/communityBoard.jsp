@@ -142,7 +142,6 @@
                     html += '<tr>' +
                         '<td>' + post.postNumber + '</td>' +
                         '<td>' + post.postTitle + '</td>' +
-                        '<td>' + post.postDescription + '</td>' +
                         '<td>' + post.userId + '</td>' +
                         '<td>' + post.postDateWritten + '</td>' +
                         '</tr>';
