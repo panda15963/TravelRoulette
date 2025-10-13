@@ -52,7 +52,7 @@ const AuthManager = {
             const returnUrl = redirectUrl || window.location.href;
             const contextPath = this.getContextPath();
             alert('로그인이 필요한 서비스입니다.');
-            window.location.href = `${contextPath}/pages/signIn.jsp?returnUrl=${encodeURIComponent(returnUrl)}`;
+            window.location.href = `${contextPath}/signIn.jsp?returnUrl=${encodeURIComponent(returnUrl)}`;
             return false;
         }
         return true;
@@ -86,12 +86,12 @@ const AuthManager = {
         } else {
             // 로그아웃 상태로 복원
             loginLink.textContent = '로그인';
-            loginLink.href = `${this.getContextPath()}/pages/signIn.jsp`;
+            loginLink.href = `${this.getContextPath()}/signIn.jsp`;
             loginLink.style.cursor = 'pointer';
             loginLink.classList.remove('text-primary', 'fw-bold');
 
             signupLink.textContent = '회원가입';
-            signupLink.href = `${this.getContextPath()}/pages/signUp.jsp`;
+            signupLink.href = `${this.getContextPath()}/signUp.jsp`;
             signupLink.onclick = null;
         }
     },
