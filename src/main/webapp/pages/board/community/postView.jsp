@@ -105,6 +105,8 @@
                     document.getElementById('post-date').innerText = '작성일: ' + post.postDateWritten;
                     document.getElementById('post-author').innerText = '작성자: ' + post.userId;
                     document.getElementById('post-content').innerText = post.postDescription;
+
+                    document.getElementById('edit-button').href = `editForm.jsp?postNumber=\${post.postNumber}`;
                 })
                 .catch(error => {
                     console.error('게시글 상세 정보 로딩 중 오류 발생:', error);

@@ -150,6 +150,40 @@ public class CommunityBoardDao {
     }
 
 
+    //게시글 수정
+    public int updatePost(PostDto post) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int result = 0; //성공 여부
+
+        //MySQL>쿼리
+        String sql = "UPDATE post SET postTitle = ?, postDescription = ? WHERE postNumber = ?";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, post.getPostTitle()); //1. 새 제목
+            pstmt.setString(2, post.getPostDescription()); //2. 새 내용
+            pstmt.setInt(3, post.getPostNumber()); //3. 수정할 글 번호
+
+            //행의 수를 result에 저장
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("게시글 수정 오류: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            //자원 닫기
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return result; //실패하면 0, 성공하면 1을 반환
+    }
+
+
+
 
 
 
