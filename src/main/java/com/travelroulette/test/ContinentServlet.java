@@ -1,7 +1,7 @@
 package com.travelroulette.test;
 
-import com.travelroulette.dao.ContinentDAO;
-import com.travelroulette.dto.continent.ContinentDto;
+import com.travelroulette.Dao.ContinentDAO;
+import com.travelroulette.Dto.Continent.ContinentDto;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;

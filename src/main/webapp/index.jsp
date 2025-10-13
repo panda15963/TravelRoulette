@@ -23,8 +23,8 @@
 <body id = "pageBody" class = "d-flex flex-column h-100"
       style = "background-color:#fff; color:#000;" data-mode = "light">
 <main class = "flex-shrink-0">
-	<%@ include file = "/common/navbar.jsp" %>
-	<%@ include file = "/common/sidebar.jsp" %>
+	<%@ include file = "/Common/navbar.jsp" %>
+	<%@ include file = "/Common/sidebar.jsp" %>
 
 	<!-- Hero Section -->
 	<header class = "bg-dark text-white py-5"
@@ -36,14 +36,14 @@
 		</div>
 	</header>
 
-	<%@ include file = "/sections/about.jsp" %>
+	<%@ include file = "/Sections/about.jsp" %>
 
 	<!-- 구분선 -->
 	<hr class="my-5" style="border-top: 3px solid #666; opacity: 1;">
 
-	<%@ include file = "/sections/boardPreview.jsp" %>
+	<%@ include file = "/Sections/boardPreview.jsp" %>
 
-	<%@ include file = "/common/footer.jsp" %>
+	<%@ include file = "/Common/footer.jsp" %>
 </main>
 
 <!-- Bootstrap JS -->

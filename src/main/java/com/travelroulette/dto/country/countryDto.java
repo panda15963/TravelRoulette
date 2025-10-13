@@ -1,4 +1,4 @@
-package com.travelroulette.dto.Country;
+package com.travelroulette.Dto.Country;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.travelroulette.dto.post;
+package com.travelroulette.Dto.Post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class postDto {
+public class PostDto {
     private Integer postNumber;
     private String postTitle;
     private String postDescription;

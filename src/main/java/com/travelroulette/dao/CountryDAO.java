@@ -1,4 +1,4 @@
-package com.travelroulette.dao;
+package com.travelroulette.Dao;
 
 public class CountryDAO {
 }

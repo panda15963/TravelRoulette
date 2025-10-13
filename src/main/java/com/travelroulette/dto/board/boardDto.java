@@ -1,4 +1,4 @@
-package com.travelroulette.dto.board;
+package com.travelroulette.Dto.Board;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class boardDto {
+public class BoardDto {
     private Integer boardNumber;
     private String boardName;
 }

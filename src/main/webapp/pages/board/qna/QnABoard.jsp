@@ -11,11 +11,11 @@
 
 <body id="pageBody" class="d-flex flex-column h-100 bg-white text-dark" data-mode="light">
 
-<%@ include file="/common/navbar.jsp" %>
+<%@ include file="/Common/navbar.jsp" %>
 
 <div class="container-fluid flex-grow-1 p-0">
     <div class="row g-0">
-        <%@ include file="/common/boardSidebar.jsp" %>
+        <%@ include file="/Common/boardSidebar.jsp" %>
 
         <!-- ===== 오른쪽 본문 ===== -->
         <main id="boardSection" class="col-12 col-md-9 col-lg-10 px-4 py-4 mt-5">
