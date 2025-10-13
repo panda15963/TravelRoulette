@@ -1,68 +1,65 @@
 package com.travelroulette.utils;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.sql.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConnectionPoolHelper {
+    private static final Logger logger = LoggerFactory.getLogger(ConnectionPoolHelper.class);
     private static DataSource ds;
 
     static {
         try {
             Context context = new InitialContext();
-            //ds =  (DataSource)context.lookup("java:comp/env/jdbc/oracle");
             ds = (DataSource) context.lookup("java:comp/env/jdbc/mysql");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.error("❌ Failed to initialize DataSource", e);
         }
     }
 
     public static Connection getConnection() throws SQLException {
-        return ds.getConnection(); //연결 객체 하나 빌려주
+        return ds.getConnection();
     }
 
-
     public static void close(Connection conn) {
-        if(conn != null) {
+        if (conn != null) {
             try {
-                conn.close(); //반환하기
-            } catch (Exception e) {
-                // TODO: handle exception
+                conn.close();
+            } catch (SQLException e) {
+                logger.warn("⚠️ Failed to close connection", e);
             }
         }
     }
 
     public static void close(ResultSet rs) {
-        if(rs != null) {
+        if (rs != null) {
             try {
                 rs.close();
-            } catch (Exception e) {
-                // TODO: handle exception
+            } catch (SQLException e) {
+                logger.warn("⚠️ Failed to close ResultSet", e);
             }
         }
     }
+
     public static void close(Statement stmt) {
-        if(stmt != null) {
+        if (stmt != null) {
             try {
                 stmt.close();
-            } catch (Exception e) {
-                // TODO: handle exception
+            } catch (SQLException e) {
+                logger.warn("⚠️ Failed to close Statement", e);
             }
         }
     }
 
     public static void close(PreparedStatement pstmt) {
-        if(pstmt != null) {
+        if (pstmt != null) {
             try {
                 pstmt.close();
-            } catch (Exception e) {
-                // TODO: handle exception
+            } catch (SQLException e) {
+                logger.warn("⚠️ Failed to close PreparedStatement", e);
             }
         }
     }
