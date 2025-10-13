@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ContinentDto {
-    private String continentNumber;
+    private Integer continentNumber;
     private String continentNameKor;
     private String continentNameEng;
 }

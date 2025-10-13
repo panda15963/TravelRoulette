@@ -1,9 +1,8 @@
 import { pickRandomCity, loadCitiesOnCountrySelect } from "../utils/cityUtils.js";
 import { loadCountriesByContinent } from "../utils/menuUtils.js";
-import { continentFileMap } from "../config/continentMap.js";
 import { updateMarker } from "./googleMap.js"; // 지도 업데이트용
 
-export function initRandomCityUI() {
+export async function initRandomCityUI() {
     const continentMenu = document.getElementById("continentMenu");
     const pickBtn = document.getElementById("pickRandomCityBtn");
     const countryDropdown = document.getElementById("countryDropdown");
@@ -15,26 +14,40 @@ export function initRandomCityUI() {
     countryDropdown?.setAttribute("disabled", true);
     pickBtn?.setAttribute("disabled", true);
 
-    // ✅ 대륙 메뉴 세팅
+    // ✅ DB에서 대륙 목록 로드
     if (continentMenu) {
         continentMenu.innerHTML = "";
-        Object.keys(continentFileMap).forEach(continentKr => {
-            const li = document.createElement("li");
-            li.className = "nav-item";
-            li.innerHTML = `<a class="dropdown-item" href="#" data-continent="${continentKr}">${continentKr}</a>`;
+        try {
+            const response = await fetch("/TravelRoulette/api/continents");
+            if (!response.ok) throw new Error("대륙 목록 불러오기 실패");
 
-            li.addEventListener("click", async (e) => {
-                e.preventDefault();
-                try {
-                    await loadCountriesByContinent(continentKr);
-                    countryDropdown.disabled = false;
-                } catch (err) {
-                    console.error("대륙 선택 오류:", err);
-                }
+            const continents = await response.json(); // [{continentNumber, continentNameKor, continentNameEng}, ...]
+
+            continents.forEach(continent => {
+                const li = document.createElement("li");
+                li.className = "nav-item";
+                li.innerHTML = `<a class="dropdown-item" href="#" 
+                                data-continent="${continent.continentNameKor}" 
+                                data-continent-eng="${continent.continentNameEng}">
+                                ${continent.continentNameKor}
+                            </a>`;
+
+                li.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    try {
+                        await loadCountriesByContinent(continent.continentNameKor);
+                        countryDropdown.disabled = false;
+                    } catch (err) {
+                        console.error("대륙 선택 오류:", err);
+                    }
+                });
+
+                continentMenu.appendChild(li);
             });
 
-            continentMenu.appendChild(li);
-        });
+        } catch (error) {
+            console.error("❌ 대륙 메뉴 로드 오류:", error);
+        }
     }
 
     // ✅ 나라 선택 시 도시 목록 로드
