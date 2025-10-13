@@ -1,179 +1,252 @@
-let boardData = JSON.parse(localStorage.getItem("boardData")) || {
-    "To Do": ["HTML 구현하기", "CSS 디자인하기"],
-    "In Progress": ["자바스크립트 구현하기"],
-    "Done": ["기획서 작성하기"]
-};
+// ===== 설정 ===== (로컬스토리지 키 정의)
+const STORAGE_KEY = 'KANBAN_TASK_DEMO_V1';
 
-let draggedCard = null;
+// 로컬스토리지에서 모든 작업 불러오기
+function loadAll() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return [];
+  try { return JSON.parse(raw); } catch { return []; }
+}
 
-function renderBoard() {
-    const board = document.getElementById("board");
-    board.innerHTML = "";
+// 모든 작업을 로컬스토리지에 저장
+function saveAll(tasks) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+}
 
-    for (let columnName in boardData) {
-        const column = document.createElement("div");
-        column.className = "column";
-        column.dataset.column = columnName;
+// 다음 TASK_ID 계산
+function nextId(tasks) {
+  return tasks.length ? Math.max(...tasks.map(t => t.TASK_ID)) + 1 : 1;
+}
 
-        // ==== 여기 수정 (칼럼 제목 innerHTML → textContent) ====
-        const h2 = document.createElement("h2");
+// 초기 시드 데이터 추가 (최초 실행 시)
+function ensureSeed() {
+  const tasks = loadAll();
+  if (tasks.length) return;
+  const seed = [
+    { TASK_ID: 1, TASK_CONTENT: '새로운 기능 기획', TASK_STATUS: 'todo', TASK_ORDER: 0, PRIORITY: 'High', CREATED_DATE: new Date().toISOString() },
+    { TASK_ID: 2, TASK_CONTENT: 'UI 와이어프레임', TASK_STATUS: 'todo', TASK_ORDER: 1, PRIORITY: 'Medium', CREATED_DATE: new Date().toISOString() },
+    { TASK_ID: 3, TASK_CONTENT: 'API 명세서 작성', TASK_STATUS: 'inprogress', TASK_ORDER: 0, PRIORITY: 'High', CREATED_DATE: new Date().toISOString() },
+    { TASK_ID: 4, TASK_CONTENT: '코드 리뷰', TASK_STATUS: 'done', TASK_ORDER: 0, PRIORITY: 'Low', CREATED_DATE: new Date().toISOString() },
+  ];
+  saveAll(seed);
+}
 
-        const titleSpan = document.createElement("span");
-        titleSpan.textContent = columnName; // ⭐ 제목 안전하게 표시
+// 상태별 순서를 정규화 (TASK_ORDER 0~N-1 유지)
+function normalizeOrders(tasks) {
+  const statuses = ['todo','inprogress','done'];
+  let changed = false;
+  for (const s of statuses) {
+    const col = tasks.filter(t => t.TASK_STATUS === s).sort((a,b) => a.TASK_ORDER - b.TASK_ORDER);
+    col.forEach((t, idx) => { if (t.TASK_ORDER !== idx) { t.TASK_ORDER = idx; changed = true; } });
+  }
+  if (changed) saveAll(tasks);
+  return tasks;
+}
 
-        const colDelBtn = document.createElement("button");
-        colDelBtn.className = "delete-column-btn";
-        colDelBtn.textContent = "X";
-        colDelBtn.dataset.column = columnName; // ⭐ 버튼에도 column 정보 저장
+// 새로운 작업 생성
+function createTask({ content, status, due, priority }) {
+  const tasks = loadAll();
+  const id = nextId(tasks);
+  const order = tasks.filter(t => t.TASK_STATUS === status).length;
+  const task = {
+    TASK_ID: id,
+    TASK_CONTENT: content,
+    TASK_STATUS: status,
+    TASK_ORDER: order,
+    DUE_DATE: due || '',
+    PRIORITY: priority || 'Medium',
+    CREATED_DATE: new Date().toISOString(),
+  };
+  tasks.push(task);
+  saveAll(tasks);
+  return task;
+}
 
-        h2.appendChild(titleSpan);
-        h2.appendChild(colDelBtn);
+// 작업 삭제
+function deleteTask(taskId) {
+  if (!confirm('정말로 이 작업을 삭제하시겠습니까?')) return;
+  let tasks = loadAll().filter(t => t.TASK_ID !== taskId);
+  saveAll(tasks);
+  normalizeOrders(loadAll());
+  alert('작업이 성공적으로 삭제되었습니다.');
+}
 
-        const cardList = document.createElement("div");
-        cardList.className = "card-list";
+// 작업 상태 이동 (컬럼 간 이동)
+function moveToStatus(taskId, newStatus) {
+  const tasks = loadAll();
+  const t = tasks.find(x => x.TASK_ID === taskId);
+  if (!t) return;
+  const oldStatus = t.TASK_STATUS;
+  if (oldStatus === newStatus) return;
+  const newOrder = tasks.filter(x => x.TASK_STATUS === newStatus).length;
+  t.TASK_STATUS = newStatus;
+  t.TASK_ORDER = newOrder;
+  saveAll(tasks);
+  normalizeOrders(tasks);
+}
 
-        const addBtn = document.createElement("button");
-        addBtn.className = "add-card-btn";
-        addBtn.textContent = "카드 추가";
-
-        column.appendChild(h2);
-        column.appendChild(cardList);
-        column.appendChild(addBtn);
-
-        board.appendChild(column);
-        // ============================================
-
-        // === 카드 렌더링 (이미 textContent로 수정된 부분) ===
-        boardData[columnName].forEach((cardText, index) => {
-            const card = document.createElement("div");
-            card.className = "kanban-card";
-            card.draggable = true;
-            card.dataset.index = index;
-            card.dataset.column = columnName;
-
-            // ==== 여기 수정 (innerHTML → textContent) ====
-            const span = document.createElement("span");
-            span.textContent = cardText; // ⭐ 카드 텍스트 안전하게 표시
-
-            const delBtn = document.createElement("button");
-            delBtn.className = "delete-btn";
-            delBtn.textContent = "X";
-
-            delBtn.addEventListener("click", e => {
-                e.stopPropagation();
-                boardData[columnName].splice(index, 1);
-                saveBoard();
-                renderBoard();
-            });
-
-            card.appendChild(span);
-            card.appendChild(delBtn);
-            cardList.appendChild(card);
-            // ============================================
-        });
+// 같은 컬럼 내에서 순서 재조정
+function reorderWithinStatus(taskId, targetOrder) {
+  const tasks = loadAll();
+  const t = tasks.find(x => x.TASK_ID === taskId);
+  if (!t) return;
+  const status = t.TASK_STATUS;
+  const same = tasks.filter(x => x.TASK_STATUS === status);
+  const maxIdx = same.length - 1;
+  const newPos = Math.max(0, Math.min(targetOrder, maxIdx));
+  for (const x of same) {
+    if (x.TASK_ID !== t.TASK_ID && x.TASK_ORDER >= newPos) {
+      x.TASK_ORDER += 1;
     }
-
-    addDragEvents();
-    addColumnEvents();
-    addCardEditEvents();
+  }
+  t.TASK_ORDER = newPos;
+  saveAll(tasks);
+  normalizeOrders(tasks);
 }
 
-function addDragEvents() {
-    document.querySelectorAll(".kanban-card").forEach(card => {
-        card.addEventListener("dragstart", e => {
-            draggedCard = card;
-        });
-    });
+// 보드 컬럼 구성 정보
+const boardEl = document.getElementById('board');
+const COLUMNS = [
+  { key: 'todo', label: 'To Do' },
+  { key: 'inprogress', label: 'In Progress' },
+  { key: 'done', label: 'Done' },
+];
 
-    document.querySelectorAll(".card-list").forEach(list => {
-        list.addEventListener("dragover", e => e.preventDefault());
-        list.addEventListener("drop", e => {
-            const column = list.closest(".column").dataset.column;
-            const fromColumn = draggedCard.dataset.column;
-            const cardIndex = draggedCard.dataset.index;
-
-            boardData[column].push(boardData[fromColumn][cardIndex]);
-            boardData[fromColumn].splice(cardIndex, 1);
-
-            saveBoard();
-            renderBoard();
-        });
-    });
+// 보드 전체 렌더링
+function render() {
+  const tasks = normalizeOrders(loadAll());
+  boardEl.innerHTML = '';
+  for (const col of COLUMNS) {
+    const columnEl = document.createElement('div');
+    columnEl.className = 'column';
+    columnEl.dataset.status = col.key;
+    const header = document.createElement('div');
+    header.className = 'column-header';
+    header.innerHTML = `<span class="dot ${col.key}"></span><span class="column-title">${col.label}</span><span class="count" id="count-${col.key}"></span>`;
+    columnEl.appendChild(header);
+    const list = document.createElement('div');
+    list.className = 'list';
+    list.dataset.status = col.key;
+    list.addEventListener('dragover', (e) => { e.preventDefault(); list.classList.add('drag-over'); });
+    list.addEventListener('dragleave', () => list.classList.remove('drag-over'));
+    list.addEventListener('drop', (e) => onDropList(e, col.key));
+    const items = tasks.filter(t => t.TASK_STATUS === col.key).sort((a,b) => a.TASK_ORDER - b.TASK_ORDER);
+    for (const t of items) list.appendChild(renderCard(t));
+    columnEl.appendChild(list);
+    boardEl.appendChild(columnEl);
+    document.getElementById(`count-${col.key}`).textContent = `${items.length}`;
+  }
 }
 
-function addColumnEvents() {
-    document.querySelectorAll(".add-card-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const column = btn.closest(".column").dataset.column;
-            const cardText = prompt("새 카드 제목을 입력하세요");
-            if (cardText) {
-                boardData[column].push(cardText);
-                saveBoard();
-                renderBoard();
-            }
-        });
-    });
-
-    document.querySelectorAll(".delete-column-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const column = btn.dataset.column; // ⭐ 버튼에서 직접 column 값 가져오기
-            if (confirm(`칼럼 "${column}"을 삭제하시겠습니까?`)) {
-                Reflect.deleteProperty(boardData, column); // ✅ delete 대신 Reflect 사용
-                saveBoard();
-                renderBoard();
-            }
-        });
-    });
+// 개별 카드 렌더링
+function renderCard(t) {
+  const el = document.createElement('article');
+  el.className = 'card';
+  el.draggable = true;
+  el.dataset.id = t.TASK_ID;
+  el.addEventListener('dragstart', onDragStart);
+  el.addEventListener('dragend', onDragEnd);
+  const due = t.DUE_DATE ? new Date(t.DUE_DATE).toLocaleDateString() : '-';
+  el.innerHTML = `<div class="card-header"><span class="task-id">#${t.TASK_ID}</span><span class="priority ${t.PRIORITY || 'Medium'}">${t.PRIORITY || 'Medium'}</span></div><div class="content">${escapeHtml(t.TASK_CONTENT)}</div><div class="meta"><span><b>Order</b>: ${t.TASK_ORDER}</span><span><b>마감</b>: ${due}</span></div><div class="card-actions"><button onclick="promptEdit(${t.TASK_ID})">수정</button><button onclick="deleteTask(${t.TASK_ID}); render();">삭제</button></div>`;
+  return el;
 }
 
-function addCardEditEvents() {
-    document.querySelectorAll(".kanban-card span").forEach(span => {
-        span.addEventListener("click", e => {
-            e.stopPropagation();
-            const card = span.parentElement;
-            const columnName = card.dataset.column;
-            const index = card.dataset.index;
-
-            const input = document.createElement("input");
-            input.type = "text";
-            input.value = span.textContent;
-            input.style.width = "80%";
-
-            span.replaceWith(input);
-            input.focus();
-
-            function saveEdit() {
-                const newText = input.value.trim();
-                if (newText) {
-                    boardData[columnName][index] = newText;
-                    saveBoard();
-                    renderBoard();
-                } else {
-                    renderBoard();
-                }
-            }
-
-            input.addEventListener("blur", saveEdit);
-            input.addEventListener("keydown", e => {
-                if (e.key === "Enter") saveEdit();
-            });
-        });
-    });
+// HTML 안전 문자 변환
+function escapeHtml(str='') {
+  return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
 }
 
-document.getElementById("add-column-btn").addEventListener("click", () => {
-    const columnName = prompt("새 칼럼 이름을 입력하세요");
-    if (columnName && !boardData[columnName]) {
-        boardData[columnName] = [];
-        saveBoard();
-        renderBoard();
-    } else {
-        alert("이미 존재하는 칼럼이거나 이름이 비어있습니다.");
-    }
+// 드래그 시작 시 호출
+let dragTaskId = null;
+function onDragStart(e) {
+  dragTaskId = Number(e.currentTarget.dataset.id);
+  e.dataTransfer.setData('text/plain', String(dragTaskId));
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+// 드래그 종료 시 보드 갱신
+function onDragEnd() {
+  dragTaskId = null;
+  document.querySelectorAll('.list').forEach(l => l.classList.remove('drag-over'));
+  render();
+}
+
+// 카드가 컬럼에 드롭될 때 동작
+function onDropList(e, targetStatus) {
+  e.preventDefault();
+  const id = Number(e.dataTransfer.getData('text/plain')) || dragTaskId;
+  if (!id) return;
+  const tasks = loadAll();
+  const t = tasks.find(x => x.TASK_ID === id);
+  const isSame = t && t.TASK_STATUS === targetStatus;
+  if (!t) return;
+  if (!isSame) moveToStatus(id, targetStatus);
+  else {
+    const tail = tasks.filter(x => x.TASK_STATUS === targetStatus).length - 1;
+    reorderWithinStatus(id, tail);
+  }
+  render();
+}
+
+// 드래그 중 카드 위에 마우스 올렸을 때 동작
+ document.addEventListener('dragover', (e) => {
+  const card = e.target.closest('.card');
+  if (!card || dragTaskId == null) return;
+  e.preventDefault();
 });
 
-function saveBoard() {
-    localStorage.setItem("boardData", JSON.stringify(boardData));
-}
+// 카드 위로 드롭 시 위치 조정
+ document.addEventListener('drop', (e) => {
+  const overCard = e.target.closest('.card');
+  if (!overCard || dragTaskId == null) return;
+  e.preventDefault();
+  const targetId = Number(overCard.dataset.id);
+  if (targetId === dragTaskId) return;
+  const tasks = loadAll();
+  const target = tasks.find(x => x.TASK_ID === targetId);
+  const dragged = tasks.find(x => x.TASK_ID === dragTaskId);
+  if (!target || !dragged) return;
+  const sameStatus = target.TASK_STATUS === dragged.TASK_STATUS;
+  const newStatus = target.TASK_STATUS;
+  if (!sameStatus) moveToStatus(dragged.TASK_ID, newStatus);
+  reorderWithinStatus(dragged.TASK_ID, target.TASK_ORDER);
+  render();
+});
 
-renderBoard();
+// 새 작업 추가 폼 처리
+ document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('newTaskForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const content = document.getElementById('content').value.trim();
+    const status = document.getElementById('status').value;
+    const due = document.getElementById('due').value ? new Date(document.getElementById('due').value).toISOString() : '';
+    const priority = document.getElementById('priority').value;
+    if (!content) return;
+    createTask({ content, status, due, priority });
+    e.target.reset();
+    render();
+  });
+
+  ensureSeed();
+  render();
+});
+
+// 카드 수정 기능
+function promptEdit(taskId) {
+  const tasks = loadAll();
+  const t = tasks.find(x => x.TASK_ID === taskId);
+  if (!t) return;
+  const content = prompt('내용을 수정하세요 (TASK_CONTENT):', t.TASK_CONTENT);
+  if (content == null) return;
+  const due = prompt('마감일 (YYYY-MM-DD):', t.DUE_DATE ? t.DUE_DATE.slice(0,10) : '');
+  if (due == null) return;
+  const priority = prompt('우선순위 (High|Medium|Low):', t.PRIORITY || 'Medium');
+  if (priority == null) return;
+
+  t.TASK_CONTENT = content.trim();
+  t.DUE_DATE = due ? new Date(due).toISOString() : '';
+  t.PRIORITY = (/^(High|Medium|Low)$/i.test(priority) ? priority[0].toUpperCase()+priority.slice(1).toLowerCase() : 'Medium');
+  saveAll(tasks);
+  render();
+}
