@@ -7,6 +7,11 @@ nbbuild/
 nbdist/
 .apt_generated
 
+
+### 스마트톰캣 ###
+smarttomcat/
+!.smarttomcat/
+
 ### IntelliJ IDEA ###
 .idea/
 *.iml
