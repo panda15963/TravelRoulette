@@ -141,7 +141,7 @@
                 data.forEach(post => {
                     html += '<tr>' +
                         '<td>' + post.postNumber + '</td>' +
-                        '<td>' + post.postTitle + '</td>' +
+                        '<td class="text-center"><a href="postView.jsp?postNumber=' + post.postNumber + '" class="text-decoration-none text-dark">' + post.postTitle + '</a></td>' +
                         '<td>' + post.userId + '</td>' +
                         '<td>' + post.postDateWritten + '</td>' +
                         '</tr>';
