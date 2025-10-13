@@ -10,7 +10,7 @@
     <ul class="nav nav-pills flex-column">
         <!-- 전체 게시판 -->
         <li class="nav-item mb-2">
-            <a href="../Common/mainBoard.jsp"
+            <a href="${pageContext.request.contextPath}/pages/board/common/mainBoard.jsp"
                class="nav-link fw-semibold
                <%= currentPath.endsWith("mainBoard.jsp") ? "active bg-info text-dark fw-bold" : "text-dark" %>">
                 전체게시판
@@ -28,7 +28,7 @@
 
         <!-- 자유게시판 -->
         <li class="nav-item mb-2">
-            <a href="../community/communityBoard.jsp"
+            <a href="${pageContext.request.contextPath}/pages/board/community/communityBoard.jsp"
                class="nav-link fw-semibold
                <%= currentPath.endsWith("communityBoard.jsp") ? "active bg-info text-dark fw-bold" : "text-dark" %>">
                 자유게시판
@@ -37,7 +37,7 @@
 
         <!-- 질문답변게시판 -->
         <li class="nav-item mb-2">
-            <a href="../qna/QnABoard.jsp"
+            <a href="${pageContext.request.contextPath}/pages/board/qna/QnABoard.jsp"
                class="nav-link fw-semibold
                <%= currentPath.endsWith("QnABoard.jsp") ? "active bg-info text-dark fw-bold" : "text-dark" %>">
                 질문답변게시판
