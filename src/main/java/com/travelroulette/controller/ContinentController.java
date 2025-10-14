@@ -9,14 +9,14 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/continent")  // ✅ 여기가 반드시 있어야 함!
+@WebServlet("/continent")
 public class ContinentController extends HttpServlet {
 
     private final ContinentService service = new ContinentService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
 
         resp.setContentType("application/json; charset=UTF-8");
         resp.setHeader("Access-Control-Allow-Origin", "*");

@@ -27,7 +27,7 @@ export async function initRandomCityUI() {
         continentMenu.innerHTML = `<li class="dropdown-item text-muted">불러오는 중...</li>`;
 
         try {
-            const response = await fetch("/continent");
+            const response = await fetch(`${window.location.origin}${window.location.pathname.split('/')[1] ? '/' + window.location.pathname.split('/')[1] : ''}/continent`);
             if (!response.ok) throw new Error("대륙 목록 불러오기 실패");
 
             const continents = await response.json();
