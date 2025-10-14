@@ -1,6 +1,7 @@
 package com.travelroulette.Controller;
 
 import com.google.gson.Gson;
+import com.travelroulette.Dto.Board.BoardPageDto;
 import com.travelroulette.Dto.Post.PostDto;
 import com.travelroulette.Service.board.community.*;
 import jakarta.servlet.ServletException;
@@ -41,31 +42,27 @@ public class CommunityBoardController extends HttpServlet {
         if (command.equals("/board/community/list.do")) {
             System.out.println("커뮤니티 게시판 목록 요청 처리");
 
-            //서비스 객체 생성 및 실행
+            //정렬 파라미터
+            String sortParam = request.getParameter("sort");
+            String sort = "asc".equalsIgnoreCase(sortParam) ? "asc" : "desc";
+
             CommunityBoardListService service = new CommunityBoardListService();
-            List<PostDto> postList = service.execute(request, response);
+            BoardPageDto pageDto = service.execute(request, response);
 
-
-            //JSON으로 변환
-            /*
-            Gson gson = new Gson();
-            String jsonPostList = gson.toJson(postList);
-            */
-
+            //JSON 변환
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (src, typeOfSrc, context) ->
                             new com.google.gson.JsonPrimitive(src.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     ).create();
+            String jsonResponse = gson.toJson(pageDto);
 
-            String jsonPostList = gson.toJson(postList);
-
-            //JSON 데이터로 응답
-            response.setContentType("application/json");
+            //JSON 응답
+            response.setContentType("application/json; charset=UTF-8"); // 한 줄로 정리
             PrintWriter out = response.getWriter();
-            out.print(jsonPostList);
+            out.print(jsonResponse);
             out.flush();
-
         }
+
 
 
         else if (command.equals("/board/community/write.do")) {

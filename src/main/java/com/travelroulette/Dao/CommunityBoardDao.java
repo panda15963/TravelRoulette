@@ -13,49 +13,108 @@ import java.util.List;
 
 public class CommunityBoardDao {
 
-    //게시글 목록 불러오기
-    public List<PostDto> selectAllPosts(int boardNumber) {
+//    //게시글 목록 불러오기
+//    public List<PostDto> selectAllPosts(int boardNumber) {
+//
+//
+//        Connection conn = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//
+//        List<PostDto> postList = new ArrayList<>(); //게시글 목록 리스트
+//
+//        //MySQL 쿼리
+//        String sql = "SELECT postNumber, postTitle, postDescription, postDateWritten, userId " +
+//                "FROM post " +
+//                "WHERE boardNumber = ? " +
+//                "ORDER BY postNumber DESC";
+//        try {
+//            conn = ConnectionPoolHelper.getConnection();
+//            pstmt = conn.prepareStatement(sql);
+//            pstmt.setInt(1, boardNumber);
+//            rs = pstmt.executeQuery();
+//
+//
+//            while (rs.next()) {
+//                //postDto 객체 생성
+//                PostDto post = PostDto.builder()
+//                        .postNumber(rs.getInt("postNumber"))
+//                        .postTitle(rs.getString("postTitle"))
+//                        .postDescription(rs.getString("postDescription"))
+//                        //작성일자를 자바 객체로 변환
+//                        .postDateWritten(rs.getTimestamp("postDateWritten").toLocalDateTime())
+//                        .userId(rs.getString("userId"))
+//                        .boardNumber(boardNumber)
+//                        .build();
+//                //목록에 추가
+//                postList.add(post);
+//            }
+//
+//        } catch (SQLException e) {
+//            //DB 오류 발생 시 오류 메시지를 출력
+//            System.out.println("게시글 목록 조회 중 오류 발생");
+//            e.printStackTrace();
+//        } finally {
+//            //자원 닫기
+//            ConnectionPoolHelper.close(rs);
+//            ConnectionPoolHelper.close(pstmt);
+//            ConnectionPoolHelper.close(conn);
+//        }
+//
+//        //게시글 목록 리스트 반환
+//        return postList;
+//    }
 
-
+    //게시글 목록 불러오기(+ 페이지네이션)
+    public List<PostDto> selectAllPosts(int boardNumber, int page, int pageSize, boolean asc) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-
         List<PostDto> postList = new ArrayList<>(); //게시글 목록 리스트
+
+        //정렬 방향
+        String order = asc ? "ASC" : "DESC";
 
         //MySQL 쿼리
         String sql = "SELECT postNumber, postTitle, postDescription, postDateWritten, userId " +
                 "FROM post " +
                 "WHERE boardNumber = ? " +
-                "ORDER BY postNumber DESC";
+                "ORDER BY postDateWritten " + order + ", postNumber " + order + " " +
+                "LIMIT ? OFFSET ?";
+
         try {
             conn = ConnectionPoolHelper.getConnection();
             pstmt = conn.prepareStatement(sql);
+
+            int offset = (page - 1) * pageSize; // 건너뛸 개수 계산
             pstmt.setInt(1, boardNumber);
+            pstmt.setInt(2, pageSize);
+            pstmt.setInt(3, offset);
+
             rs = pstmt.executeQuery();
 
-
             while (rs.next()) {
-                //postDto 객체 생성
+                java.sql.Timestamp ts = rs.getTimestamp("postDateWritten");
+                java.time.LocalDateTime dateWritten = (ts != null) ? ts.toLocalDateTime() : null;
+
+                //PostDto 객체 생성
                 PostDto post = PostDto.builder()
                         .postNumber(rs.getInt("postNumber"))
                         .postTitle(rs.getString("postTitle"))
                         .postDescription(rs.getString("postDescription"))
-                        //작성일자를 자바 객체로 변환
-                        .postDateWritten(rs.getTimestamp("postDateWritten").toLocalDateTime())
+                        .postDateWritten(dateWritten)
                         .userId(rs.getString("userId"))
                         .boardNumber(boardNumber)
                         .build();
+
                 //목록에 추가
                 postList.add(post);
             }
 
         } catch (SQLException e) {
-            //DB 오류 발생 시 오류 메시지를 출력
             System.out.println("게시글 목록 조회 중 오류 발생");
             e.printStackTrace();
         } finally {
-            //자원 닫기
             ConnectionPoolHelper.close(rs);
             ConnectionPoolHelper.close(pstmt);
             ConnectionPoolHelper.close(conn);
@@ -64,6 +123,7 @@ public class CommunityBoardDao {
         //게시글 목록 리스트 반환
         return postList;
     }
+
 
 
     //글쓰기
@@ -212,6 +272,35 @@ public class CommunityBoardDao {
         }
 
         return result; //실패하면 0, 성공하면 1을 반환
+    }
+
+    //총 게시글 수
+    public int getPostCount(int boardNumber) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int totalCount = 0;
+
+        String sql = "SELECT COUNT(*) FROM post WHERE boardNumber = ?";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, boardNumber);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                totalCount = rs.getInt(1); // COUNT(*) 결과는 첫 번째 컬럼에 있습니다.
+            }
+        } catch (SQLException e) {
+            System.out.println("총 게시글 개수 조회 오류");
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(rs);
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+        return totalCount;
     }
 
 
