@@ -23,7 +23,7 @@
 <!-- ===== JS: mainBoard.jsp에서 최신 글 3개 불러오기 ===== -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        fetch("${pageContext.request.contextPath}/pages/board/Common/mainBoard.jsp")
+        fetch("${pageContext.request.contextPath}/pages/board/common/mainBoard.jsp")
             .then(response => response.text())
             .then(html => {
                 const parser = new DOMParser();
