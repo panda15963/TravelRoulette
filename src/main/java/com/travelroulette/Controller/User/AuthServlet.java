@@ -59,9 +59,9 @@ public class AuthServlet extends HttpServlet {
                     duplicateType = "duplicate";
                     break;
             }
-            response.sendRedirect(request.getContextPath() + "/pages/signUp.jsp?error=" + duplicateType);
+            response.sendRedirect(request.getContextPath() + "/pages/SignUp.jsp?error=" + duplicateType);
         } catch (IllegalArgumentException e) {
-            response.sendRedirect(request.getContextPath() + "/pages/signUp.jsp?error=validationFail");
+            response.sendRedirect(request.getContextPath() + "/pages/SignUp.jsp?error=validationFail");
         }
     }
 
