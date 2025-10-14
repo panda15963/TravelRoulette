@@ -2,6 +2,7 @@ package com.travelroulette.Service.board.community;
 
 import com.travelroulette.Dao.CommunityBoardDao;
 import com.travelroulette.Dto.Post.PostDto;
+import com.travelroulette.Dto.User.AuthenticatedUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -13,21 +14,25 @@ public class CommunityBoardWriteService {
 
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        //사용자가 입력한 데이터
-        String title = request.getParameter("title");
-        String content = request.getParameter("content");
+
 
         //임시 작성자
-        String userId = "user1";
+        //String userId = "user1";
 
-        //Todo: 로그인 기능 구현 후 수정 필요
-        /*
+
+
+        //현재 요청의 세션 가져오기(로그인 확인)
         HttpSession session = request.getSession();
-        String userId = (String) session.getAttribute("userId");
+        AuthenticatedUser authenticatedUser = (AuthenticatedUser)session.getAttribute("authenticatedUser") ;
+        String userId = authenticatedUser.getUserId();
+
+        //만약 세션에 userId가 없다면 종료
         if (userId == null || userId.isEmpty()) {
-            return "로그인을 해주세요";
+            return "login_required";
         }
-        */
+
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
 
         PostDto newPost = PostDto.builder()
                 .postTitle(title)
