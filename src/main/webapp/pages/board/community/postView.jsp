@@ -62,12 +62,16 @@
 <%--            </div>--%>
 
             <!-- 댓글 입력 -->
-            <form class="d-flex align-items-center mt-3">
-                <label>
-                    <input type="text" class="form-control border-info" placeholder="댓글을 남겨주세요" />
-                </label>
+            <form id="comment-form" class="d-flex align-items-center mt-3">
+                <input type="text" id="comment-input" class="form-control border-info" placeholder="댓글을 남겨주세요" required>
                 <button type="submit" class="btn text-white ms-2" style="background-color: #64A5E6;">➤</button>
             </form>
+<%--            <form class="d-flex align-items-center mt-3">--%>
+<%--                <label>--%>
+<%--                    <input type="text" class="form-control border-info" placeholder="댓글을 남겨주세요" />--%>
+<%--                </label>--%>
+<%--                <button type="submit" class="btn text-white ms-2" style="background-color: #64A5E6;">➤</button>--%>
+<%--            </form>--%>
 
 <%--            <!-- 뒤로가기 버튼 -->--%>
 <%--            <div class="mt-4 text-end">--%>
@@ -101,18 +105,22 @@
             .then(response => response.json())
             .then(comments => {
                 const container = document.getElementById('comment-list-container');
-                container.innerHTML = ''; //기존 댓글 내용 초기화
+                container.innerHTML = '';
 
                 if (comments && comments.length > 0) {
                     let html = '';
                     comments.forEach(comment => {
-                        html += `
-                            <div class="border rounded p-3 mb-2">
-                                <strong>\${comment.userId}</strong>
-                                <p class="mb-1">\${comment.commentDescription}</p>
-                                <small class="text-muted">\${comment.dateWritten}</small>
-                            </div>
-                        `;
+                        html += '<div class="border rounded p-3 mb-2">' +
+                            '<div class="d-flex justify-content-between align-items-center">' +
+                            '<strong>' + comment.userId + '</strong>' +
+                            '<div class="comment-actions">' +
+                            '<a href="#" class="btn btn-sm btn-link text-decoration-none text-muted" data-action="edit" data-comment-id="' + comment.commentNumber + '">수정</a>' +
+                            '<a href="#" class="btn btn-sm btn-link text-decoration-none text-muted" data-action="delete" data-comment-id="' + comment.commentNumber + '">삭제</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '<p class="mb-1">' + comment.commentDescription + '</p>' +
+                            '<small class="text-muted">' + comment.dateWritten + '</small>' +
+                            '</div>';
                     });
                     container.innerHTML = html;
                 } else {
@@ -187,6 +195,125 @@
                 });
         }
     });
+
+    document.getElementById('comment-form').addEventListener('submit', function(event) {
+        event.preventDefault(); //새로고침 방지
+
+        const commentInput = document.getElementById('comment-input');
+        const commentDescription = commentInput.value;
+
+        //댓글 내용 빈 상태
+        if (!commentDescription.trim()) {
+            alert('댓글 내용을 입력해주세요.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('postNumber', postNumber); //페이지 로딩 시 저장해둔 게시글 번호
+        formData.append('commentDescription', commentDescription);
+
+
+        fetch('/TravelRoulette_war/board/community/comment/write.do', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    //성공 시 입력창을 비우고 댓글 목록 새로고침
+                    commentInput.value = '';
+                    loadComments(postNumber); //댓글 목록 불러오기
+                } else {
+                    alert('댓글 등록에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('댓글 등록 중 오류가 발생했습니다.');
+            });
+    });
+
+    //댓글 수정 버튼 클릭 시
+    document.getElementById('comment-list-container').addEventListener('click', function(event) {
+        const target = event.target;
+        const action = target.dataset.action;
+
+        if (!action) return;
+
+        const commentDiv = target.closest('.border');
+        if (!commentDiv) return;
+
+        //수정 버튼 클릭
+        if (action === 'edit') {
+            event.preventDefault();
+
+            const commentId = target.dataset.commentId;
+            const contentP = commentDiv.querySelector('p.mb-1');
+            const actionsDiv = commentDiv.querySelector('.comment-actions');
+            const originalText = contentP.innerText;
+
+            //기존 내용 숨기기
+            contentP.style.display = 'none';
+            actionsDiv.style.display = 'none';
+
+            //수정 폼
+            const editFormHtml =
+                '<div class="edit-form">' +
+                '<textarea class="form-control mb-2">' + originalText + '</textarea>' +
+                '<div class="text-end">' +
+                '<button type="button" class="btn btn-sm btn-secondary" data-action="cancel">취소</button> ' +
+                '<button type="button" class="btn btn-sm btn-info text-white" data-action="save" data-comment-id="' + commentId + '">저장</button>' +
+                '</div>' +
+                '</div>';
+
+            contentP.insertAdjacentHTML('afterend', editFormHtml);
+        }
+
+        //취소 버튼 클릭
+        if (action === 'cancel') {
+            const contentP = commentDiv.querySelector('p.mb-1');
+            const actionsDiv = commentDiv.querySelector('.comment-actions');
+            const editForm = commentDiv.querySelector('.edit-form');
+
+            //원래 내용 보여주기
+            contentP.style.display = 'block';
+            actionsDiv.style.display = 'block';
+
+            //수정 폼 제거
+            if (editForm) {
+                editForm.remove();
+            }
+        }
+
+        //수정한 댓글 저장
+        if (action === 'save') {
+            const commentId = target.dataset.commentId;
+            const newDescription = commentDiv.querySelector('.edit-form textarea').value;
+
+            const formData = new FormData();
+            formData.append('commentNumber', commentId);
+            formData.append('commentDescription', newDescription);
+
+            fetch('/TravelRoulette_war/board/community/comment/update.do', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        //댓글 수정 성공
+                        loadComments(postNumber);
+                    } else {
+                        alert('댓글 수정에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('댓글 수정 중 오류가 발생했습니다.');
+                });
+        }
+    });
+
 
 
 </script>

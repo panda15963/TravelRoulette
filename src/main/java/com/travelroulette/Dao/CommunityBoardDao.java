@@ -319,7 +319,7 @@ public class CommunityBoardDao {
         String sql = "SELECT commentNumber, commentDescription, commentDateWritten, userId, postNumber " +
                 "FROM comment " +
                 "WHERE postNumber = ? " +
-                "ORDER BY commentNumber DESC";
+                "ORDER BY commentNumber ASC";
 
         try {
             conn = ConnectionPoolHelper.getConnection();
@@ -355,6 +355,70 @@ public class CommunityBoardDao {
         }
 
         return commentList; //댓글 목록 리스트 반환
+    }
+
+
+    //댓글 쓰기
+    public int insertComment(CommentDto comment) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int result = 0; //성공 여부
+
+        //MySQL 쿼리
+        String sql = "INSERT INTO comment (commentDescription, commentDateWritten, userId, postNumber) " +
+                "VALUES (?, NOW(), ?, ?)";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, comment.getCommentDescription());
+            pstmt.setString(2, comment.getUserId());
+            pstmt.setInt(3, comment.getPostNumber());
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("댓글 저장 오류: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            //자원 닫기
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return result; //실패하면 0, 성공하면 1을 반환
+    }
+
+
+
+    //댓글 수정
+    public int updateComment(int commentNumber, String commentDescription) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int result = 0; // 성공 여부를 알려줄 변수
+
+        //MySQL 쿼리
+        String sql = "UPDATE comment SET commentDescription = ? WHERE commentNumber = ?";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, commentDescription); // 첫 번째 물음표: 새 내용
+            pstmt.setInt(2, commentNumber);         // 두 번째 물음표: 수정할 댓글 번호
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("댓글 수정 오류: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return result; //실패하면 0, 성공하면 1을 반환
     }
 
 

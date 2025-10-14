@@ -180,6 +180,52 @@ public class CommunityBoardController extends HttpServlet {
         }
 
 
+        else if (command.equals("/board/community/comment/write.do")) {
+            System.out.println("댓글 쓰기 요청 처리");
+
+            CommunityCommentWriteService service = new CommunityCommentWriteService();
+            int result = service.execute(request, response);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+
+            if (result > 0) {
+                //성공
+                out.print("{\"status\":\"success\"}");
+            } else {
+                //실패
+                out.print("{\"status\":\"fail\"}");
+            }
+            out.flush();
+        }
+
+
+        else if (command.equals("/board/community/comment/update.do")) {
+            System.out.println("댓글 수정 요청 처리(비동기)");
+
+            CommunityCommentUpdateService service = new CommunityCommentUpdateService();
+            int result = service.execute(request, response);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+
+            if (result > 0) {
+                //성공
+                out.print("{\"status\":\"success\"}");
+            } else {
+                //실패
+                out.print("{\"status\":\"fail\"}");
+            }
+            out.flush();
+        }
+
+
+
+
+
+
 
 
 
