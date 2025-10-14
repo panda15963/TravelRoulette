@@ -12,21 +12,21 @@ import java.util.Optional;
 public class JdbcUserDao implements UserDao {
     private static final String USER_SELECT_BY_ID =
             "SELECT userId, pwd, email, gender, salt, hashIterations\n" +
-                    "FROM user\n" +
+                    "FROM User\n" +
                     "WHERE userId = ?";
 
     private static final String USER_EXISTS_BY_ID =
             "SELECT 1\n" +
-                    "FROM user\n" +
+                    "FROM User\n" +
                     "WHERE userId = ?";
 
     private static final String USER_EXISTS_BY_EMAIL =
             "SELECT 1\n" +
-                    "FROM user\n" +
+                    "FROM User\n" +
                     "WHERE email = ?";
 
     private static final String USER_INSERT =
-            "INSERT INTO user (userId, pwd, email, gender, salt, hashIterations)\n" +
+            "INSERT INTO User (userId, pwd, email, gender, salt, hashIterations)\n" +
                     "VALUES (?, ?, ?, ?, ?, ?)";
 
     @Override

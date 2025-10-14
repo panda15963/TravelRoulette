@@ -36,7 +36,7 @@
                 <li class="nav-item"><a class="nav-link"
                                         href="${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
                 <li class="nav-item"><a class="nav-link"
-                                        href="${pageContext.request.contextPath}/pages/SignUp.jsp">회원가입</a></li>
+                                        href="${pageContext.request.contextPath}/pages/signUp.jsp">회원가입</a></li>
                 <% } else { %>
                 <li class="nav-item"><a class="nav-link text-primary fw-bold"
                                         href="#"><%= authUser.getUserId() %>님</a></li>

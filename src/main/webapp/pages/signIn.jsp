@@ -37,23 +37,6 @@
 
 
 
-
-<div class="modal fade" id="loginSuccessModal" tabindex="-1" aria-labelledby="loginSuccessModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginSuccessModalLabel">로그인 성공</h5>
-            </div>
-            <div class="modal-body" id="modal-welcome-message">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="modal-confirm-button">확인</button>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <%--<script>--%>
 <%--    const CONTEXT_PATH = "${pageContext.request.contextPath}";--%>
 <%--</script>--%>
