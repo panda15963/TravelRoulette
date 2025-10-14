@@ -41,17 +41,24 @@ public class KanbanService {
     /* ========= 수정 ========= */
 
     /** 카드 수정: 상태/내용/우선순위 (3가지 필드만) */
-    public int update(String userId,
-                      int taskId,
-                      TaskStatus newStatus,
-                      String newDescription,
-                      Priority newPriority) {
-        requireUser(userId);
-        if (taskId <= 0) throw new IllegalArgumentException("taskId must be positive");
-        if (newStatus == null) newStatus = TaskStatus.TODO; // 기본값 유지
-
-        // newDescription/newPriority는 null 허용 (빈 값 저장도 허용)
-        return dao.updateCard(userId, taskId, newStatus, newDescription, newPriority);
+    public int update(String userId, int taskId, String newStatus, String newDesc, String newPr, String dueDateStr) {
+        LocalDateTime due = null;
+        if (dueDateStr != null && !dueDateStr.isBlank()) {
+            try {
+                due = LocalDateTime.parse(dueDateStr);
+            } catch (Exception e) {
+                try {
+                    due = java.time.Instant.parse(dueDateStr)
+                            .atZone(java.time.ZoneId.systemDefault())
+                            .toLocalDateTime();
+                } catch (Exception ignored) {}
+            }
+        }
+        return dao.updateCard(userId, taskId,
+                TaskStatus.from(newStatus),
+                newDesc,
+                Priority.from(newPr),
+                due);
     }
 
     /* ========= 삭제 ========= */
@@ -100,9 +107,7 @@ public class KanbanService {
         return create(userId, desc, st, pr, due);
     }
 
-    public int update(String userId, int taskId, String status, String desc, String priority) {
-        return update(userId, taskId, TaskStatus.from(status), desc, Priority.from(priority));
-    }
+
 
     public void reorder(String userId, String status, List<Integer> orderedTaskIds) {
         reorder(userId, TaskStatus.from(status), orderedTaskIds);

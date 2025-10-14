@@ -1,23 +1,13 @@
 package com.travelroulette.Controller;
 
 import com.travelroulette.Dto.Kanban.KanBanDto;
-import com.travelroulette.Dto.Kanban.KanBanDto.TaskStatus;
-import com.travelroulette.Dto.Kanban.KanBanDto.Priority;
 import com.travelroulette.Service.KanbanService;
-// ✅ 네 프로젝트의 AuthenticatedUser 경로로 맞춰주세요
-import com.travelroulette.Dto.User.AuthenticatedUser;
-
+import com.google.gson.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.time.LocalDateTime;
-import java.util.*;
-
-import com.google.gson.*;
-
-
 import java.util.List;
 
 @WebServlet("/kanban")
@@ -31,10 +21,24 @@ public class KanbanController extends HttpServlet {
         service = new KanbanService();
         gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>)
-                        (src, typeOfSrc, context) -> new JsonPrimitive(src == null ? null : src.toString()))
+                        (src, typeOfSrc, context) ->
+                                new JsonPrimitive(src == null ? null : src.toString()))
                 .registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>)
-                        (json, typeOfT, context) -> json == null || json.isJsonNull() ? null : LocalDateTime.parse(json.getAsString()))
-                .setPrettyPrinting()
+                        (json, typeOfT, context) -> {
+                            if (json == null || json.isJsonNull()) return null;
+                            String s = json.getAsString();
+                            try {
+                                return LocalDateTime.parse(s);
+                            } catch (Exception e) {
+                                try {
+                                    return java.time.Instant.parse(s)
+                                            .atZone(java.time.ZoneId.systemDefault())
+                                            .toLocalDateTime();
+                                } catch (Exception ignored) {
+                                    return null;
+                                }
+                            }
+                        })
                 .create();
     }
 
@@ -55,14 +59,10 @@ public class KanbanController extends HttpServlet {
         resp.setContentType("application/json; charset=UTF-8");
 
         String action = req.getParameter("action");
-        HttpSession session = req.getSession(false);
-
-        // ✅ 세션에서 userId 가져오기
-        String userId = "ryeol3";
+        String userId = "ryeol3"; // ✅ 임시 로그인 유저
 
         JsonObject result = new JsonObject();
 
-        // ✅ 로그인 여부 검사
         if (userId == null || userId.isBlank()) {
             result.addProperty("success", false);
             result.addProperty("error", "로그인이 필요합니다.");
@@ -81,8 +81,8 @@ public class KanbanController extends HttpServlet {
                     String desc = req.getParameter("description");
                     String status = req.getParameter("status");
                     String priority = req.getParameter("priority");
-                    String dueDate = req.getParameter("dueDate");
-                    Integer newId = service.create(userId, desc, status, priority, dueDate);
+                    String dueDateStr = req.getParameter("dueDate");
+                    Integer newId = service.create(userId, desc, status, priority, dueDateStr);
                     result.addProperty("success", newId != null);
                     result.addProperty("newId", newId);
                     break;
@@ -92,7 +92,9 @@ public class KanbanController extends HttpServlet {
                     String newStatus = req.getParameter("status");
                     String newDesc = req.getParameter("description");
                     String newPr = req.getParameter("priority");
-                    int updated = service.update(userId, taskId, newStatus, newDesc, newPr);
+                    String dueDate = req.getParameter("dueDate"); // ✅ 추가됨
+
+                    int updated = service.update(userId, taskId, newStatus, newDesc, newPr, dueDate);
                     result.addProperty("success", updated > 0);
                     break;
 
@@ -105,7 +107,6 @@ public class KanbanController extends HttpServlet {
                 case "reorder":
                     String reorderStatus = req.getParameter("status");
                     String[] ids = req.getParameterValues("orderedIds[]");
-                    if (ids == null) throw new IllegalArgumentException("orderedIds[] is required");
                     List<Integer> orderedList = java.util.Arrays.stream(ids)
                             .map(Integer::parseInt).toList();
                     service.reorder(userId, reorderStatus, orderedList);
@@ -134,6 +135,4 @@ public class KanbanController extends HttpServlet {
 
         resp.getWriter().write(gson.toJson(result));
     }
-    
-    
 }

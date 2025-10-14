@@ -135,33 +135,32 @@ public class KanbanDao {
      * @param newPriority 새 우선순위 (High / Medium / Low)
      * @return 수정된 행 수 (성공 시 1)
      */
-    public int updateCard(String userId,
-                          Integer taskId,
-                          TaskStatus newStatus,
-                          String newDescription,
-                          Priority newPriority) {
+    public int updateCard(String userId, Integer taskId,
+            TaskStatus newStatus, String newDescription,
+            Priority newPriority, LocalDateTime newDueDate) {
 
-        final String sql =
-            "UPDATE Kanban " +
-            "SET taskStatus=?, taskDescription=?, priority=? " +
-            "WHERE taskId=? AND userId=?";
-
-        try (Connection conn = ConnectionPoolHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, newStatus.getValue());
-            ps.setString(2, newDescription);
-            ps.setString(3, newPriority == null ? null : newPriority.getValue());
-            ps.setInt(4, taskId);
-            ps.setString(5, userId);
-
-            return ps.executeUpdate(); // 성공하면 1, 실패 0
-
-        } catch (SQLException e) {
-            logger.error("❌ updateCard error - userId={}, taskId={}", userId, taskId, e);
-            return 0;
-        }
-    }
+	final String sql = """
+			UPDATE Kanban
+			SET taskStatus=?, taskDescription=?, priority=?, dueDate=?
+			WHERE taskId=? AND userId=?
+			""";
+	
+	try (Connection conn = ConnectionPoolHelper.getConnection();
+		PreparedStatement ps = conn.prepareStatement(sql)) {
+	
+		ps.setString(1, newStatus.getValue());
+		ps.setString(2, newDescription);
+		ps.setString(3, newPriority == null ? null : newPriority.getValue());
+		ps.setTimestamp(4, newDueDate == null ? null : Timestamp.valueOf(newDueDate));
+		ps.setInt(5, taskId);
+		ps.setString(6, userId);
+		
+		return ps.executeUpdate();
+	} catch (SQLException e) {
+		e.printStackTrace();
+	return 0;
+	}
+}
     
     /**
      * 같은 컬럼 내에서 드래그 정렬 결과를 그대로 반영

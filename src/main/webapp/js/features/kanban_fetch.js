@@ -11,6 +11,7 @@ function normalizeStatus(status) {
   if (!status) return "";
   return status.toLowerCase().replace("_", ""); // "IN_PROGRESS" → "inprogress"
 }
+
 /* ===========================
       🧩 서버 통신 함수들
 =========================== */
@@ -44,18 +45,21 @@ async function createTask({ content, status, due, priority }) {
 }
 
 // ✅ 3. 카드 수정
-async function updateTask(taskId, status, content, priority) {
+async function updateTask(taskId, status, content, priority, dueDate) {
   const params = new URLSearchParams({
     taskId,
     status,
     description: content,
     priority,
+    dueDate: dueDate || "",
   });
+
   const res = await fetch("/TravelRoulette/kanban?action=update", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: params,
   });
+
   const data = await res.json();
   if (!data.success) alert("❌ 수정 실패: " + (data.error || ""));
   return data.success;
@@ -85,7 +89,7 @@ async function reorderWithinStatus(status) {
   ids.forEach((id) => params.append("orderedIds[]", id));
   params.append("status", status);
 
-  await fetch("/TravelRoulette/kanban?action?action=reorder", {
+  await fetch("/TravelRoulette/kanban?action=reorder", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: params,
@@ -100,7 +104,7 @@ async function moveToStatus(taskId, from, to, newOrder) {
     to,
     newOrder,
   });
-  await fetch("/TravelRoulette/kanban?action?action=move", {
+  await fetch("/TravelRoulette/kanban?action=move", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: params,
@@ -223,21 +227,6 @@ async function onDropList(e, targetStatus) {
 }
 
 /* ===========================
-        ✍️ 카드 수정
-=========================== */
-async function promptEdit(taskId) {
-  const newDesc = prompt("내용을 수정하세요:");
-  if (newDesc == null) return;
-  const newPriority = prompt("우선순위 (High|Medium|Low):", "Medium");
-  if (newPriority == null) return;
-  const newStatus = prompt("상태 (todo|inprogress|done):", "todo");
-  if (newStatus == null) return;
-
-  await updateTask(taskId, newStatus, newDesc, newPriority);
-  render();
-}
-
-/* ===========================
         ➕ 신규 카드 추가
 =========================== */
 document.addEventListener("DOMContentLoaded", () => {
@@ -247,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const content = document.getElementById("content").value.trim();
     const status = document.getElementById("status").value;
     const due = document.getElementById("due").value
-      ? new Date(document.getElementById("due").value).toISOString()
+      ? new Date(document.getElementById("due").value).toISOString().replace("Z", "")
       : "";
     const priority = document.getElementById("priority").value;
 
@@ -264,16 +253,13 @@ document.addEventListener("DOMContentLoaded", () => {
         ✍️ 카드 수정 (모달)
 =========================== */
 async function promptEdit(taskId) {
-  // 1️⃣ 서버에서 최신 데이터 가져오기 (필요하면 캐시 대신)
   const tasks = await loadAll();
   const t = tasks.find(x => x.taskId === taskId);
   if (!t) return alert("해당 카드를 찾을 수 없습니다.");
 
-  // 2️⃣ 이미 열린 모달 제거
   const existingModal = document.getElementById("editModal");
   if (existingModal) existingModal.remove();
 
-  // 3️⃣ 모달 HTML 생성
   const modalHtml = `
     <div id="editModal" class="edit-modal">
       <div class="edit-modal-content">
@@ -308,32 +294,25 @@ async function promptEdit(taskId) {
   `;
   document.body.insertAdjacentHTML("beforeend", modalHtml);
 
-  // 4️⃣ 취소 버튼
   document.getElementById("cancelEdit").addEventListener("click", () => {
     document.getElementById("editModal").remove();
   });
 
-  // 5️⃣ 저장 버튼 → DB 업데이트 (fetch)
   document.getElementById("saveEdit").addEventListener("click", async () => {
     const newDesc = document.getElementById("editContent").value.trim();
     const newStatus = document.getElementById("editStatus").value;
     const newPriority = document.getElementById("editPriority").value;
-    const newDue = document.getElementById("editDue").value;
+    const newDue = document.getElementById("editDue").value
+      ? new Date(document.getElementById("editDue").value).toISOString().replace("Z", "")
+      : "";
 
     if (!newDesc) {
       alert("내용을 입력해주세요!");
       return;
     }
 
-    // ✅ 서버 업데이트 (DB)
-    await updateTask(taskId, newStatus, newDesc, newPriority);
-
-    // ✅ DB에 날짜 컬럼도 있다면 따로 처리 가능 (dueDate는 현재 Controller에서 지원 X)
-    // 추후 Controller에서 update에 dueDate 추가하면 여기도 같이 전달해주면 됨
-
-    // ✅ 닫고 새로고침
+    await updateTask(taskId, newStatus, newDesc, newPriority, newDue);
     document.getElementById("editModal").remove();
     render();
   });
 }
-
