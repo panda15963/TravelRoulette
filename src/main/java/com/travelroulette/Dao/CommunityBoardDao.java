@@ -1,6 +1,7 @@
 package com.travelroulette.Dao;
 
 
+import com.travelroulette.Dto.Comment.CommentDto;
 import com.travelroulette.Dto.Post.PostDto;
 import com.travelroulette.Utils.ConnectionPoolHelper;
 
@@ -13,49 +14,68 @@ import java.util.List;
 
 public class CommunityBoardDao {
 
-    //게시글 목록 불러오기
-    public List<PostDto> selectAllPosts(int boardNumber) {
 
-
+    //게시글 목록 불러오기(+ 페이지네이션)(+검색)
+    public List<PostDto> selectAllPosts(int boardNumber, int page, int pageSize, boolean asc, String searchKeyword) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-
         List<PostDto> postList = new ArrayList<>(); //게시글 목록 리스트
 
+        //정렬 방향
+        String order = asc ? "ASC" : "DESC";
+
         //MySQL 쿼리
-        String sql = "SELECT postNumber, postTitle, postDescription, postDateWritten, userId " +
-                "FROM post " +
-                "WHERE boardNumber = ? " +
-                "ORDER BY postNumber DESC";
+        StringBuilder sql = new StringBuilder("SELECT postNumber, postTitle, postDescription, postDateWritten, userId ")
+                .append("FROM post ")
+                .append("WHERE boardNumber = ? ");
+
+        if (searchKeyword != null && !searchKeyword.isEmpty()) {
+            sql.append("AND postTitle LIKE ? ");
+        }
+
+        //정렬 및 페이지네이션 쿼리
+        sql.append("ORDER BY postNumber ").append(order).append(" ")
+                .append("LIMIT ? OFFSET ?");
+
         try {
             conn = ConnectionPoolHelper.getConnection();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, boardNumber);
+            pstmt = conn.prepareStatement(sql.toString());
+
+            int parameterIndex = 1;
+            pstmt.setInt(parameterIndex++, boardNumber);
+
+            //검색어 값
+            if (searchKeyword != null && !searchKeyword.isEmpty()) {
+                pstmt.setString(parameterIndex++, "%" + searchKeyword + "%");
+            }
+
+            int offset = (page - 1) * pageSize;
+            pstmt.setInt(parameterIndex++, pageSize);
+            pstmt.setInt(parameterIndex++, offset);
+
             rs = pstmt.executeQuery();
 
-
             while (rs.next()) {
-                //postDto 객체 생성
+                java.sql.Timestamp ts = rs.getTimestamp("postDateWritten");
+                java.time.LocalDateTime dateWritten = (ts != null) ? ts.toLocalDateTime() : null;
                 PostDto post = PostDto.builder()
                         .postNumber(rs.getInt("postNumber"))
                         .postTitle(rs.getString("postTitle"))
                         .postDescription(rs.getString("postDescription"))
-                        //작성일자를 자바 객체로 변환
-                        .postDateWritten(rs.getTimestamp("postDateWritten").toLocalDateTime())
+                        .postDateWritten(dateWritten)
                         .userId(rs.getString("userId"))
                         .boardNumber(boardNumber)
                         .build();
+
                 //목록에 추가
                 postList.add(post);
             }
 
         } catch (SQLException e) {
-            //DB 오류 발생 시 오류 메시지를 출력
-            System.out.println("게시글 목록 조회 중 오류 발생");
+            System.out.println("게시글 목록 조회(검색) 중 오류 발생");
             e.printStackTrace();
         } finally {
-            //자원 닫기
             ConnectionPoolHelper.close(rs);
             ConnectionPoolHelper.close(pstmt);
             ConnectionPoolHelper.close(conn);
@@ -64,6 +84,67 @@ public class CommunityBoardDao {
         //게시글 목록 리스트 반환
         return postList;
     }
+
+
+
+//    public List<PostDto> selectAllPosts(int boardNumber, int page, int pageSize, boolean asc) {
+//        Connection conn = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//        List<PostDto> postList = new ArrayList<>(); //게시글 목록 리스트
+//
+//        //정렬 방향
+//        String order = asc ? "ASC" : "DESC";
+//
+//        //MySQL 쿼리
+//        String sql = "SELECT postNumber, postTitle, postDescription, postDateWritten, userId " +
+//                "FROM post " +
+//                "WHERE boardNumber = ? " +
+//                "ORDER BY postDateWritten " + order + ", postNumber " + order + " " +
+//                "LIMIT ? OFFSET ?";
+//
+//        try {
+//            conn = ConnectionPoolHelper.getConnection();
+//            pstmt = conn.prepareStatement(sql);
+//
+//            int offset = (page - 1) * pageSize; //건너뛸 개수 계산
+//            pstmt.setInt(1, boardNumber);
+//            pstmt.setInt(2, pageSize);
+//            pstmt.setInt(3, offset);
+//
+//            rs = pstmt.executeQuery();
+//
+//            while (rs.next()) {
+//                java.sql.Timestamp ts = rs.getTimestamp("postDateWritten");
+//                java.time.LocalDateTime dateWritten = (ts != null) ? ts.toLocalDateTime() : null;
+//
+//                //PostDto 객체 생성
+//                PostDto post = PostDto.builder()
+//                        .postNumber(rs.getInt("postNumber"))
+//                        .postTitle(rs.getString("postTitle"))
+//                        .postDescription(rs.getString("postDescription"))
+//                        .postDateWritten(dateWritten)
+//                        .userId(rs.getString("userId"))
+//                        .boardNumber(boardNumber)
+//                        .build();
+//
+//                //목록에 추가
+//                postList.add(post);
+//            }
+//
+//        } catch (SQLException e) {
+//            System.out.println("게시글 목록 조회 중 오류 발생");
+//            e.printStackTrace();
+//        } finally {
+//            ConnectionPoolHelper.close(rs);
+//            ConnectionPoolHelper.close(pstmt);
+//            ConnectionPoolHelper.close(conn);
+//        }
+//
+//        //게시글 목록 리스트 반환
+//        return postList;
+//    }
+
 
 
     //글쓰기
@@ -213,6 +294,192 @@ public class CommunityBoardDao {
 
         return result; //실패하면 0, 성공하면 1을 반환
     }
+
+    //총 게시글 수
+    public int getPostCount(int boardNumber, String searchKeyword) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int totalCount = 0;
+
+        //MySQL 쿼리
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM post WHERE boardNumber = ?");
+
+        //검색어
+        if (searchKeyword != null && !searchKeyword.isEmpty()) {
+            sql.append(" AND postTitle LIKE ?");
+        }
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql.toString());
+            pstmt.setInt(1, boardNumber);
+
+            if (searchKeyword != null && !searchKeyword.isEmpty()) {
+                pstmt.setString(2, "%" + searchKeyword + "%");
+            }
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                totalCount = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("총 게시글 개수 조회(검색) 오류");
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(rs);
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+        return totalCount;
+    }
+
+
+
+    //해당 게시글의 모든 댓글 보기
+    public List<CommentDto> selectAllComments(int postNumber) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<CommentDto> commentList = new ArrayList<>(); //댓글 목록 리스트
+
+        //MySQL 쿼리
+        String sql = "SELECT commentNumber, commentDescription, commentDateWritten, userId, postNumber " +
+                "FROM comment " +
+                "WHERE postNumber = ? " +
+                "ORDER BY commentNumber ASC";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            //오류찾기용출력
+            System.out.println("postNumber: " + postNumber);
+
+            pstmt.setInt(1, postNumber);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                java.sql.Timestamp ts = rs.getTimestamp("commentDateWritten");
+                java.time.LocalDateTime dateWritten = (ts != null) ? ts.toLocalDateTime() : null;
+
+                CommentDto comment = CommentDto.builder()
+                        .commentNumber(rs.getInt("commentNumber"))
+                        .commentDescription(rs.getString("commentDescription"))
+                        .dateWritten(dateWritten)
+                        .userId(rs.getString("userId"))
+                        .postNumber(rs.getInt("postNumber"))
+                        .build();
+
+                commentList.add(comment);
+            }
+        } catch (SQLException e) {
+            System.out.println("댓글 목록 조회 오류");
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(rs);
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return commentList; //댓글 목록 리스트 반환
+    }
+
+
+    //댓글 쓰기
+    public int insertComment(CommentDto comment) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int result = 0; //성공 여부
+
+        //MySQL 쿼리
+        String sql = "INSERT INTO comment (commentDescription, commentDateWritten, userId, postNumber) " +
+                "VALUES (?, NOW(), ?, ?)";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, comment.getCommentDescription());
+            pstmt.setString(2, comment.getUserId());
+            pstmt.setInt(3, comment.getPostNumber());
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("댓글 저장 오류: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            //자원 닫기
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return result; //실패하면 0, 성공하면 1을 반환
+    }
+
+
+
+    //댓글 수정
+    public int updateComment(int commentNumber, String commentDescription) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int result = 0; // 성공 여부를 알려줄 변수
+
+        //MySQL 쿼리
+        String sql = "UPDATE comment SET commentDescription = ? WHERE commentNumber = ?";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, commentDescription); // 첫 번째 물음표: 새 내용
+            pstmt.setInt(2, commentNumber);         // 두 번째 물음표: 수정할 댓글 번호
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("댓글 수정 오류: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return result; //실패하면 0, 성공하면 1을 반환
+    }
+
+    //댓글 삭제
+    public int deleteComment(int commentNumber) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int result = 0; //성공 여부
+
+        //MySQL 쿼리
+        String sql = "DELETE FROM comment WHERE commentNumber = ?";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, commentNumber);
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("댓글 삭제 오류: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return result; //실패하면 0, 성공하면 1을 반환
+    }
+
+
+
+
 
 
 
