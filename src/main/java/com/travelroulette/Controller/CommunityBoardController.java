@@ -222,6 +222,26 @@ public class CommunityBoardController extends HttpServlet {
         }
 
 
+        else if (command.equals("/board/community/comment/delete.do")) {
+            System.out.println("댓글 삭제 요청 처리(비동기)");
+
+            CommunityCommentDeleteService service = new CommunityCommentDeleteService();
+            int result = service.execute(request, response);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+
+            if (result > 0) {
+                //성공
+                out.print("{\"status\":\"success\"}");
+            } else {
+                //실패
+                out.print("{\"status\":\"fail\"}");
+            }
+            out.flush();
+        }
+
 
 
 

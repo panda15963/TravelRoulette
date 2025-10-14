@@ -421,6 +421,33 @@ public class CommunityBoardDao {
         return result; //실패하면 0, 성공하면 1을 반환
     }
 
+    //댓글 삭제
+    public int deleteComment(int commentNumber) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int result = 0; //성공 여부
+
+        //MySQL 쿼리
+        String sql = "DELETE FROM comment WHERE commentNumber = ?";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, commentNumber);
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("댓글 삭제 오류: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return result; //실패하면 0, 성공하면 1을 반환
+    }
+
 
 
 

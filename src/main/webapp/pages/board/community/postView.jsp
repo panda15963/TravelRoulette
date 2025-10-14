@@ -312,6 +312,37 @@
                     alert('댓글 수정 중 오류가 발생했습니다.');
                 });
         }
+
+        //댓글 삭제
+        if (action === 'delete') {
+            event.preventDefault();
+
+            //ㄹㅇ 삭제할 지 재확인
+            if (confirm('정말 삭제하시겠습니까?')) {
+                const commentId = target.dataset.commentId;
+
+                const formData = new FormData();
+                formData.append('commentNumber', commentId);
+
+                fetch('/TravelRoulette_war/board/community/comment/delete.do', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            //삭제 성공
+                            loadComments(postNumber);
+                        } else {
+                            alert('댓글 삭제에 실패했습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('댓글 삭제 중 오류가 발생했습니다.');
+                    });
+            }
+        }
     });
 
 
