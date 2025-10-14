@@ -39,7 +39,7 @@ export function createCountryList(countries, onSelect) {
 export async function loadCountriesByContinent(continentNumber, continentNameKor) {
     try {
         // ✅ 번호로 요청
-        const res = await fetch(`/countries?continentNumber=${continentNumber}`);
+        const res = await fetch(`${window.location.origin}${window.location.pathname.split('/')[1] ? '/' + window.location.pathname.split('/')[1] : ''}/countries?continentNumber=${continentNumber}`);
 
         if (!res.ok) {
             const errorMsg = res.status === 404
