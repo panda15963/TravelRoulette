@@ -47,4 +47,3 @@
 	</div>
 </nav>
 <!-- 로그인 상태 관리 -->
-<script src="${pageContext.request.contextPath}/js/utils/authManager.js"></script>

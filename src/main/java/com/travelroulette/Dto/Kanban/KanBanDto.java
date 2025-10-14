@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+
 import java.time.LocalDateTime;
 
 @Data
@@ -11,16 +13,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class KanBanDto {
-    private String taskId;
+    private Integer taskId;
     private String taskDescription;
     private TaskStatus taskStatus;
     private LocalDateTime dueDate;
+    private Integer taskOrder;
     private Priority priority;
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
     private String userId;
 
-    // ✅ 내부 Enum (이 파일 안에서만 사용)
+    // ✅ TaskStatus Enum (DB, JS 통일)
     public enum TaskStatus {
         TODO("todo"),
         IN_PROGRESS("inprogress"),
@@ -39,10 +42,11 @@ public class KanBanDto {
         }
     }
 
+    // ✅ Priority Enum (DB, JS, CSS 통일)
     public enum Priority {
-        HIGH("High"),
-        MEDIUM("Medium"),
-        LOW("Low");
+        HIGH("high"),
+        MEDIUM("medium"),
+        LOW("low");
 
         private final String value;
         Priority(String value) { this.value = value; }
