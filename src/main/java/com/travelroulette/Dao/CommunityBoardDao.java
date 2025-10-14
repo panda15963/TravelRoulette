@@ -184,6 +184,36 @@ public class CommunityBoardDao {
 
 
 
+    //게시글 삭제
+    public int deletePost(int postNumber) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int result = 0; //성공 여부
+
+        //MySQL 쿼리
+        String sql = "DELETE FROM post WHERE postNumber = ?";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            //삭제할 글 번호
+            pstmt.setInt(1, postNumber);
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("게시글 삭제 오류: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            //자원 닫기
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return result; //실패하면 0, 성공하면 1을 반환
+    }
+
 
 
 

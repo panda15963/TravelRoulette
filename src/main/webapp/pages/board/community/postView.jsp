@@ -86,19 +86,18 @@
 <script src="../../../js/features/darkmode.js"></script>
 
 <script>
-    // 페이지가 모두 로드된 후 실행
+    //페이지가 모두 로드된 후 실행
     window.onload = function() {
-        // 1. URL 주소에서 "postNumber=5" 같은 파라미터 값을 가져옵니다.
+        //URL 주소에서 파라미터 값 가져오기
         const urlParams = new URLSearchParams(window.location.search);
         const postNumber = urlParams.get('postNumber');
 
-        // postNumber가 유효한 경우에만 서버에 데이터를 요청
+        //postNumber가 유효한 경우에만 서버에 데이터를 요청
         if (postNumber) {
-            // 2. fetch를 이용해 서버에 게시글 상세 데이터를 비동기적으로 요청
+            //비동기
             fetch(`/TravelRoulette_war/board/community/detail.do?postNumber=\${postNumber}`)
-                .then(response => response.json()) // 응답을 JSON으로 변환
+                .then(response => response.json()) //응답을 JSON으로 변환
                 .then(post => {
-                    // 3. 받아온 JSON 데이터로 HTML 요소의 내용을 채웁니다.
                     console.log("서버로부터 받은 상세 데이터:", post);
 
                     document.getElementById('post-title').innerText = post.postTitle;
@@ -114,6 +113,43 @@
                 });
         }
     };
+
+
+    //삭제 버튼 클릭 시
+    document.getElementById('delete-button').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        //삭제 재확인
+        if (confirm('정말 삭제하시겠습니까?')) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postNumber = urlParams.get('postNumber');
+
+            const formData = new FormData();
+            formData.append('postNumber', postNumber);
+
+            //비동기
+            fetch('/TravelRoulette_war/board/community/delete.do', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('게시글이 성공적으로 삭제되었습니다.');
+                        //삭제 후 목록 페이지로 이동
+                        location.href = 'communityBoard.jsp';
+                    } else {
+                        alert('게시글 삭제에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('게시글 삭제 중 오류가 발생했습니다.');
+                });
+        }
+    });
+
+
 </script>
 
 </body>

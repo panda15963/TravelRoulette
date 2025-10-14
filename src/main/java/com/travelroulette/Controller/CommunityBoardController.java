@@ -2,10 +2,7 @@ package com.travelroulette.Controller;
 
 import com.google.gson.Gson;
 import com.travelroulette.Dto.Post.PostDto;
-import com.travelroulette.Service.board.community.CommunityBoardDetailService;
-import com.travelroulette.Service.board.community.CommunityBoardListService;
-import com.travelroulette.Service.board.community.CommunityBoardUpdateService;
-import com.travelroulette.Service.board.community.CommunityBoardWriteService;
+import com.travelroulette.Service.board.community.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -136,6 +133,28 @@ public class CommunityBoardController extends HttpServlet {
                 out.print("{\"status\":\"success\"}");
             } else {
                 // 실패
+                out.print("{\"status\":\"fail\"}");
+            }
+            out.flush();
+        }
+
+
+        else if (command.equals("/board/community/delete.do")) {
+            System.out.println("글 삭제 요청 처리(비동기)");
+
+            CommunityBoardDeleteService service = new CommunityBoardDeleteService();
+            int result = service.execute(request, response);
+
+            //JSON
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+
+            if (result > 0) {
+                //성공
+                out.print("{\"status\":\"success\"}");
+            } else {
+                //실패
                 out.print("{\"status\":\"fail\"}");
             }
             out.flush();
