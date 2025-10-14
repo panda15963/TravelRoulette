@@ -95,7 +95,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../../js/features/darkmode.js"></script>
 
-<script src="/TravelRoulette_war/js/features/authManager.js"></script>
+<script src="../../../js/utils/authManager.js"></script>
 
 <script>
     const urlParams = new URLSearchParams(window.location.search);
