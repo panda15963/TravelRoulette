@@ -36,3 +36,4 @@
 
 <!-- 로그인 상태 관리 -->
 <script src="${pageContext.request.contextPath}/js/utils/authManager.js"></script>
+<script src="${pageContext.request.contextPath}/js/utils/navbarUI.js"></script>
