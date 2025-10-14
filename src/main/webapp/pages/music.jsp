@@ -5,22 +5,72 @@
     <meta charset="UTF-8">
     <title>Deezer 음악 검색</title>
 
-    <!-- ✅ 새 구조 기준 CSS 경로 수정 -->
-    <link rel="stylesheet" href="../../css/features/music/music.css">
+    <!-- ✅ 공통 CSS -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/styles.css">
+
+    <!-- ✅ 페이지 전용 CSS -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/features/music/music.css">
 
     <style>
-        #playlist-card:hover {
+        /* 🎵 페이지 스코프: 다른 CSS와 충돌 방지 */
+        #music-page {
+            font-family: "Noto Sans KR", sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        /* ✅ navbar 때문에 상단 여백 추가 */
+        #music-page main,
+        #music-page section {
+            margin-top: 100px; /* navbar 높이만큼 내려줌 */
+        }
+
+        /* ✅ 재생바 스타일 */
+        #music-page #seek-bar {
+            width: 40%;
+            margin: 10px auto;
+            display: block;
+            accent-color: #4e7cfb;
+            height: 6px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media (min-width: 1200px) {
+            #music-page #seek-bar { width: 30%; }
+        }
+
+        @media (max-width: 768px) {
+            #music-page #seek-bar { width: 80%; }
+        }
+
+        /* ✅ 플레이리스트 카드 hover 효과 */
+        #music-page #playlist-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
+
+        /* ✅ footer 공백 제거 (footer.jsp 수정 없이) */
+        footer {
+            width: 100vw !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            position: relative;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
     </style>
 </head>
-<body>
+
+<body id="music-page">
+<%@ include file="../Common/navbar.jsp" %>
 
 <!-- 🎵 미니 플레이어 -->
 <section id="player-section">
     <div class="album-art">
-        <!-- ✅ 이미지 경로 수정: 절대경로 → 상대경로 (프로젝트 구조 일관성) -->
         <img id="album-cover" src="../../images/default.png" alt="Album Cover">
         <div class="light-reflection"></div>
     </div>
@@ -39,7 +89,7 @@
     <audio id="main-player"></audio>
 </section>
 
-<!-- 🎶 Deezer 검색 섹션 -->
+<!-- 🎶 Deezer 검색 -->
 <main>
     <h1>🎵 <b>Deezer</b> 음악 검색</h1>
     <input type="text" id="query" placeholder="가수나 곡 이름 입력">
@@ -65,22 +115,21 @@
           justify-content: center;
           cursor: pointer;
           box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-          transition: all 0.2s ease;
-        ">
+          transition: all 0.2s ease;">
         <span style="font-size: 2em;">🎵</span>
         <p style="margin: 8px 0 0; font-weight: 500;">나의 플레이리스트</p>
     </div>
 </section>
 
-<!-- ✅ playlist.jsp로 이동 -->
 <script>
+    // ✅ playlist.jsp로 이동
     function openPlaylist() {
-        location.href = "playlist.jsp"; // pages/ 안에서의 상대경로
+        location.href = "playlist.jsp";
     }
 </script>
 
-<!-- ✅ JS 경로 수정 -->
 <script src="../../js/features/deezer.js"></script>
 
+<%@ include file="../Common/footer.jsp" %>
 </body>
 </html>
