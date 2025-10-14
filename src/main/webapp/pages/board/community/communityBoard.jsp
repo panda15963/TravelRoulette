@@ -34,7 +34,7 @@
                 <!-- 왼쪽: 검색창 + 정렬 -->
                 <div class="d-flex flex-wrap align-items-center gap-2">
                     <label>
-                        <input type="text" class="form-control border-info" placeholder="검색어를 입력하세요" style="width: 250px;" />
+                        <input id="searchInput" type="text" class="form-control border-info" placeholder="검색어를 입력하세요" style="width: 250px;" />
                     </label>
                     <label>
                         <select id="sortSelect" class="form-select border-info w-auto">
@@ -133,7 +133,6 @@
         return v !== null ? v : defVal;
     }
 
-    // (1) sort 추가 (기본: 최신순 desc)
     const state = {
         page: parseInt(getParam('page', '1'), 10) || 1,
         size: parseInt(getParam('size', '10'), 10) || 10,
@@ -148,9 +147,8 @@
         history.pushState(null, '', location.pathname + '?' + sp.toString());
     }
 
-    // 게시글 목록 불러오기
+    //게시글 목록 불러오기
     function loadList() {
-        // (2) fetch URL에 sort 추가
         const url = '/TravelRoulette_war/board/community/list.do?page=' + state.page +
             '&pageSize=' + state.size +
             '&sort=' + state.sort;
@@ -179,7 +177,7 @@
             });
     }
 
-    // 게시글 테이블
+    //게시글 테이블
     function renderTable(list) {
         const tbody = document.getElementById('post-list-body');
         if (!tbody) return;
@@ -220,7 +218,7 @@
         }
     }
 
-    // 페이지네이션
+    //페이지네이션
     function renderPagination(opts) {
         const ul = document.getElementById('pagination');
         if (!ul) return;
@@ -261,13 +259,12 @@
         }
     }
 
-    // 초기 로드 + (3) 정렬 드롭박스 이벤트 연결
+    //초기 로드
     window.onload = function() {
         loadList();
 
         const sortSelect = document.getElementById('sortSelect'); // <select id="sortSelect"> 필요
         if (sortSelect) {
-            // 현재 state.sort 반영
             if (sortSelect.value !== state.sort) sortSelect.value = state.sort;
 
             sortSelect.addEventListener('change', function() {

@@ -2,6 +2,7 @@ package com.travelroulette.Controller;
 
 import com.google.gson.Gson;
 import com.travelroulette.Dto.Board.BoardPageDto;
+import com.travelroulette.Dto.Comment.CommentDto;
 import com.travelroulette.Dto.Post.PostDto;
 import com.travelroulette.Service.board.community.*;
 import jakarta.servlet.ServletException;
@@ -66,31 +67,31 @@ public class CommunityBoardController extends HttpServlet {
 
 
         else if (command.equals("/board/community/write.do")) {
-        System.out.println("글쓰기 요청 처리");
+            System.out.println("글쓰기 요청 처리");
 
-        CommunityBoardWriteService service = new CommunityBoardWriteService();
-        String resultMessage = service.execute(request, response);
+            CommunityBoardWriteService service = new CommunityBoardWriteService();
+            String resultMessage = service.execute(request, response);
 
-        //JSON으로 변환
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+            //JSON으로 변환
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
 
-        Gson gson = new Gson();
-        java.util.Map<String, String> responseMap = new java.util.HashMap<>();
+            Gson gson = new Gson();
+            java.util.Map<String, String> responseMap = new java.util.HashMap<>();
 
-        if (resultMessage.equals("success")) {
-            //성공했을 때
-            responseMap.put("status", "success");
-        } else {
-            //실패했을 때
-            responseMap.put("status", "fail");
-            responseMap.put("message", resultMessage);
-        }
+            if (resultMessage.equals("success")) {
+                //성공
+                responseMap.put("status", "success");
+            } else {
+                //실패
+                responseMap.put("status", "fail");
+                responseMap.put("message", resultMessage);
+            }
 
-        String jsonResponse = gson.toJson(responseMap);
-        PrintWriter out = response.getWriter();
-        out.print(jsonResponse);
-        out.flush();
+            String jsonResponse = gson.toJson(responseMap);
+            PrintWriter out = response.getWriter();
+            out.print(jsonResponse);
+            out.flush();
         }
 
         else if (command.equals("/board/community/detail.do")) {
@@ -126,10 +127,10 @@ public class CommunityBoardController extends HttpServlet {
             PrintWriter out = response.getWriter();
 
             if (result > 0) {
-                // 성공
+                //성공
                 out.print("{\"status\":\"success\"}");
             } else {
-                // 실패
+                //실패
                 out.print("{\"status\":\"fail\"}");
             }
             out.flush();
@@ -137,7 +138,7 @@ public class CommunityBoardController extends HttpServlet {
 
 
         else if (command.equals("/board/community/delete.do")) {
-            System.out.println("글 삭제 요청 처리(비동기)");
+            System.out.println("글 삭제 요청 처리");
 
             CommunityBoardDeleteService service = new CommunityBoardDeleteService();
             int result = service.execute(request, response);
@@ -156,6 +157,29 @@ public class CommunityBoardController extends HttpServlet {
             }
             out.flush();
         }
+
+        else if (command.equals("/board/community/comments.do")) {
+            System.out.println("댓글 목록 요청 처리(비동기)");
+
+            CommunityCommentListService service = new CommunityCommentListService();
+            List<CommentDto> commentList = service.execute(request, response);
+
+            //JSON
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (src, typeOfSrc, context) ->
+                            new com.google.gson.JsonPrimitive(src.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                    ).create();
+            String jsonResponse = gson.toJson(commentList);
+
+            //응답
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            out.print(jsonResponse);
+            out.flush();
+        }
+
+
 
 
 

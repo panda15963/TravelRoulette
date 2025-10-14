@@ -22,7 +22,7 @@
         <main id="boardSection" class="col-12 col-md-9 col-lg-10 px-4 py-4 mt-5">
 
             <!-- 페이지 제목 -->
-            <h1 class="h3 fw-bold text-primary mb-4">자유게시판</h1>
+            <h1 class="h3 fw-bold text-primary mb-4">자유 게시판</h1>
 
             <!-- 게시글 본문 -->
             <div class="card border-info shadow-sm mb-4">
@@ -43,17 +43,23 @@
 
             <!-- 댓글 목록 -->
             <div class="mb-4">
-                <div class="border rounded p-3 mb-2">
-                    <strong>이민호</strong>
-                    <p class="mb-1">좋은 글이에요!</p>
-                    <small class="text-muted">2025-10-11 14:00</small>
-                </div>
-                <div class="border rounded p-3 mb-2">
-                    <strong>김하늘</strong>
-                    <p class="mb-1">저도 가보고 싶네요 ✈️</p>
-                    <small class="text-muted">2025-10-11 13:45</small>
+                <h5 class="mb-3">댓글</h5>
+                <div id="comment-list-container">
+                    <%-- JavaScript가 이 안에 댓글들을 채워 넣을 겁니다. --%>
                 </div>
             </div>
+<%--            <div class="mb-4">--%>
+<%--                <div class="border rounded p-3 mb-2">--%>
+<%--                    <strong>이민호</strong>--%>
+<%--                    <p class="mb-1">좋은 글이에요!</p>--%>
+<%--                    <small class="text-muted">2025-10-11 14:00</small>--%>
+<%--                </div>--%>
+<%--                <div class="border rounded p-3 mb-2">--%>
+<%--                    <strong>김하늘</strong>--%>
+<%--                    <p class="mb-1">저도 가보고 싶네요 ✈️</p>--%>
+<%--                    <small class="text-muted">2025-10-11 13:45</small>--%>
+<%--                </div>--%>
+<%--            </div>--%>
 
             <!-- 댓글 입력 -->
             <form class="d-flex align-items-center mt-3">
@@ -86,12 +92,41 @@
 <script src="../../../js/features/darkmode.js"></script>
 
 <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const postNumber = urlParams.get('postNumber');
+
+    //댓글 목록 불러오는 함수
+    function loadComments(pNum) {
+        fetch(`/TravelRoulette_war/board/community/comments.do?postNumber=\${pNum}`)
+            .then(response => response.json())
+            .then(comments => {
+                const container = document.getElementById('comment-list-container');
+                container.innerHTML = ''; //기존 댓글 내용 초기화
+
+                if (comments && comments.length > 0) {
+                    let html = '';
+                    comments.forEach(comment => {
+                        html += `
+                            <div class="border rounded p-3 mb-2">
+                                <strong>\${comment.userId}</strong>
+                                <p class="mb-1">\${comment.commentDescription}</p>
+                                <small class="text-muted">\${comment.dateWritten}</small>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = '<p class="text-muted">아직 댓글이 없습니다.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('댓글 로딩 중 오류:', error);
+                document.getElementById('comment-list-container').innerHTML = '<p class="text-danger">댓글을 불러오는 데 실패했습니다.</p>';
+            });
+    }
+
     //페이지가 모두 로드된 후 실행
     window.onload = function() {
-        //URL 주소에서 파라미터 값 가져오기
-        const urlParams = new URLSearchParams(window.location.search);
-        const postNumber = urlParams.get('postNumber');
-
         //postNumber가 유효한 경우에만 서버에 데이터를 요청
         if (postNumber) {
             //비동기
@@ -106,6 +141,10 @@
                     document.getElementById('post-content').innerText = post.postDescription;
 
                     document.getElementById('edit-button').href = `editForm.jsp?postNumber=\${post.postNumber}`;
+
+                    //댓글 목록도 불러오기
+                    loadComments(postNumber);
+
                 })
                 .catch(error => {
                     console.error('게시글 상세 정보 로딩 중 오류 발생:', error);

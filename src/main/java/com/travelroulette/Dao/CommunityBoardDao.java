@@ -1,6 +1,7 @@
 package com.travelroulette.Dao;
 
 
+import com.travelroulette.Dto.Comment.CommentDto;
 import com.travelroulette.Dto.Post.PostDto;
 import com.travelroulette.Utils.ConnectionPoolHelper;
 
@@ -296,12 +297,69 @@ public class CommunityBoardDao {
             System.out.println("총 게시글 개수 조회 오류");
             e.printStackTrace();
         } finally {
+            //자원 닫기
             ConnectionPoolHelper.close(rs);
             ConnectionPoolHelper.close(pstmt);
             ConnectionPoolHelper.close(conn);
         }
         return totalCount;
     }
+
+
+
+    //해당 게시글의 모든 댓글 보기
+    // 특정 게시글의 모든 댓글 목록 가져오기
+    public List<CommentDto> selectAllComments(int postNumber) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<CommentDto> commentList = new ArrayList<>(); //댓글 목록 리스트
+
+        //MySQL 쿼리
+        String sql = "SELECT commentNumber, commentDescription, commentDateWritten, userId, postNumber " +
+                "FROM comment " +
+                "WHERE postNumber = ? " +
+                "ORDER BY commentNumber DESC";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            //오류찾기용출력
+            System.out.println("postNumber: " + postNumber);
+
+            pstmt.setInt(1, postNumber);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                java.sql.Timestamp ts = rs.getTimestamp("commentDateWritten");
+                java.time.LocalDateTime dateWritten = (ts != null) ? ts.toLocalDateTime() : null;
+
+                CommentDto comment = CommentDto.builder()
+                        .commentNumber(rs.getInt("commentNumber"))
+                        .commentDescription(rs.getString("commentDescription"))
+                        .dateWritten(dateWritten)
+                        .userId(rs.getString("userId"))
+                        .postNumber(rs.getInt("postNumber"))
+                        .build();
+
+                commentList.add(comment);
+            }
+        } catch (SQLException e) {
+            System.out.println("댓글 목록 조회 오류");
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(rs);
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return commentList; //댓글 목록 리스트 반환
+    }
+
+
+
+
 
 
 
