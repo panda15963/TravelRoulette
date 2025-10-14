@@ -80,8 +80,8 @@
 
             <!-- 수정, 삭제, 글 목록 버튼 -->
             <div class="mt-4 d-flex justify-content-end gap-2">
-                <a href="#" id="edit-button" class="btn btn-outline-primary px-4 fw-semibold">수정</a>
-                <a href="#" id="delete-button" class="btn btn-outline-danger px-4 fw-semibold">삭제</a>
+                <a href="#" id="edit-button" class="btn btn-outline-primary px-4 fw-semibold" style="display: none;">수정</a>
+                <a href="#" id="delete-button" class="btn btn-outline-danger px-4 fw-semibold" style="display: none;">삭제</a>
                 <a href="communityBoard.jsp" class="btn btn-outline-secondary px-4 fw-semibold">글 목록</a>
             </div>
 
@@ -95,12 +95,17 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../../js/features/darkmode.js"></script>
 
+<script src="/TravelRoulette_war/js/features/authManager.js"></script>
+
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const postNumber = urlParams.get('postNumber');
 
     //댓글 목록 불러오는 함수
     function loadComments(pNum) {
+        //현재 로그인한 사용자 ID
+        const currentUserId = AuthManager.getUserId();
+
         fetch(`/TravelRoulette_war/board/community/comments.do?postNumber=\${pNum}`)
             .then(response => response.json())
             .then(comments => {
@@ -110,13 +115,22 @@
                 if (comments && comments.length > 0) {
                     let html = '';
                     comments.forEach(comment => {
+
+                        let actionsHtml = '';
+
+                        //로그인한 사용자 ID와 댓글 작성자 ID가 같을 경우에만 버튼 보여주기
+                        if (currentUserId && currentUserId === comment.userId) {
+                            actionsHtml =
+                                '<div class="comment-actions">' +
+                                '<a href="#" class="btn btn-sm btn-link text-decoration-none text-muted" data-action="edit" data-comment-id="' + comment.commentNumber + '">수정</a>' +
+                                '<a href="#" class="btn btn-sm btn-link text-decoration-none text-muted" data-action="delete" data-comment-id="' + comment.commentNumber + '">삭제</a>' +
+                                '</div>';
+                        }
+
                         html += '<div class="border rounded p-3 mb-2">' +
                             '<div class="d-flex justify-content-between align-items-center">' +
                             '<strong>' + comment.userId + '</strong>' +
-                            '<div class="comment-actions">' +
-                            '<a href="#" class="btn btn-sm btn-link text-decoration-none text-muted" data-action="edit" data-comment-id="' + comment.commentNumber + '">수정</a>' +
-                            '<a href="#" class="btn btn-sm btn-link text-decoration-none text-muted" data-action="delete" data-comment-id="' + comment.commentNumber + '">삭제</a>' +
-                            '</div>' +
+                            actionsHtml +
                             '</div>' +
                             '<p class="mb-1">' + comment.commentDescription + '</p>' +
                             '<small class="text-muted">' + comment.dateWritten + '</small>' +
@@ -132,6 +146,7 @@
                 document.getElementById('comment-list-container').innerHTML = '<p class="text-danger">댓글을 불러오는 데 실패했습니다.</p>';
             });
     }
+
 
     //페이지가 모두 로드된 후 실행
     window.onload = function() {
@@ -149,6 +164,20 @@
                     document.getElementById('post-content').innerText = post.postDescription;
 
                     document.getElementById('edit-button').href = `editForm.jsp?postNumber=\${post.postNumber}`;
+
+
+                    //작성자와 로그인한 사용자가 일치하는지 확인
+                    const currentUserId = AuthManager.getUserId(); //현재 로그인한 사용자 ID
+                    const postAuthorId = post.userId; //게시글 작성자 ID
+
+                    console.log('현재 로그인 ID:', currentUserId, '/ 게시글 작성자 ID:', postAuthorId);
+
+                    //두 ID가 일치할 경우에만 버튼 보여주기
+                    if (currentUserId && currentUserId === postAuthorId) {
+                        document.getElementById('edit-button').style.display = 'inline-block';
+                        document.getElementById('delete-button').style.display = 'inline-block';
+                    }
+
 
                     //댓글 목록도 불러오기
                     loadComments(postNumber);
