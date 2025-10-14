@@ -18,4 +18,6 @@ public class BoardPageDto {
     private int endPage; //화면에 보여줄 페이지 번호 블록의 끝 번호
     private boolean hasPrev; //이전 버튼 활성화 여부
     private boolean hasNext; //다음 버튼 활성화 여부
+
+    private String searchKeyword; //검색어
 }

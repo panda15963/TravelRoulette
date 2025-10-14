@@ -135,23 +135,33 @@
 
     const state = {
         page: parseInt(getParam('page', '1'), 10) || 1,
-        size: parseInt(getParam('size', '10'), 10) || 10,
-        sort: (getParam('sort', 'desc') === 'asc' ? 'asc' : 'desc')
+        size: parseInt(getParam('pageSize', '10'), 10) || 10,
+        sort: (getParam('sort', 'desc') === 'asc' ? 'asc' : 'desc'),
+
+        searchKeyword: getParam('searchKeyword', '')
     };
 
-    function setUrlQuery(page, size, sort) {
-        const sp = new URLSearchParams(location.search);
-        sp.set('page', String(page));
-        sp.set('size', String(size));
-        if (sort) sp.set('sort', String(sort));
+    function setUrlQuery() {
+        const sp = new URLSearchParams();
+        sp.set('page', String(state.page));
+        sp.set('pageSize', String(state.size));
+        sp.set('sort', state.sort);
+        //검색어가 있을 때만 URL에 추가
+        if (state.searchKeyword && state.searchKeyword.trim() !== '') {
+            sp.set('searchKeyword', state.searchKeyword);
+        }
         history.pushState(null, '', location.pathname + '?' + sp.toString());
     }
 
     //게시글 목록 불러오기
     function loadList() {
-        const url = '/TravelRoulette_war/board/community/list.do?page=' + state.page +
+        let url = '/TravelRoulette_war/board/community/list.do?page=' + state.page +
             '&pageSize=' + state.size +
             '&sort=' + state.sort;
+        if (state.searchKeyword && state.searchKeyword.trim() !== '') {
+            //뭔가 오류 뜨길래 인코딩 문제인가 싶어서 일단 넣어본 코드
+            url += '&searchKeyword=' + encodeURIComponent(state.searchKeyword);
+        }
 
         fetch(url)
             .then(function(res){ return res.json(); })
@@ -161,11 +171,14 @@
 
                 renderTable(Array.isArray(data.posts) ? data.posts : []);
 
+                // 버튼 비활성화 처리
                 renderPagination({
-                    currentPage: data.currentPage || state.page,
-                    totalPages: data.totalPages || 1,
-                    startPage: data.startPage || 1,
-                    endPage: data.endPage || (data.totalPages || 1)
+                    currentPage: data.currentPage,
+                    totalPages: data.totalPages,
+                    startPage: data.startPage,
+                    endPage: data.endPage,
+                    hasPrev: data.hasPrev,
+                    hasNext: data.hasNext
                 });
             })
             .catch(function(err){
@@ -183,7 +196,7 @@
         if (!tbody) return;
 
         if (!list.length) {
-            tbody.innerHTML = '<tr><td colspan="4" class="text-center">게시글이 없습니다.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center">검색 결과가 없습니다.</td></tr>'; // 문구 약간 수정
             return;
         }
 
@@ -193,7 +206,7 @@
             const num = post.postNumber || '';
             const title = post.postTitle || '(제목 없음)';
             const user = post.userId || '-';
-            const date = post.postDateWritten || '';
+            const date = post.postDateWritten ? post.postDateWritten.substring(0, 10) : ''; // 날짜 형식 처리 추가
 
             html += '<tr data-id="' + num + '">' +
                 '<td class="text-center">' + num + '</td>' +
@@ -228,21 +241,24 @@
         const s = Number(opts.startPage) || 1;
         const e = Number(opts.endPage) || t;
 
+        const hasPrevBlock = opts.hasPrev;
+        const hasNextBlock = opts.hasNext;
+
         function li(label, page, disabled, active) {
             const cls = 'page-item' + (disabled ? ' disabled' : '') + (active ? ' active' : '');
             return '<li class="' + cls + '"><a class="page-link" href="#" data-page="' + page + '">' + label + '</a></li>';
         }
 
         let html = '';
-        html += li('« 처음', 1, c === 1, false);
-        html += li('‹ 이전', Math.max(1, c - 1), c === 1, false);
+        html += li('«', 1, c === 1, false); // '처음' 버튼
+        html += li('‹', hasPrevBlock ? s - 1 : c, !hasPrevBlock, false); // '이전 블록' 버튼
 
         for (let p = s; p <= e; p++) {
             html += li(String(p), p, false, p === c);
         }
 
-        html += li('다음 ›', Math.min(t, c + 1), c === t, false);
-        html += li('마지막 »', t, c === t, false);
+        html += li('›', hasNextBlock ? e + 1 : c, !hasNextBlock, false); // '다음 블록' 버튼
+        html += li('»', t, c === t, false); // '마지막' 버튼
 
         ul.innerHTML = html;
 
@@ -250,74 +266,60 @@
         for (let k = 0; k < links.length; k++) {
             links[k].addEventListener('click', function(e) {
                 e.preventDefault();
+
+                if (this.parentElement.classList.contains('disabled')) return; // 비활성화된 버튼은 클릭 방지
+
                 const next = Number(this.getAttribute('data-page'));
-                if (!next || next === c || next < 1 || next > t) return;
+                if (!next || next === c) return;
                 state.page = next;
-                setUrlQuery(state.page, state.size, state.sort);
+                setUrlQuery();
                 loadList();
             });
         }
     }
 
-    //초기 로드
+    //초기 로드 및 이벤트 리스너 설정
     window.onload = function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.querySelector('button.btn-info'); // '검색' 버튼
+        const sortSelect = document.getElementById('sortSelect');
+
+        if (searchInput) {
+            searchInput.value = state.searchKeyword;
+        }
+
         loadList();
 
-        const sortSelect = document.getElementById('sortSelect'); // <select id="sortSelect"> 필요
+        //정렬
         if (sortSelect) {
-            if (sortSelect.value !== state.sort) sortSelect.value = state.sort;
-
+            sortSelect.value = state.sort;
             sortSelect.addEventListener('change', function() {
                 state.sort = this.value;
-                state.page = 1;
-                setUrlQuery(state.page, state.size, state.sort);
+                state.page = 1; //정렬 변경 시 1페이지로
+                setUrlQuery();
                 loadList();
+            });
+        }
+
+        //검색
+        if (searchButton && searchInput) {
+            searchButton.addEventListener('click', function() {
+                state.searchKeyword = searchInput.value;
+                state.page = 1; //검색 시 1페이지로
+                setUrlQuery();
+                loadList();
+            });
+
+            //검색창 엔터 키
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchButton.click();
+                }
             });
         }
     };
 </script>
 
-
-
-
-<%--<script>--%>
-<%--    //웹페이지가 모두 로드된 이후 실행--%>
-<%--    window.onload = function() {--%>
-<%--        //게시글 목록 데이터를 요청(fetch로 비동기 통신)--%>
-<%--        fetch('/TravelRoulette_war/board/community/list.do')--%>
-<%--            .then(response => {--%>
-<%--                //JSON 데이터만 추출--%>
-<%--                return response.json();--%>
-<%--            })--%>
-<%--            .then(data => {--%>
-<%--                //화면 그리기--%>
-<%--                console.log("서버로부터 받은 데이터:", data); //F12 확인용--%>
-
-<%--                const tbody = document.getElementById('post-list-body');--%>
-<%--                tbody.innerHTML = '';--%>
-
-<%--                let html = ''; //테이블에 추가할 HTML 코드--%>
-
-<%--                //게시글 배열을 순회--%>
-<%--                data.forEach(post => {--%>
-<%--                    html += '<tr>' +--%>
-<%--                        '<td>' + post.postNumber + '</td>' +--%>
-<%--                        '<td class="text-center"><a href="postView.jsp?postNumber=' + post.postNumber + '" class="text-decoration-none text-dark">' + post.postTitle + '</a></td>' +--%>
-<%--                        '<td>' + post.userId + '</td>' +--%>
-<%--                        '<td>' + post.postDateWritten + '</td>' +--%>
-<%--                        '</tr>';--%>
-<%--                });--%>
-
-<%--                //tbody에 삽입--%>
-<%--                tbody.innerHTML = html;--%>
-<%--            })--%>
-<%--            .catch(error => {--%>
-<%--                console.error('게시글 목록 로딩 중 오류 발생:', error);--%>
-<%--                const tbody = document.getElementById('post-list-body');--%>
-<%--                tbody.innerHTML = '<tr><td colspan="5">게시글을 불러오는 데 실패했습니다.</td></tr>';--%>
-<%--            });--%>
-<%--    };--%>
-<%--</script>--%>
 
 </body>
 </html>
