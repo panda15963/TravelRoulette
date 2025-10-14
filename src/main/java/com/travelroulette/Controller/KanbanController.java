@@ -59,16 +59,30 @@ public class KanbanController extends HttpServlet {
         resp.setContentType("application/json; charset=UTF-8");
 
         String action = req.getParameter("action");
-        String userId = "ryeol3"; // ✅ 임시 로그인 유저
-
         JsonObject result = new JsonObject();
 
-        if (userId == null || userId.isBlank()) {
+        // ✅ 세션에서 로그인된 사용자 가져오기
+        HttpSession session = req.getSession(false);
+        if (session == null) {
             result.addProperty("success", false);
             result.addProperty("error", "로그인이 필요합니다.");
             resp.getWriter().write(gson.toJson(result));
             return;
         }
+
+        // ✅ AuthServlet에서 저장한 세션 속성명과 동일하게 가져오기
+        com.travelroulette.Dto.User.AuthenticatedUser authUser =
+                (com.travelroulette.Dto.User.AuthenticatedUser) session.getAttribute("authenticatedUser");
+
+        if (authUser == null) {
+            result.addProperty("success", false);
+            result.addProperty("error", "로그인이 필요합니다.");
+            resp.getWriter().write(gson.toJson(result));
+            return;
+        }
+
+        // ✅ 로그인한 사용자 아이디
+        String userId = authUser.getUserId();
 
         try {
             switch (action) {
