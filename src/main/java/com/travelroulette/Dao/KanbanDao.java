@@ -29,8 +29,8 @@ public class KanbanDao {
 
         // SQL: 상태(todo→inprogress→done) 순, 같은 상태 내에서는 taskOrder 기준 정렬
         String sql =
-            "SELECT taskId, userId, taskDescription, taskStatus, taskOrder, priority, dueDate, createDate " +
-            "FROM Kanban WHERE userId=? " +
+            "SELECT taskId, userId, taskDescription, taskStatus, taskOrder, priority, dueDate, createdDate " +
+            "FROM kanban WHERE userId=? " +
             "ORDER BY CASE taskStatus " +
             "WHEN 'todo' THEN 1 WHEN 'inprogress' THEN 2 WHEN 'done' THEN 3 END, taskOrder ASC";
 
@@ -50,7 +50,7 @@ public class KanbanDao {
                     dto.setPriority(Priority.from(rs.getString("priority")));
 
                     Timestamp due = rs.getTimestamp("dueDate");
-                    Timestamp created = rs.getTimestamp("createDate");
+                    Timestamp created = rs.getTimestamp("createdDate");
 
                     if (due != null) dto.setDueDate(due.toLocalDateTime());
                     if (created != null) dto.setCreateDate(created.toLocalDateTime());
@@ -78,9 +78,9 @@ public class KanbanDao {
                               LocalDateTime dueDate) {
 
         final String findNextOrder =
-                "SELECT COALESCE(MAX(taskOrder)+1, 0) FROM Kanban WHERE userId=? AND taskStatus=?";
+                "SELECT COALESCE(MAX(taskOrder)+1, 0) FROM kanban WHERE userId=? AND taskStatus=?";
         final String insertSql =
-                "INSERT INTO Kanban (userId, taskDescription, taskStatus, taskOrder, priority, dueDate) " +
+                "INSERT INTO kanban (userId, taskDescription, taskStatus, taskOrder, priority, dueDate) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConnectionPoolHelper.getConnection()) {
@@ -140,7 +140,7 @@ public class KanbanDao {
             Priority newPriority, LocalDateTime newDueDate) {
 
 	final String sql = """
-			UPDATE Kanban
+			UPDATE kanban
 			SET taskStatus=?, taskDescription=?, priority=?, dueDate=?
 			WHERE taskId=? AND userId=?
 			""";
@@ -174,7 +174,7 @@ public class KanbanDao {
         if (orderedTaskIds == null || orderedTaskIds.isEmpty()) return;
 
         StringBuilder sb = new StringBuilder();
-        sb.append("UPDATE Kanban SET taskOrder = CASE taskId ");
+        sb.append("UPDATE kanban SET taskOrder = CASE taskId ");
         for (int i = 0; i < orderedTaskIds.size(); i++) {
             sb.append("WHEN ").append(orderedTaskIds.get(i)).append(" THEN ").append(i).append(" ");
         }
@@ -200,12 +200,12 @@ public class KanbanDao {
     */
     		public int deleteCard(String userId, Integer taskId) {
     		    final String qMeta =
-    		        "SELECT taskStatus, taskOrder FROM Kanban WHERE taskId=? AND userId=?";
+    		        "SELECT taskStatus, taskOrder FROM kanban WHERE taskId=? AND userId=?";
     		    final String qCompact =
-    		        "UPDATE Kanban SET taskOrder = taskOrder - 1 " +
+    		        "UPDATE kanban SET taskOrder = taskOrder - 1 " +
     		        "WHERE userId=? AND taskStatus=? AND taskOrder > ?";
     		    final String qDelete =
-    		        "DELETE FROM Kanban WHERE taskId=? AND userId=?";
+    		        "DELETE FROM kanban WHERE taskId=? AND userId=?";
 
     		    try (Connection conn = ConnectionPoolHelper.getConnection()) {
     		        conn.setAutoCommit(false);
@@ -275,17 +275,17 @@ public class KanbanDao {
 	    }
 
        final String qCurrentOrder =
-               "SELECT taskOrder FROM Kanban WHERE taskId=? AND userId=? AND taskStatus=?";
+               "SELECT taskOrder FROM kanban WHERE taskId=? AND userId=? AND taskStatus=?";
        final String qCountInTarget =
-               "SELECT COUNT(*) FROM Kanban WHERE userId=? AND taskStatus=?";
+               "SELECT COUNT(*) FROM kanban WHERE userId=? AND taskStatus=?";
        final String qCompactFrom =
-               "UPDATE Kanban SET taskOrder = taskOrder - 1 " +
+               "UPDATE kanban SET taskOrder = taskOrder - 1 " +
                "WHERE userId=? AND taskStatus=? AND taskOrder > ?";
        final String qShiftTo =
-               "UPDATE Kanban SET taskOrder = taskOrder + 1 " +
+               "UPDATE kanban SET taskOrder = taskOrder + 1 " +
                "WHERE userId=? AND taskStatus=? AND taskOrder >= ?";
        final String qUpdateSelf =
-               "UPDATE Kanban SET taskStatus=?, taskOrder=? WHERE taskId=? AND userId=?";
+               "UPDATE kanban SET taskStatus=?, taskOrder=? WHERE taskId=? AND userId=?";
 
        try (Connection conn = ConnectionPoolHelper.getConnection()) {
            conn.setAutoCommit(false);
