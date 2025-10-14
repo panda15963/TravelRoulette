@@ -11,11 +11,13 @@
 
 <body id="pageBody" class="d-flex flex-column h-100 bg-white text-dark" data-mode="light">
 <%@ include file="/Common/navbar.jsp" %>
+<%@ include file="/Common/sidebar.jsp" %>
 
 <!-- ===== 메인 콘텐츠 (사이드바 + 본문) ===== -->
 <div class="container-fluid flex-grow-1 p-0">
     <div class="row g-0">
         <%@ include file="/Common/boardSidebar.jsp" %>
+        <!-- sidebar.jsp는 중복되므로 제외 -->
 
         <main id="boardSection" class="col-12 col-md-9 col-lg-10 px-4 py-4 mt-5">
 
@@ -47,7 +49,7 @@
 
             <!-- 게시판 목록 -->
             <div class="card border-info shadow-sm">
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header bg-info-subtle d-flex justify-content-between align-items-center">
                     <span class="fw-semibold text-primary">게시글 목록</span>
                     <small class="text-muted">전체 게시글을 한눈에 확인하세요!</small>
                 </div>
@@ -65,7 +67,6 @@
                             </tr>
                             </thead>
                             <tbody class="text-center">
-
                             <!-- 자유게시판 -->
                             <tr>
                                 <td>6</td>
@@ -147,5 +148,12 @@
 <!-- ===== JS ===== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../../js/features/darkmode.js"></script>
+<script src="../../../js/utils/authManager.js"></script>
+<script>
+    // 칸반 페이지는 로그인 필수
+    document.addEventListener('DOMContentLoaded', function() {
+        AuthManager.requireLogin();
+    });
+</script>
 </body>
 </html>

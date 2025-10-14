@@ -12,7 +12,7 @@
 <body id="pageBody" class="d-flex flex-column h-100 bg-white text-dark" data-mode="light">
 
 <%@ include file="/Common/navbar.jsp" %>
-
+<%@ include file="/Common/sidebar.jsp" %>
 <!-- ===== 메인 콘텐츠 (사이드바 + 본문) ===== -->
 <div class="container-fluid flex-grow-1 p-0">
     <div class="row g-0">
@@ -117,7 +117,7 @@
 
 
         //비동기
-        fetch('/TravelRoulette_war/board/community/write.do', {
+        fetch('/TravelRoulette/board/community/write.do', {
             method: 'POST',
             body: formData
         })

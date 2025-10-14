@@ -12,7 +12,7 @@
 <body id="pageBody" class="d-flex flex-column h-100 bg-white text-dark" data-mode="light">
 
 <%@ include file="/Common/navbar.jsp" %>
-
+<%@ include file="/Common/sidebar.jsp" %>
 <div class="container-fluid flex-grow-1 p-0">
     <div class="row g-0">
         <%@ include file="/Common/boardSidebar.jsp" %>
@@ -57,7 +57,7 @@
 
         if (postNumber) {
             //상세보기에서 사용했던 detail.do 재활용
-            fetch(`/TravelRoulette_war/board/community/detail.do?postNumber=\${postNumber}`)
+            fetch(`/TravelRoulette/board/community/detail.do?postNumber=\${postNumber}`)
                 .then(response => response.json())
                 .then(post => {
                     if (post) {
@@ -82,7 +82,7 @@
         formData.append('title', title);
         formData.append('content', content);
 
-        fetch('/TravelRoulette_war/board/community/update.do', {
+        fetch('/TravelRoulette/board/community/update.do', {
             method: 'POST',
             body: formData
         })
