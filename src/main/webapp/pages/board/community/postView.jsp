@@ -106,7 +106,8 @@
         //현재 로그인한 사용자 ID
         const currentUserId = AuthManager.getUserId();
 
-        fetch(`/TravelRoulette/board/community/comments.do?postNumber=\${pNum}`)
+        //fetch(`/TravelRoulette/board/community/comments.do?postNumber=\${pNum}`)
+        fetch('${pageContext.request.contextPath}/board/community/comments.do?postNumber=' + pNum)
             .then(response => response.json())
             .then(comments => {
                 const container = document.getElementById('comment-list-container');
@@ -153,7 +154,8 @@
         //postNumber가 유효한 경우에만 서버에 데이터를 요청
         if (postNumber) {
             //비동기
-            fetch(`/TravelRoulette/board/community/detail.do?postNumber=\${postNumber}`)
+            //fetch(`/TravelRoulette/board/community/detail.do?postNumber=\${postNumber}`)
+            fetch('${pageContext.request.contextPath}/board/community/detail.do?postNumber=' + postNumber)
                 .then(response => response.json()) //응답을 JSON으로 변환
                 .then(post => {
                     console.log("서버로부터 받은 상세 데이터:", post);
@@ -204,7 +206,8 @@
             formData.append('postNumber', postNumber);
 
             //비동기
-            fetch('/TravelRoulette/board/community/delete.do', {
+            //fetch('/TravelRoulette/board/community/delete.do', {
+            fetch('${pageContext.request.contextPath}/board/community/delete.do', {
                 method: 'POST',
                 body: formData
             })
@@ -242,7 +245,8 @@
         formData.append('commentDescription', commentDescription);
 
 
-        fetch('/TravelRoulette/board/community/comment/write.do', {
+        //fetch('/TravelRoulette/board/community/comment/write.do', {
+        fetch('${pageContext.request.contextPath}/board/community/comment/write.do', {
             method: 'POST',
             body: formData
         })
@@ -323,7 +327,8 @@
             formData.append('commentNumber', commentId);
             formData.append('commentDescription', newDescription);
 
-            fetch('/TravelRoulette/board/community/comment/update.do', {
+            //fetch('/TravelRoulette/board/community/comment/update.do', {
+            fetch('${pageContext.request.contextPath}/board/community/comment/update.do', {
                 method: 'POST',
                 body: formData
             })
@@ -353,7 +358,8 @@
                 const formData = new FormData();
                 formData.append('commentNumber', commentId);
 
-                fetch('/TravelRoulette/board/community/comment/delete.do', {
+                //fetch('/TravelRoulette/board/community/comment/delete.do', {
+                fetch('${pageContext.request.contextPath}/board/community/comment/delete.do', {
                     method: 'POST',
                     body: formData
                 })
