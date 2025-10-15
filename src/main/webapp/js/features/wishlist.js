@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const userId = AuthManager.getUserId();
 
+    console.log(userId);
     // ✅ 프로젝트 경로 자동 인식
     const baseUrl = `${window.location.origin}${
         window.location.pathname.split('/')[1] ? '/' + window.location.pathname.split('/')[1] : ''
