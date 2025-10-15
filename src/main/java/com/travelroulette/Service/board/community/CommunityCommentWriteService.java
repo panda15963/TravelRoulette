@@ -1,6 +1,6 @@
-package com.travelroulette.Service.board.community;
+package com.travelroulette.Service.Board.Community;
 
-import com.travelroulette.Dao.CommunityBoardDao;
+import com.travelroulette.Dao.CommunityBoardDAO;
 import com.travelroulette.Dto.Comment.CommentDto;
 import com.travelroulette.Dto.User.AuthenticatedUser;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ public class CommunityCommentWriteService {
                 .postNumber(Integer.parseInt(postNumberStr))
                 .build();
 
-        CommunityBoardDao dao = new CommunityBoardDao();
+        CommunityBoardDAO dao = new CommunityBoardDAO();
         int result = dao.insertComment(newComment);
 
         return result;

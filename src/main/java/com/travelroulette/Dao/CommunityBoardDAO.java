@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommunityBoardDao {
+public class CommunityBoardDAO {
 
 
     //게시글 목록 불러오기(+ 페이지네이션)(+검색)
@@ -86,68 +86,7 @@ public class CommunityBoardDao {
     }
 
 
-
-//    public List<PostDto> selectAllPosts(int boardNumber, int page, int pageSize, boolean asc) {
-//        Connection conn = null;
-//        PreparedStatement pstmt = null;
-//        ResultSet rs = null;
-//        List<PostDto> postList = new ArrayList<>(); //게시글 목록 리스트
-//
-//        //정렬 방향
-//        String order = asc ? "ASC" : "DESC";
-//
-//        //MySQL 쿼리
-//        String sql = "SELECT postNumber, postTitle, postDescription, postDateWritten, userId " +
-//                "FROM post " +
-//                "WHERE boardNumber = ? " +
-//                "ORDER BY postDateWritten " + order + ", postNumber " + order + " " +
-//                "LIMIT ? OFFSET ?";
-//
-//        try {
-//            conn = ConnectionPoolHelper.getConnection();
-//            pstmt = conn.prepareStatement(sql);
-//
-//            int offset = (page - 1) * pageSize; //건너뛸 개수 계산
-//            pstmt.setInt(1, boardNumber);
-//            pstmt.setInt(2, pageSize);
-//            pstmt.setInt(3, offset);
-//
-//            rs = pstmt.executeQuery();
-//
-//            while (rs.next()) {
-//                java.sql.Timestamp ts = rs.getTimestamp("postDateWritten");
-//                java.time.LocalDateTime dateWritten = (ts != null) ? ts.toLocalDateTime() : null;
-//
-//                //PostDto 객체 생성
-//                PostDto post = PostDto.builder()
-//                        .postNumber(rs.getInt("postNumber"))
-//                        .postTitle(rs.getString("postTitle"))
-//                        .postDescription(rs.getString("postDescription"))
-//                        .postDateWritten(dateWritten)
-//                        .userId(rs.getString("userId"))
-//                        .boardNumber(boardNumber)
-//                        .build();
-//
-//                //목록에 추가
-//                postList.add(post);
-//            }
-//
-//        } catch (SQLException e) {
-//            System.out.println("게시글 목록 조회 중 오류 발생");
-//            e.printStackTrace();
-//        } finally {
-//            ConnectionPoolHelper.close(rs);
-//            ConnectionPoolHelper.close(pstmt);
-//            ConnectionPoolHelper.close(conn);
-//        }
-//
-//        //게시글 목록 리스트 반환
-//        return postList;
-//    }
-
-
-
-    //글쓰기
+    //게시글 쓰기
     public int insertPost(PostDto post) throws SQLException {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -386,6 +325,44 @@ public class CommunityBoardDao {
         return commentList; //댓글 목록 리스트 반환
     }
 
+    //권한 확인용 - 특정 댓글 정보 불러오기
+    public CommentDto selectOneComment(int commentNumber) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        CommentDto comment = null;
+
+        String sql = "SELECT commentNumber, commentDescription, commentDateWritten, userId, postNumber " +
+                "FROM comment WHERE commentNumber = ?";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, commentNumber);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                java.sql.Timestamp ts = rs.getTimestamp("commentDateWritten");
+                java.time.LocalDateTime dateWritten = (ts != null) ? ts.toLocalDateTime() : null;
+
+                comment = CommentDto.builder()
+                        .commentNumber(rs.getInt("commentNumber"))
+                        .commentDescription(rs.getString("commentDescription"))
+                        .dateWritten(dateWritten)
+                        .userId(rs.getString("userId"))
+                        .postNumber(rs.getInt("postNumber"))
+                        .build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(rs);
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+        return comment;
+    }
+
 
     //댓글 쓰기
     public int insertComment(CommentDto comment) {
@@ -475,6 +452,29 @@ public class CommunityBoardDao {
         }
 
         return result; //실패하면 0, 성공하면 1을 반환
+    }
+
+    //특정 게시글의 모든 댓글 삭제
+    public int deleteCommentsByPostNumber(int postNumber) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int result = 0;
+
+        String sql = "DELETE FROM comment WHERE postNumber = ?";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, postNumber);
+            result = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("게시글 삭제 중 댓글 삭제 오류: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+        return result;
     }
 
 

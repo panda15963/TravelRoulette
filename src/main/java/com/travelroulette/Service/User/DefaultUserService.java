@@ -1,6 +1,6 @@
 package com.travelroulette.Service.User;
 
-import com.travelroulette.Dao.User.UserDao;
+import com.travelroulette.Dao.User.UserDAO;
 import com.travelroulette.Dto.User.AuthenticatedUser;
 import com.travelroulette.Dto.User.UserDto;
 import com.travelroulette.Dto.User.UserRegistrationRequest;
@@ -28,7 +28,7 @@ public class DefaultUserService implements UserService {
 
     // DAO 의존성 주입 (DB 접근)
     @NonNull
-    private final UserDao userDao;
+    private final UserDAO userDao;
 
     /**
      * ✅ 회원가입 기능

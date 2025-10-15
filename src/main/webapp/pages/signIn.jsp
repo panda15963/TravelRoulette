@@ -37,31 +37,27 @@
 
 
 
-
-<div class="modal fade" id="loginSuccessModal" tabindex="-1" aria-labelledby="loginSuccessModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginSuccessModalLabel">로그인 성공</h5>
-            </div>
-            <div class="modal-body" id="modal-welcome-message">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="modal-confirm-button">확인</button>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    const CONTEXT_PATH = "${pageContext.request.contextPath}";
-</script>
+<%--<script>--%>
+<%--    const CONTEXT_PATH = "${pageContext.request.contextPath}";--%>
+<%--</script>--%>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
 <script src="${pageContext.request.contextPath}/js/utils/authManager.js"></script>
-<script defer src="${pageContext.request.contextPath}/js/features/signUpAndValidate.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
     // AJAX 로그인 처리
     document.addEventListener('DOMContentLoaded', function() {
@@ -88,13 +84,41 @@
                         });
 
                         // 로그인 성공 메시지
-                        alert(data.userId + '님 환영합니다!');
+                        // data.success가 있다면 "아이디님 환영합니다! /n 잠시 후 메인으로 이동합니다..."
+                        // 없다면 "님 환영합니다! /n 잠시 후 메인으로 이동합니다..."
+                        const loginMessage = (data.success ? data.success + '님 환영합니다!' : '로그인 성공!')
+                                             + '\n잠시 후 메인으로 이동합니다...';
+
+                        Swal.fire({
+                          title: '로그인 성공!',
+                          text: loginMessage,
+                          icon: 'success',
+                          showConfirmButton: false,
+                          timer: 2000,
+                          timerProgressBar: true,
+                          didClose: () => {
+                            // 2초 타이머가 끝난 후, 이 함수가 실행되며 페이지를 이동시킵니다.
+                            // 메인 페이지로 이동
+                            window.location.href = '${pageContext.request.contextPath}/index.jsp';
+                          }
+                        });
+
+                        //alert(data.userId + '님 환영합니다!');
 
                         // 메인 페이지로 이동
-                        window.location.href = '${pageContext.request.contextPath}/index.jsp';
+                        // window.location.href = '${pageContext.request.contextPath}/index.jsp';
                     } else {
                         // 로그인 실패
-                        alert(data.message || '로그인에 실패했습니다.');
+                        const errorMessage = data.message || '로그인에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+                        Swal.fire({
+                          icon: 'error', // 실패는 보통 'error' 아이콘을 사용합니다.
+                          title: '로그인 오류',
+                          text: errorMessage,
+                          timer: 2000, // 타이머
+                          timerProgressBar: true,
+                          showConfirmButton: false
+                        });
+                       // alert(data.message || '로그인에 실패했습니다.');
                     }
                 })
                 .catch(error => {

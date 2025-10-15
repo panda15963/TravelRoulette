@@ -1,4 +1,19 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<%@ page import="com.travelroulette.Dao.TotalBoardDAO" %>
+<%@ page import="com.travelroulette.Dto.TotalBoard.TotalBoardDto" %>
+<%@ page import="java.util.List" %>
+
+<%
+    // ✅ JSP에서 DAO 직접 호출 — Controller 없이도 작동
+    TotalBoardDAO dao = new TotalBoardDAO();
+    List<TotalBoardDto> boardList = dao.findAll();
+    request.setAttribute("boardList", boardList);
+%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,18 +25,16 @@
 </head>
 
 <body id="pageBody" class="d-flex flex-column h-100 bg-white text-dark" data-mode="light">
+
 <%@ include file="/Common/navbar.jsp" %>
 <%@ include file="/Common/sidebar.jsp" %>
 
-<!-- ===== 메인 콘텐츠 (사이드바 + 본문) ===== -->
 <div class="container-fluid flex-grow-1 p-0">
     <div class="row g-0">
         <%@ include file="/Common/boardSidebar.jsp" %>
-        <!-- sidebar.jsp는 중복되므로 제외 -->
 
         <main id="boardSection" class="col-12 col-md-9 col-lg-10 px-4 py-4 mt-5">
 
-            <!-- 상단 헤더 -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h1 class="h3 fw-bold text-primary mb-1">전체 게시판</h1>
@@ -29,25 +42,6 @@
                 </div>
             </div>
 
-            <!-- 검색 영역 -->
-            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
-                <div class="d-flex flex-wrap align-items-center gap-2">
-                    <input type="text" class="form-control border-info" placeholder="검색어를 입력하세요" style="width: 250px;" />
-                    <select class="form-select border-info w-auto">
-                        <option>분류</option>
-                        <option>자유게시판</option>
-                        <option>질의응답</option>
-                    </select>
-                    <select class="form-select border-info w-auto">
-                        <option>정렬</option>
-                        <option>최신순</option>
-                        <option>오래된순</option>
-                    </select>
-                    <button class="btn btn-info text-white fw-semibold">검색</button>
-                </div>
-            </div>
-
-            <!-- 게시판 목록 -->
             <div class="card border-info shadow-sm">
                 <div class="card-header bg-info-subtle d-flex justify-content-between align-items-center">
                     <span class="fw-semibold text-primary">게시글 목록</span>
@@ -59,101 +53,59 @@
                         <table class="table align-middle table-hover mb-0">
                             <thead class="table-info text-primary text-center">
                             <tr>
-                                <th class="w-10">번호</th>
-                                <th class="w-20">분류</th>
+                                <th>번호</th>
+                                <th>분류</th>
                                 <th>제목</th>
-                                <th class="w-20">작성자</th>
-                                <th class="w-20">작성일</th>
+                                <th>작성자</th>
+                                <th>작성일</th>
                             </tr>
                             </thead>
-                            <tbody class="text-center">
-                            <!-- 자유게시판 -->
-                            <tr>
-                                <td>6</td>
-                                <td><span class="badge bg-info text-dark">자유게시판</span></td>
-                                <td>
-                                    <a href="../community/postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        Bootstrap으로 게시판 완성!
-                                    </a>
-                                </td>
-                                <td>홍길동</td>
-                                <td>2025-10-11</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td><span class="badge bg-info text-dark">자유게시판</span></td>
-                                <td>
-                                    <a href="../community/postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        여행지 추천해주세요 ✈️
-                                    </a>
-                                </td>
-                                <td>이민호</td>
-                                <td>2025-10-10</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td><span class="badge bg-info text-dark">자유게시판</span></td>
-                                <td>
-                                    <a href="../community/postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        첫 글 올려봅니다!
-                                    </a>
-                                </td>
-                                <td>김하늘</td>
-                                <td>2025-10-09</td>
-                            </tr>
 
-                            <!-- 질의응답 -->
-                            <tr>
-                                <td>3</td>
-                                <td><span class="badge bg-primary-subtle text-primary">질의응답</span></td>
-                                <td>
-                                    <a href="../qna/postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        게시글 등록이 안돼요 😢
-                                    </a>
-                                </td>
-                                <td>이서연</td>
-                                <td>2025-10-11</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><span class="badge bg-primary-subtle text-primary">질의응답</span></td>
-                                <td>
-                                    <a href="../qna/postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        댓글 기능은 언제 추가되나요?
-                                    </a>
-                                </td>
-                                <td>박준형</td>
-                                <td>2025-10-10</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><span class="badge bg-primary-subtle text-primary">질의응답</span></td>
-                                <td>
-                                    <a href="../qna/postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        파일 첨부는 어떤 형식이 되나요?
-                                    </a>
-                                </td>
-                                <td>정민호</td>
-                                <td>2025-10-09</td>
-                            </tr>
+                            <tbody class="text-center">
+                            <c:forEach var="post" items="${boardList}">
+                                <tr>
+                                    <td>${post.id}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${post.boardType eq '질의응답'}">
+                                                <span class="badge bg-primary-subtle text-primary">질의응답</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge bg-info text-dark">자유게시판</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td class="text-start ps-3">
+                                        <a href="../community/postView.jsp"
+                                           class="text-decoration-none text-dark fw-semibold">
+                                                ${post.title}
+                                        </a>
+                                    </td>
+                                    <td>${post.userId}</td>
+                                    <td>
+                                        <fmt:formatDate value="${post.createdAt}" pattern="yyyy-MM-dd" var="formattedDate" />
+                                        <c:out value="${formattedDate}" />
+                                    </td>
+                                </tr>
+                            </c:forEach>
+
+                            <!-- ✅ 게시글이 없을 경우 -->
+                            <c:if test="${empty boardList}">
+                                <tr>
+                                    <td colspan="5" class="text-muted py-4">등록된 게시글이 없습니다.</td>
+                                </tr>
+                            </c:if>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
         </main>
     </div>
 </div>
 
-<!-- ===== JS ===== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../../js/features/darkmode.js"></script>
-<script src="../../../js/utils/authManager.js"></script>
-<script>
-    // 칸반 페이지는 로그인 필수
-    document.addEventListener('DOMContentLoaded', function() {
-        AuthManager.requireLogin();
-    });
-</script>
+<script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
 </body>
 </html>

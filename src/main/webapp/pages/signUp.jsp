@@ -8,6 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/css/features/sign/signStyle.css" rel="stylesheet"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
 <body id="pageBody" class="sign-page-body" data-mode="light">
 
@@ -16,6 +20,12 @@
 
 <div class="sign-container signup-container">
     <h2>회원가입</h2>
+
+
+
+
+
+
 
     <%
         String error = request.getParameter("error");
@@ -35,9 +45,11 @@
     <form name="signupForm" action="${pageContext.request.contextPath}/auth" method="post">
         <input type="hidden" name="action" value="signup">
         ID<input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요." required>
+                <button>중복확인</button>
         비밀번호<input type="password" name="userPassword" id="userPassword" placeholder="비밀번호를 입력해주세요." required>
         비밀번호 확인<input type="password" name="passwordChk" id="passwordChk" placeholder="비밀번호를 다시 입력해주세요." required>
         이메일<input type="email" name="email" id="email" placeholder="이메일 주소를 입력해주세요." required>
+               <button>중복확인</button>
 
         <div class="radio-group">
             <input type="radio" id="male" name="gender" value="male" checked>
@@ -52,6 +64,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
-<script defer src="${pageContext.request.contextPath}/js/features/signUpAndValidate.js"></script>
+<script src="${pageContext.request.contextPath}/js/features/signUpAndValidate.js"></script>
 </body>
 </html>

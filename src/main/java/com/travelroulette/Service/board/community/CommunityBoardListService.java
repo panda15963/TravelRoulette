@@ -1,6 +1,6 @@
-package com.travelroulette.Service.board.community;
+package com.travelroulette.Service.Board.Community;
 
-import com.travelroulette.Dao.CommunityBoardDao;
+import com.travelroulette.Dao.CommunityBoardDAO;
 import com.travelroulette.Dto.Board.BoardPageDto;
 import com.travelroulette.Dto.Post.PostDto;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class CommunityBoardListService {
 
         String searchKeyword = request.getParameter("searchKeyword");//검색어
 
-        CommunityBoardDao dao = new CommunityBoardDao();
+        CommunityBoardDAO dao = new CommunityBoardDAO();
 
         int totalPostCount = dao.getPostCount(boardNumber, searchKeyword); //전체 게시글 수
         List<PostDto> posts = dao.selectAllPosts(boardNumber, currentPage, pageSize, asc, searchKeyword); //정렬 적용된 목록
@@ -62,7 +62,7 @@ public class CommunityBoardListService {
 
 //package com.travelroulette.Service.board.community;
 //
-//import com.travelroulette.Dao.CommunityBoardDao;
+//import com.travelroulette.Dao.CommunityBoardDAO;
 //import com.travelroulette.Dto.Board.BoardPageDto;
 //import com.travelroulette.Dto.Post.PostDto;
 //import jakarta.servlet.http.HttpServletRequest;
@@ -85,7 +85,7 @@ public class CommunityBoardListService {
 //        String sortParam = request.getParameter("sort");
 //        boolean asc = "asc".equalsIgnoreCase(sortParam);
 //
-//        CommunityBoardDao dao = new CommunityBoardDao();
+//        CommunityBoardDAO dao = new CommunityBoardDAO();
 //
 //        int totalPostCount = dao.getPostCount(boardNumber); //전체 게시글 수
 //        //정렬 적용된 목록 조회

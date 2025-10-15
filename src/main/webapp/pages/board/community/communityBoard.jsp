@@ -155,14 +155,16 @@
 
     //게시글 목록 불러오기
     function loadList() {
-        let url = '/TravelRoulette/board/community/list.do?page=' + state.page +
-            '&pageSize=' + state.size +
-            '&sort=' + state.sort;
+
+        //let url = `${CONTEXT_PATH}/board/community/list.do?page=${state.page}&pageSize=${state.pageSize}&sort=${state.sort}`;
+        const url = '${pageContext.request.contextPath}' +
+            '/board/community/list.do?page=${state.page}&pageSize=${state.pageSize}&sort=${state.sort}';
+/*
         if (state.searchKeyword && state.searchKeyword.trim() !== '') {
             //뭔가 오류 뜨길래 인코딩 문제인가 싶어서 일단 넣어본 코드
             url += '&searchKeyword=' + encodeURIComponent(state.searchKeyword);
         }
-
+*/
         fetch(url)
             .then(function(res){ return res.json(); })
             .then(function(data){
