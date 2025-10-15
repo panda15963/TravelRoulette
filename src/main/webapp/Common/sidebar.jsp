@@ -15,19 +15,27 @@
 
 	<div class="offcanvas-body">
 		<ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/kanban.jsp">칸반</a></li>
-
-            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/board/common/mainBoard.jsp">게시판</a></li>
-
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/video.jsp">도시홍보영상</a></li>
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/map.jsp">지도</a></li>
-<%--            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/introduction/introofindex.jsp">소개글</a></li>--%>
+            <li class="nav-item"><a class="nav-link"
+                                    href="${pageContext.request.contextPath}/pages/kanban.jsp">칸반</a></li>
+            <li class="nav-item"><a class="nav-link"
+                                    href="${pageContext.request.contextPath}/pages/board/common/mainBoard.jsp">게시판</a></li>
+			<li class="nav-item"><a class="nav-link"
+			                        href="${pageContext.request.contextPath}/pages/video.jsp">도시홍보영상</a></li>
+			<li class="nav-item"><a class="nav-link"
+			                        href="${pageContext.request.contextPath}/pages/chart.jsp">환율 차트</a></li>
+			<li class="nav-item"><a class="nav-link"
+			                        href="${pageContext.request.contextPath}/pages/music.jsp">음악 차트</a></li>
+			<li class="nav-item"><a class="nav-link"
+			                        href="${pageContext.request.contextPath}/pages/map.jsp">지도</a></li>
 
 			<% if (request.getAttribute("authUser") == null) { %>
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/pages/signUp.jsp">회원가입</a></li>
+			<li class="nav-item"><a class="nav-link"
+			                        href="${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
+			<li class="nav-item"><a class="nav-link"
+			                        href="${pageContext.request.contextPath}/pages/signUp.jsp">회원가입</a></li>
 			<% } else { %>
-			<li class="nav-item"><a class="nav-link text-primary fw-bold" href="#"><%= ((AuthenticatedUser)request.getAttribute("authUser")).getUserId() %>님</a></li>
+			<li class="nav-item"><a class="nav-link text-primary fw-bold"
+			                        href="#"><%= ((AuthenticatedUser)request.getAttribute("authUser")).getUserId() %>님</a></li>
 			<li class="nav-item">
 				<a class="nav-link" href="#" id="sidebarLogoutBtn">로그아웃</a>
 			</li>
@@ -44,25 +52,6 @@
 		</ul>
 	</div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- 로그인 상태 관리 -->
 <form id="sidebarLogoutForm" action="${pageContext.request.contextPath}/auth" method="post" style="display: none;">
