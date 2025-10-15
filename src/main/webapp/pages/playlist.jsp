@@ -75,6 +75,25 @@
         #playlist-box .btn-playall:hover {
             background-color: #5b9be0;
         }
+        .btn-home {
+            background-color: #ffffff;
+            color: #4e7cfb;
+            border: 1px solid #4e7cfb;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-home:hover {
+            background-color: #4e7cfb;
+            color: #fff;
+        }
+
+
+
 
         /* 곡 목록 */
         #playlist {
@@ -167,8 +186,31 @@
     <div id="playlist-title">playlist</div>
 </section>
 
+
+
 <section id="playlist-box">
-    <button class="btn-playall" onclick="playAll()">▶ 전체 재생</button>
+    <button class="btn-home" onclick="goHome()" style="
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    margin-right: 100px;
+    margin-bottom: 15px;
+">🔍</button>
+
+
+    <button class="btn-playall" onclick="playAll()" style="
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    width: 120px;
+">▶ 전체 재생</button>
+
 
     <ul id="playlist"></ul>
 
@@ -243,6 +285,11 @@
     }
 
     loadPlaylist();
+    function goHome() {
+        // 홈 경로는 프로젝트 구조에 따라 변경 가능
+        location.href = "<%= request.getContextPath() %>/pages/music.jsp";
+    }
+
 
 </script>
 
