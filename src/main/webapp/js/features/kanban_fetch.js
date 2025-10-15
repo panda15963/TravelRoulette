@@ -12,6 +12,18 @@ function normalizeStatus(status) {
   return status.toLowerCase().replace("_", ""); // "IN_PROGRESS" → "inprogress"
 }
 
+// ✅ 컬럼 높이를 제일 긴 컬럼 기준으로 통일
+function adjustColumnHeights() {
+  const lists = document.querySelectorAll('.list');
+  if (!lists.length) return;
+
+  // 가장 긴 컬럼의 실제 콘텐츠 높이 계산
+  const maxHeight = Math.max(...Array.from(lists).map(list => list.scrollHeight));
+
+  // 각 컬럼의 최소 높이를 통일
+  lists.forEach(list => list.style.minHeight = maxHeight + 'px');
+}
+
 /* ===========================
       🧩 서버 통신 함수들
 =========================== */
@@ -151,6 +163,8 @@ async function render() {
     boardEl.appendChild(columnEl);
     document.getElementById(`count-${col.key}`).textContent = `${items.length}`;
   }
+  
+  adjustColumnHeights();
 }
 
 // 카드 렌더링
