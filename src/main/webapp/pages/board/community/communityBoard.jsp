@@ -7,6 +7,25 @@
     <link rel="icon" type="image/x-icon" href="../../../assets/favicon.ico?v=2" />
     <link href="../../../css/styles.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <style>
+        .table-fixed { table-layout: fixed; width: 100%; }
+        .col-num   { width: 80px; min-width: 70px; }
+        .col-title { width: auto; }
+        .col-author, .col-date { width: 25%; }
+
+        thead th:first-child, tbody td:first-child {
+            font-variant-numeric: tabular-nums;
+        }
+
+        tbody td:nth-child(2) {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+
 </head>
 
 <body id="pageBody" class="d-flex flex-column h-100 bg-white text-dark" data-mode="light">
@@ -60,7 +79,24 @@
 
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table align-middle table-hover mb-0">
+                        <table class="table align-middle table-hover mb-0 table-fixed">
+                            <colgroup>
+                                <col class="col-num">
+                                <col class="col-title">
+                                <col class="col-author">
+                                <col class="col-date">
+                            </colgroup>
+
+                            <thead class="table-info text-primary text-center">
+                            <tr>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>작성일</th>
+                            </tr>
+                            </thead>
+
+                        <!-- <table class="table align-middle table-hover mb-0">
                             <thead class="table-info text-primary text-center">
                             <tr>
                                 <th class="w-10">번호</th>
@@ -69,6 +105,7 @@
                                 <th class="w-25">작성일</th>
                             </tr>
                             </thead>
+                            -->
 
                             <!-- ✅ tbody: 제목 클릭 시 상세 페이지로 이동 -->
                             <tbody id="post-list-body" class="text-center">
@@ -156,9 +193,10 @@
     //게시글 목록 불러오기
     function loadList() {
 
-        //let url = `${CONTEXT_PATH}/board/community/list.do?page=${state.page}&pageSize=${state.pageSize}&sort=${state.sort}`;
-        const url = '${pageContext.request.contextPath}' +
-            '/board/community/list.do?page=${state.page}&pageSize=${state.pageSize}&sort=${state.sort}';
+        const url = '${pageContext.request.contextPath}/board/community/list.do?page=' + state.page
+            + '&pageSize=' + state.pageSize
+            + '&sort=' + state.sort
+            + (state.searchKeyword ? '&searchKeyword=' + encodeURIComponent(state.searchKeyword) : '');
 /*
         if (state.searchKeyword && state.searchKeyword.trim() !== '') {
             //뭔가 오류 뜨길래 인코딩 문제인가 싶어서 일단 넣어본 코드

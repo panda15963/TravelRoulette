@@ -15,4 +15,6 @@ public class CountryDto {
     private String countryNameEng;
     private String flagURL;
     private Integer continentNumber;
+
+    private String currency;
 }

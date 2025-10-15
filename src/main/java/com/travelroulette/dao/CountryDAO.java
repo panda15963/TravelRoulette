@@ -47,4 +47,47 @@ public class CountryDAO {
 
         return countries;
     }
+
+    //국가 전체 조회
+    public List<CountryDto> getAllCountries() {
+        List<CountryDto> countries = new ArrayList<>();
+
+        //MySQL 쿼리
+        String sql = "SELECT countryCode, countryNameKor, countryNameEng, flagURL, continentNumber, currency FROM country";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                CountryDto dto = CountryDto.builder()
+                        .countryCode(rs.getString("countryCode"))
+                        .countryNameKor(rs.getString("countryNameKor"))
+                        .countryNameEng(rs.getString("countryNameEng"))
+                        .flagURL(rs.getString("flagURL"))
+                        .continentNumber(rs.getInt("continentNumber"))
+                        .currency(rs.getString("currency"))
+                        .build();
+                countries.add(dto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            //자원 닫기
+            ConnectionPoolHelper.close(rs);
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+        return countries;
+    }
+
+
+
+
+
 }

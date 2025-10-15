@@ -44,7 +44,7 @@ public class CommunityBoardUpdateService {
                 .build();
 
 
-        int result = dao.updatePost(updatedPost); // DAO에게 수정할 데이터가 담긴 DTO 전달!
+        int result = dao.updatePost(updatedPost);
 
         //성공 여부 반환
         return result;
