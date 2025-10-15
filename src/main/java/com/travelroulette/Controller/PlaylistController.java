@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.*;
 import java.io.*;
 import java.util.List;
 
+
 @WebServlet("/playlist/*")
 public class PlaylistController extends HttpServlet {
     private final PlaylistDao dao = new PlaylistDao();
@@ -22,16 +23,16 @@ public class PlaylistController extends HttpServlet {
         final String path = req.getPathInfo();
         final String sessionId = req.getSession().getId();
 
+        // ✅ 플레이리스트에 곡 추가
         if ("/add".equals(path)) {
             System.out.println("[🎵 PlaylistController] /playlist/add (session=" + sessionId + ")");
 
-            // JSON → Track 매핑
             try (BufferedReader reader = req.getReader()) {
                 Track track = gson.fromJson(reader, Track.class);
                 dao.addTrack(sessionId, track);
             }
 
-            // 디버그: 현재 세션 리스트 출력
+            // ✅ 현재 세션의 곡 목록 디버그 출력
             List<Track> list = dao.getPlaylist(sessionId);
             System.out.println("  └ 현재 곡 수: " + list.size());
             for (Track t : list) {
@@ -40,14 +41,16 @@ public class PlaylistController extends HttpServlet {
                 System.out.println("       albumCover=" + t.getAlbumCover());
             }
 
-            resp.getWriter().write("{\"status\":\"added\"}");
+            // ✅ JSON 응답 수정 (쉼표 추가)
+            resp.getWriter().write("{\"status\":true, \"message\":\"added\"}");
             return;
         }
 
+        // ✅ 플레이리스트 비우기
         if ("/clear".equals(path)) {
             dao.clearPlaylist(sessionId);
             System.out.println("[🗑 PlaylistController] /playlist/clear (session=" + sessionId + ")");
-            resp.getWriter().write("{\"status\":\"cleared\"}");
+            resp.getWriter().write("{\"status\":true, \"message\":\"cleared\"}");
             return;
         }
 
@@ -60,6 +63,7 @@ public class PlaylistController extends HttpServlet {
         final String sessionId = req.getSession().getId();
         resp.setContentType("application/json; charset=UTF-8");
 
+        // ✅ 리스트 요청 처리
         if ("/list".equals(path)) {
             List<Track> list = dao.getPlaylist(sessionId);
             System.out.println("[📜 PlaylistController] /playlist/list -> " + list.size() + " tracks (session=" + sessionId + ")");

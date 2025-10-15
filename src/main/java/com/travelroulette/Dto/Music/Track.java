@@ -1,10 +1,21 @@
 package com.travelroulette.Dto.Music;
+import com.google.gson.annotations.SerializedName;
 
 public class Track {
+
+
+    @SerializedName("title")
     private String title;
+
+    @SerializedName("artist")
     private String artist;
+
+    @SerializedName("previewUrl")
     private String previewUrl;
+
+    @SerializedName("albumCover")
     private String albumCover;
+
 
     public Track() {}
 
@@ -26,4 +37,12 @@ public class Track {
 
     public String getAlbumCover() { return albumCover; }
     public void setAlbumCover(String albumCover) { this.albumCover = albumCover; }
+
+
+
+
+
+
+
+
 }

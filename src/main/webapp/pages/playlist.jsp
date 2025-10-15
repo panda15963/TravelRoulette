@@ -12,91 +12,138 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/features/music/music.css" />
 
     <style>
-        /* ✅ 페이지 전용 영역 (CSS 충돌 방지용) */
+        /* 🎵 페이지 전용 스코프 */
         #playlist-page {
             font-family: "Noto Sans KR", sans-serif;
             background-color: #f7f7f7;
             text-align: center;
             margin: 0;
             padding: 0;
-            min-height: 100vh; /* footer를 화면 하단에 고정시키기 위한 기반 */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* ✅ navbar 높이만큼 상단 여백 확보 */
-        #playlist-content {
-            flex: 1; /* footer 제외 나머지 영역 확장 */
-            padding-top: 100px;
+        /* 상단 영역 */
+        #playlist-header {
+            margin-top: 100px; /* navbar 여백 */
         }
 
-        /* ✅ 제목 */
-        #playlist-content h2 {
-            margin-bottom: 20px;
-        }
-
-        /* ✅ 리스트 전체 컨테이너 */
-        #playlist-content ul {
-            list-style: none;
-            padding: 0;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        /* ✅ 개별 아이템 */
-        #playlist-content li {
-            background: white;
-            margin: 8px auto;
-            padding: 10px 20px;
-            border-radius: 10px;
+        /* 커버 이미지 */
+        #playlist-cover {
+            width: 180px;
+            height: 180px;
+            background-color: #ddd;
+            border-radius: 12px;
+            margin: 0 auto 15px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.1s ease-in-out;
+            justify-content: center;
+            font-size: 2.5em;
+            color: #777;
         }
 
-        #playlist-content li:hover {
-            transform: scale(1.01);
+        /* 플레이리스트 제목 */
+        #playlist-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 25px;
         }
 
-        /* ✅ 앨범 이미지 */
-        #playlist-content li img {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            margin-right: 10px;
-            object-fit: cover;
+        /* 메인 박스 (배경 연한 파랑) */
+        #playlist-box {
+            background-color: #eaf3ff;
+            border-radius: 12px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 25px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
 
-        /* ✅ 곡 정보 텍스트 */
-        #playlist-content li div {
-            text-align: left;
-            flex: 1;
-        }
-
-        /* ✅ 버튼 */
-        #playlist-content button {
+        /* 전체 재생 버튼 */
+        #playlist-box .btn-playall {
             background-color: #7ab8f5;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        #playlist-box .btn-playall:hover {
+            background-color: #5b9be0;
         }
 
-        #playlist-content button:hover {
-            background-color: #5d9bea;
+        /* 곡 목록 */
+        #playlist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
         }
 
-        /* ✅ 오디오 플레이어 */
-        #playlist-content audio {
-            margin-top: 30px;
+        #playlist li {
+            background-color: #f2f5f9;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
         }
 
-        /* ✅ footer 여백 제거 (footer.jsp 수정 없이 적용됨) */
+        #playlist li:hover {
+            background-color: #e6eefc;
+        }
+
+        /* 곡 정보 영역 */
+        .track-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .track-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .track-info div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .track-info b {
+            font-size: 1em;
+            color: #222;
+        }
+
+        .track-info span {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        /* ▶ 버튼 */
+        .play-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            color: #4e7cfb;
+            transition: transform 0.1s;
+        }
+        .play-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* footer 항상 하단 */
         footer {
             width: 100vw !important;
             margin: 0 !important;
@@ -105,6 +152,9 @@
             left: 0;
             right: 0;
         }
+
+
+
     </style>
 </head>
 
@@ -112,25 +162,27 @@
 
 <%@ include file="../Common/navbar.jsp" %>
 
-<main id="playlist-content">
-    <h2>🎶 나의 여행 플레이리스트</h2>
+<section id="playlist-header">
+    <div id="playlist-cover">🎵</div>
+    <div id="playlist-title">playlist</div>
+</section>
+
+<section id="playlist-box">
+    <button class="btn-playall" onclick="playAll()">▶ 전체 재생</button>
 
     <ul id="playlist"></ul>
 
-    <div>
-        <button onclick="playAll()">▶ 전체 재생</button>
-        <button onclick="clearList()">🗑 전체 비우기</button>
-    </div>
-
     <audio id="player" controls></audio>
-</main>
+</section>
 
 <%@ include file="../Common/footer.jsp" %>
 
+
+
 <script>
-    // ✅ 플레이리스트 불러오기
     async function loadPlaylist() {
         const res = await fetch("../playlist/list");
+        //겟 요청
         const list = await res.json();
         const ul = document.getElementById("playlist");
 
@@ -140,45 +192,45 @@
         }
 
         ul.innerHTML = list.map((t, i) => {
-            let coverSrc = (t.albumCover || "").trim();
+            const coverSrc = String(t.albumCover || "")
+                .replace(/^http:\/\//, "https://")
+                .trim() || "../../images/default.png";
 
-            if (coverSrc.startsWith("http://")) {
-                coverSrc = coverSrc.replace(/^http:\/\//, "https://");
-            }
-
-            if (!/^https?:\/\//.test(coverSrc)) {
-                coverSrc = "../../images/default.png";
-            }
-
-            const safeTitle = (t.title || "제목 없음").replace(/"/g, "&quot;");
-            const safeArtist = (t.artist || "아티스트 미상").replace(/"/g, "&quot;");
+            const safeTitle = String(t.title || "제목 없음").trim().replace(/"/g, "&quot;");
+            const safeArtist = String(t.artist || "아티스트 미상").trim().replace(/"/g, "&quot;");
 
             return `
-                <li onclick="play(${i})">
-                    <div style="display:flex;align-items:center;gap:10px;">
-                        <img src="${coverSrc}" alt="앨범 커버"
-                             referrerpolicy="no-referrer"
-                             onerror="this.src='../../images/default.png';">
-                        <div>
-                            <b>${safeTitle}</b><br>
-                            <span style="font-size:0.9em;color:#555;">${safeArtist}</span>
-                        </div>
-                    </div>
-                    <button onclick="event.stopPropagation(); play(${i});">▶</button>
-                </li>`;
+      <li onclick="play(\${i})">
+        <div class="track-info">
+          <img src="\${coverSrc}"
+               alt="앨범 커버"
+               referrerpolicy="no-referrer"
+               onerror="this.src='../../images/default.png';" />
+          <div>
+            <b>\${safeTitle}</b>
+            <span>\${safeArtist}</span>
+          </div>
+        </div>
+        <button class="play-btn"
+                onclick="event.stopPropagation(); play(\${i});">▶</button>
+      </li>`;
         }).join("");
+
+
+
+
+        console.log("🎯 최종 innerHTML:", document.getElementById("playlist").innerHTML);
+
 
         window.tracks = list;
     }
 
-    // ✅ 단일곡 재생
     function play(i) {
         const player = document.getElementById("player");
         player.src = window.tracks[i].previewUrl;
         player.play();
     }
 
-    // ✅ 전체 재생
     function playAll() {
         let i = 0;
         const player = document.getElementById("player");
@@ -190,15 +242,12 @@
         };
     }
 
-    // ✅ 전체 비우기
-    async function clearList() {
-        await fetch("../playlist/clear", { method: "POST" });
-        alert("🗑 플레이리스트가 비워졌습니다.");
-        loadPlaylist();
-    }
-
-    // ✅ 페이지 로드 시 자동 실행
     loadPlaylist();
+
 </script>
+
+
+
+
 </body>
 </html>

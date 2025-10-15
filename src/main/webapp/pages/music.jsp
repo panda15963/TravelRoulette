@@ -75,10 +75,16 @@
         <div class="light-reflection"></div>
     </div>
 
-    <h2 id="track-title">재생 중인 곡 없음</h2>
+
+
+    <h2 id="track-title" style="
+    margin-top: 30px;
+    margin-bottom: 30px;">재생 중인 곡 없음</h2>
+
     <p id="track-artist"></p>
 
-    <input type="range" id="seek-bar" value="0" max="100">
+    <input type="range" id="seek-bar" value="0" max="100" style="
+    margin-bottom: 20px;">
 
     <div class="buttons">
         <button id="prev-btn">⏮</button>
@@ -91,9 +97,16 @@
 
 <!-- 🎶 Deezer 검색 -->
 <main>
-    <h1>🎵 <b>Deezer</b> 음악 검색</h1>
+
+    <h3 style="margin-bottom: 35px;">
+        🎵 어떤 음악을 찾으시나요?</h3>
+
     <input type="text" id="query" placeholder="가수나 곡 이름 입력">
-    <button onclick="searchDeezer()">검색</button>
+
+    <button onclick="searchDeezer()" style="
+    margin-left: 10px;
+">검색</button>
+
     <div id="result"></div>
 </main>
 
@@ -108,7 +121,7 @@
           height: 120px;
           background-color: #e8f2ff;
           border-radius: 16px;
-          margin: 20px auto;
+          margin: 40px auto;
           display: flex;
           flex-direction: column;
           align-items: center;

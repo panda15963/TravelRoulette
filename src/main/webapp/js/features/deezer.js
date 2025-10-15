@@ -167,6 +167,8 @@ async function addToPlaylist(event, encoded) {
                 previewUrl: data.previewUrl,
                 albumCover: data.cover
             }),
+
+
         });
 
         if (!res.ok) {
