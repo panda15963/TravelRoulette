@@ -153,10 +153,11 @@
 </script>
 
 <!-- 🌟 WishList 기능 -->
+<script src="../js/utils/authManager.js"></script>
 <script>
     window.userId = "<%= session.getAttribute("userId") != null ? session.getAttribute("userId") : "" %>";
 </script>
-<script type="module" src="../js/features/wishlist.js"></script>
+<script src="../js/features/wishlist.js"></script>
 
 </body>
 </html>
