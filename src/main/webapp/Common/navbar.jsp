@@ -58,28 +58,6 @@
         </div>
     </div>
 </nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- 로그인 상태 관리 -->
 <form id="navLogoutForm" action="${pageContext.request.contextPath}/auth" method="post" style="display: none;">
     <input type="hidden" name="action" value="signout">

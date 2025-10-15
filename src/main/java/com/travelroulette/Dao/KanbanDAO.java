@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * KanbanDao — Kanban 보드 CRUD + 드래그(정렬/이동) DAO
+ * KanbanDAO — Kanban 보드 CRUD + 드래그(정렬/이동) DAO
  * mapRow() 없이 직접 매핑하는 버전
  */
-public class KanbanDao {
-    private static final Logger logger = LoggerFactory.getLogger(KanbanDao.class);
+public class KanbanDAO {
+    private static final Logger logger = LoggerFactory.getLogger(KanbanDAO.class);
 
     /**
      * 유저별 Kanban 전체조회

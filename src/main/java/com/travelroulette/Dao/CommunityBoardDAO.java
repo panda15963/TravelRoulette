@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommunityBoardDao {
+public class CommunityBoardDAO {
 
 
     //게시글 목록 불러오기(+ 페이지네이션)(+검색)

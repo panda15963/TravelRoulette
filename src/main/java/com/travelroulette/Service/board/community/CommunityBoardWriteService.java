@@ -1,6 +1,6 @@
-package com.travelroulette.Service.board.community;
+package com.travelroulette.Service.Board.Community;
 
-import com.travelroulette.Dao.CommunityBoardDao;
+import com.travelroulette.Dao.CommunityBoardDAO;
 import com.travelroulette.Dto.Post.PostDto;
 import com.travelroulette.Dto.User.AuthenticatedUser;
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,7 +51,7 @@ public class CommunityBoardWriteService {
                 .build();
 
         // ✅ 게시글 저장
-        CommunityBoardDao dao = new CommunityBoardDao();
+        CommunityBoardDAO dao = new CommunityBoardDAO();
         try {
             dao.insertPost(newPost);
             System.out.println("✅ 게시글 등록 성공 (" + title + ")");
