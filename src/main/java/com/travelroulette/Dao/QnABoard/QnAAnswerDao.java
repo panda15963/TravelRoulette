@@ -10,6 +10,36 @@ import java.sql.SQLException;
 
 public class QnAAnswerDao {
 
+    // 특정 원글에 답글이 이미 존재하는지 확인
+    public boolean hasAnswer(int qnaRef) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        boolean exists = false;
+
+        String sql = "SELECT COUNT(*) FROM Answer WHERE qnaRef = ? AND qnaDepth = 1";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, qnaRef);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                exists = rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("답글 존재 여부 확인 오류");
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(rs);
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return exists;
+    }
+
     // 특정 게시글의 답글 조회 (QnADepth = 1)
     public QnABoardDto selectAnswerByRef(int qnaRef) {
         Connection conn = null;
@@ -19,7 +49,8 @@ public class QnAAnswerDao {
 
         String sql = "SELECT qnaNumber, qnaTitle, qnaDescription, qnaDateWritten, qnaRef, qnaDepth, qnaStep, userId " +
                 "FROM Answer " +
-                "WHERE qnaRef = ? AND qnaDepth = 1";
+                "WHERE qnaRef = ? AND qnaDepth = 1 " +
+                "LIMIT 1";
 
         try {
             conn = ConnectionPoolHelper.getConnection();

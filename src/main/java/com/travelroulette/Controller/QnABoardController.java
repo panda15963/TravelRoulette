@@ -160,8 +160,10 @@ public class QnABoardController extends HttpServlet {
 
         if (resultMessage.equals("success")) {
             out.print("{\"status\":\"success\"}");
+        } else if (resultMessage.equals("already_exists")) {
+            out.print("{\"status\":\"fail\", \"message\":\"이미 답글이 존재합니다. 하나의 질문에는 하나의 답글만 작성할 수 있습니다.\"}");
         } else {
-            out.print("{\"status\":\"fail\"}");
+            out.print("{\"status\":\"fail\", \"message\":\"" + resultMessage + "\"}");
         }
         out.flush();
     }

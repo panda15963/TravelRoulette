@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 
+
 <body id="pageBody" class="d-flex flex-column h-100 bg-white text-dark" data-mode="light">
 
 <%@ include file="/Common/navbar.jsp" %>
@@ -117,7 +118,8 @@
 
 
         //비동기
-        fetch('/TravelRoulette/board/community/write.do', {
+        //fetch('/TravelRoulette/board/community/write.do', {
+        fetch('${pageContext.request.contextPath}/board/community/write.do', {
             method: 'POST',
             body: formData
         })

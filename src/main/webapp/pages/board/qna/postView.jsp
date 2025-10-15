@@ -93,6 +93,15 @@
                     }
 
                     const answerContainer = document.getElementById('answer-container');
+                    const answerForm = document.getElementById('answer-form');
+
+                    // 답글(depth=1) 페이지인 경우 답글 작성 폼 완전히 숨김
+                    if (post.qnaDepth === 1) {
+                        if (answerForm) {
+                            answerForm.style.display = 'none';
+                        }
+                    }
+
                     if (answer) {
                         let answerHtml = '<div class="border rounded p-3 mb-2">' +
                             '<strong>' + answer.userId + '</strong>' +
@@ -109,11 +118,29 @@
 
                         answerHtml += '</div>';
                         answerContainer.innerHTML = answerHtml;
+
+                        // 답글이 이미 있으면 답글 작성 폼 완전히 숨김
+                        if (answerForm) {
+                            answerForm.style.display = 'none';
+                            answerForm.style.visibility = 'hidden';
+                            answerForm.setAttribute('hidden', 'hidden');
+                        }
                     } else {
                         answerContainer.innerHTML = '<p class="text-muted">아직 답글이 없습니다.</p>';
 
-                        if (currentUserId) {
-                            document.getElementById('answer-form').style.display = 'flex';
+                        // 원글(depth=0)이고 답글이 없고 로그인한 경우에만 답글 작성 폼 표시
+                        if (currentUserId && post.qnaDepth === 0) {
+                            if (answerForm) {
+                                answerForm.style.display = 'flex';
+                                answerForm.style.visibility = 'visible';
+                                answerForm.removeAttribute('hidden');
+                            }
+                        } else {
+                            if (answerForm) {
+                                answerForm.style.display = 'none';
+                                answerForm.style.visibility = 'hidden';
+                                answerForm.setAttribute('hidden', 'hidden');
+                            }
                         }
                     }
                 })
@@ -180,7 +207,9 @@
                     contentInput.value = '';
                     location.reload();
                 } else {
-                    alert('답글 등록에 실패했습니다.');
+                    // 서버에서 보낸 에러 메시지 표시
+                    const errorMessage = data.message || '답글 등록에 실패했습니다.';
+                    alert(errorMessage);
                 }
             })
             .catch(error => {

@@ -10,7 +10,9 @@
   --danger: #d32f2f;
   --border: #cccccc;
 }
+
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   background: var(--bg);
@@ -19,6 +21,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 58px;
 }
 
 header {
@@ -27,6 +30,7 @@ header {
   backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--border);
 }
+
 .wrap { max-width: 1200px; margin: 0 auto; padding: 12px 16px; }
 .row { display:flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 
@@ -51,37 +55,77 @@ main { flex: 1; }
   grid-template-columns: repeat(3, minmax(280px, 1fr));
   gap: 12px;
   padding: 16px;
-  max-width: 1200px; margin: 0 auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start; /* ✅ 컬럼 높이 기준을 일관되게 */
 }
 
+/* ===== 컬럼 ===== */
 .column {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 16px;
-  display:flex; flex-direction:column;
+  display:flex;
+  flex-direction:column;
   min-height: 60vh;
+  transition: min-height 0.25s ease; /* ✅ 높이 변화 부드럽게 */
 }
-.column-header { display:flex; align-items:center; gap:8px; padding:12px; border-bottom:1px solid var(--border); }
+
+.column-header {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px;
+  border-bottom:1px solid var(--border);
+}
+
 .dot { width:10px; height:10px; border-radius:999px; display:inline-block; }
 .dot.todo { background:#1976d2; }
 .dot.inprogress { background:#ed6c02; }
 .dot.done { background:#2e7d32; }
+
 .column-title { font-weight:800; }
 .count { margin-left:auto; color: var(--muted); }
 
-.list { padding:12px; display:flex; flex-direction:column; gap:10px; min-height: 40vh; }
-.list.drag-over { outline:2px dashed var(--accent); outline-offset: -4px; border-radius: 14px; }
+/* ===== 리스트 ===== */
+.list {
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-height: 40vh;
+  transition: min-height 0.25s ease; /* ✅ 높이 변화 자연스럽게 */
+}
 
+/* ✅ 드래그 시 효과 개선 */
+.list.drag-over {
+  outline:2px dashed var(--accent);
+  outline-offset: -4px;
+  border-radius: 14px;
+  background: rgba(25, 118, 210, 0.05);
+}
+
+/* ===== 카드 ===== */
 .card {
   background: #ffffff;
   border:1px solid var(--border);
   border-radius:14px;
   padding:12px;
-  display:flex; flex-direction:column; gap:10px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
 .card-header { display:flex; align-items:center; gap:8px; }
 .task-id { font: 600 12px monospace; color: var(--muted); }
+
 .priority { padding:2px 8px; border-radius:999px; border:1px solid var(--border); font-size:12px; }
 .priority.High { background:#fdecea; border-color:#f28b82; color:#c62828; }
 .priority.Medium { background:#fff4e5; border-color:#fbc02d; color:#e65100; }
@@ -150,18 +194,66 @@ main { flex: 1; }
   cursor: pointer;
 }
 
-.btn-primary {
-  background-color: #007bff;
+.btn-primary { background-color: #007bff; color: white; }
+.btn-secondary { background-color: #ccc; color: black; }
+
+/* ===== 하단 고정 카드 추가 폼 ===== */
+.new-form {
+  position: fixed;           /* 화면에 고정 */
+  bottom: 0;                 /* 하단 고정 */
+  left: 0;
+  width: 100%;               /* 가로 전체 */
+  background: rgba(255, 255, 255, 0.85); /* 반투명 흰색 배경 */
+  backdrop-filter: blur(8px); /* 유리 느낌 */
+  border-top: 1px solid #ccc; /* 구분선 */
+  display: flex;
+  flex-wrap: wrap;           /* 줄바꿈 허용 (반응형) */
+  gap: 8px;
+  padding: 10px 16px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 50;
+}
+
+/* ===== 각 입력 요소 기본 크기 ===== */
+.new-form input[type="text"],
+.new-form input[type="date"],
+.new-form select {
+  flex: 1 1 150px;   /* 기본 최소폭 150px */
+  min-width: 100px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+/* 버튼 스타일 */
+.new-form button.primary {
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #1976d2;
   color: white;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+.new-form button.primary:hover {
+  background-color: #1259a3;
 }
 
-.btn-secondary {
-  background-color: #ccc;
-  color: black;
+/* ===== 신규 카드 추가 폼 ===== */
+.new-form {
+  display:grid;
+  grid-template-columns: 1fr 130px 130px 120px auto;
+  gap:8px;
+  padding:12px 16px;
+  background: var(--panel-2);
+  border-top:1px solid var(--border);
 }
 
+@media (max-width: 920px) {
+  .new-form { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .new-form .full { grid-column: 1/-1; }
+}
 
-
-.new-form { display:grid; grid-template-columns: 1fr 130px 130px 120px auto; gap:8px; padding:12px 16px; background: var(--panel-2); border-top:1px solid var(--border); }
-@media (max-width: 920px) { .new-form { grid-template-columns: 1fr 1fr 1fr 1fr; } .new-form .full { grid-column: 1/-1; } }
-@media (max-width: 640px) { .board { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .board { grid-template-columns: 1fr; }
+}

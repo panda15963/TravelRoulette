@@ -38,14 +38,22 @@ public class QnAAnswerWriteService {
             return "invalid_input";
         }
 
+        int qnaRef = Integer.parseInt(qnaRefStr);
+
+        // 답글 중복 체크 - 이미 답글이 있는지 확인
+        QnAAnswerDao dao = new QnAAnswerDao();
+        if (dao.hasAnswer(qnaRef)) {
+            System.out.println("⚠️ 이미 답글이 존재합니다. qnaRef: " + qnaRef);
+            return "already_exists";
+        }
+
         QnABoardDto newAnswer = QnABoardDto.builder()
                 .qnaTitle(title)
                 .qnaDescription(content)
-                .qnaRef(Integer.parseInt(qnaRefStr))
+                .qnaRef(qnaRef)
                 .userId(userId)
                 .build();
 
-        QnAAnswerDao dao = new QnAAnswerDao();
         int result = dao.insertAnswer(newAnswer);
 
         if (result > 0) {

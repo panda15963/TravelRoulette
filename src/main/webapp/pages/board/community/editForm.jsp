@@ -57,7 +57,8 @@
 
         if (postNumber) {
             //상세보기에서 사용했던 detail.do 재활용
-            fetch(`/TravelRoulette/board/community/detail.do?postNumber=\${postNumber}`)
+            //fetch(`/TravelRoulette/board/community/detail.do?postNumber=\${postNumber}`)
+            fetch('${pageContext.request.contextPath}/board/community/detail.do?postNumber=' + postNumber)
                 .then(response => response.json())
                 .then(post => {
                     if (post) {
@@ -82,7 +83,8 @@
         formData.append('title', title);
         formData.append('content', content);
 
-        fetch('/TravelRoulette/board/community/update.do', {
+        //fetch('/TravelRoulette/board/community/update.do', {
+        fetch('${pageContext.request.contextPath}/board/community/update.do', {
             method: 'POST',
             body: formData
         })
@@ -91,7 +93,8 @@
                 if (data.status === 'success') {
                     alert('글이 성공적으로 수정되었습니다.');
                     //수정된 글로 다시 돌아감
-                    location.href = `postView.jsp?postNumber=\${postNumber}`;
+                    //location.href = `postView.jsp?postNumber=\${postNumber}`;
+                    location.href = '${pageContext.request.contextPath}/pages/board/community/postView.jsp?postNumber=' + postNumber;
                 } else {
                     alert('글 수정 실패: ' + data.message);
                 }

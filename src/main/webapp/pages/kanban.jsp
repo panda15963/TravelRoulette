@@ -15,11 +15,7 @@
 
 <%@ include file="/Common/navbar.jsp" %>
 <%@ include file="/Common/sidebar.jsp" %>
-<header>
-    <div class="wrap row">
-      <h1>Kanban 보드 <small class="code"></small></h1>
-    </div>
-  </header>
+
 
   <main>
     <section class="board" id="board"></section>
