@@ -1,6 +1,6 @@
 package com.travelroulette.Controller.User;
 
-import com.travelroulette.Dao.User.JdbcUserDao;
+import com.travelroulette.Dao.User.JdbcUserDAO;
 import com.travelroulette.Dto.User.AuthenticatedUser;
 import com.travelroulette.Dto.User.UserRegistrationRequest;
 import com.travelroulette.Service.User.DefaultUserService;
@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class AuthServlet extends HttpServlet {
     // @WebServlet은 비활성화 상태
-    private final UserService userService = new DefaultUserService(new JdbcUserDao());
+    private final UserService userService = new DefaultUserService(new JdbcUserDAO());
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

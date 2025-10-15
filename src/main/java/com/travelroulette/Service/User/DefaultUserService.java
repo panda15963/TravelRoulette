@@ -1,6 +1,6 @@
 package com.travelroulette.Service.User;
 
-import com.travelroulette.Dao.User.UserDao;
+import com.travelroulette.Dao.User.UserDAO;
 import com.travelroulette.Dto.User.AuthenticatedUser;
 import com.travelroulette.Dto.User.UserDto;
 import com.travelroulette.Dto.User.UserRegistrationRequest;
@@ -15,7 +15,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class DefaultUserService implements UserService {
     @NonNull
-    private final UserDao userDao;
+    private final UserDAO userDao;
 
     @Override
     public void register(UserRegistrationRequest request) {

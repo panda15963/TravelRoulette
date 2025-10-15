@@ -1,6 +1,6 @@
 package com.travelroulette.Service.board.community;
 
-import com.travelroulette.Dao.CommunityBoardDao;
+import com.travelroulette.Dao.CommunityBoardDAO;
 import com.travelroulette.Dto.Post.PostDto;
 import com.travelroulette.Dto.User.AuthenticatedUser;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class CommunityBoardDeleteService {
         String postNumberStr = request.getParameter("postNumber");
         int postNumber = Integer.parseInt(postNumberStr);
 
-        CommunityBoardDao dao = new CommunityBoardDao();
+        CommunityBoardDAO dao = new CommunityBoardDAO();
 
         //삭제하려는 게시글
         PostDto originalPost = dao.selectOnePost(postNumber);

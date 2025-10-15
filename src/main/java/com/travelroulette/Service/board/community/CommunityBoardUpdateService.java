@@ -1,6 +1,6 @@
 package com.travelroulette.Service.board.community;
 
-import com.travelroulette.Dao.CommunityBoardDao;
+import com.travelroulette.Dao.CommunityBoardDAO;
 import com.travelroulette.Dto.Post.PostDto;
 import com.travelroulette.Dto.User.AuthenticatedUser;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class CommunityBoardUpdateService {
         String title = request.getParameter("title");
         String content = request.getParameter("content");
 
-        CommunityBoardDao dao = new CommunityBoardDao();
+        CommunityBoardDAO dao = new CommunityBoardDAO();
 
         //수정하려는 게시글
         PostDto originalPost = dao.selectOnePost(postNumber);

@@ -1,6 +1,6 @@
 package com.travelroulette.Service.board.community;
 
-import com.travelroulette.Dao.CommunityBoardDao;
+import com.travelroulette.Dao.CommunityBoardDAO;
 import com.travelroulette.Dto.Post.PostDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ public class CommunityBoardDetailService {
         int postNumber = Integer.parseInt(postNumberStr);
 
         //게시글 데이터 가져오기
-        CommunityBoardDao dao = new CommunityBoardDao();
+        CommunityBoardDAO dao = new CommunityBoardDAO();
         PostDto post = dao.selectOnePost(postNumber);
 
         return post;

@@ -4,7 +4,7 @@ import com.travelroulette.Dto.User.UserDto;
 
 import java.util.Optional;
 
-public interface UserDao {
+public interface UserDAO {
     boolean existsByUserId(String userId);
     boolean existsByEmail(String email);
     Optional<UserDto> findByUserId(String userId);

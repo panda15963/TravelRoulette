@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class JdbcUserDao implements UserDao {
+public class JdbcUserDAO implements UserDAO {
     private static final String USER_SELECT_BY_ID =
             "SELECT userId, pwd, email, gender, salt, hashIterations\n" +
                     "FROM User\n" +
