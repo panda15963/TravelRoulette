@@ -19,6 +19,10 @@
             <li class="nav-item"><a class="nav-link"
                                     href="${pageContext.request.contextPath}/pages/video.jsp">도시홍보영상</a></li>
             <li class="nav-item"><a class="nav-link"
+                                    href="${pageContext.request.contextPath}/pages/chart.jsp">환율 차트</a></li>
+            <li class="nav-item"><a class="nav-link"
+                                    href="${pageContext.request.contextPath}/pages/music.jsp">음악 차트</a></li>
+            <li class="nav-item"><a class="nav-link"
                                     href="${pageContext.request.contextPath}/pages/map.jsp">지도</a></li>
 
             <% if (authUser == null) { %>
