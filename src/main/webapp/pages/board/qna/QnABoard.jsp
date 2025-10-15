@@ -10,6 +10,7 @@
 </head>
 
 <body id="pageBody" class="d-flex flex-column h-100 bg-white text-dark" data-mode="light">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ include file="/Common/navbar.jsp" %>
 <%@ include file="/Common/sidebar.jsp" %>
@@ -40,9 +41,11 @@
                     <button class="btn btn-info text-white fw-semibold">검색</button>
                 </div>
 
-                <a href="writeForm.jsp" class="btn btn-info text-white fw-semibold shadow-sm">
-                    글쓰기
-                </a>
+                <c:if test="${not empty sessionScope.authenticatedUser}">
+                    <a href="writeForm.jsp" class="btn btn-info text-white fw-semibold shadow-sm">
+                        글쓰기
+                    </a>
+                </c:if>
             </div>
 
             <div class="card border-info shadow-sm">

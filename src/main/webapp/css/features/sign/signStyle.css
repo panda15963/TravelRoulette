@@ -1,3 +1,4 @@
+
 @charset "UTF-8";
 
 /* --- 로그인/회원가입 페이지 전용 body 스타일 --- */
@@ -94,4 +95,11 @@ body[data-mode="dark"] #modal-welcome-message { color: tomato; }
 @media (max-width: 768px) {
     .sign-page-body { padding-top: 8rem; }
     .sign-container { padding: 20px; }
+}
+.sign-container button.btn-custom-disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+    opacity: 0.65;
+    cursor: not-allowed;
 }

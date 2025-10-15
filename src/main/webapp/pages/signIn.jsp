@@ -44,6 +44,50 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
 <script src="${pageContext.request.contextPath}/js/utils/authManager.js"></script>
+<script>
+    /**
+     * signIn.jsp 스크립트
+     * - URL 파라미터로 전달된 에러 메시지(로그인 실패 등)를 화면에 표시합니다.
+     * - AJAX를 이용한 로그인 성공 시 AuthManager를 통해 사용자 정보를 세션 스토리지에 저장합니다.
+     */
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        const status = urlParams.get('status');
+        const errorMessageDiv = document.getElementById('errorMessage');
+
+        if (error === 'loginFail') {
+            errorMessageDiv.textContent = '아이디 또는 비밀번호가 일치하지 않습니다.';
+        } else if (status === 'signupSuccess') {
+            errorMessageDiv.textContent = '회원가입이 완료되었습니다. 로그인해주세요.';
+            errorMessageDiv.style.color = 'blue';
+        }
+
+        const signinForm = document.forms.signinForm;
+        if (signinForm) {
+            signinForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(signinForm);
+                formData.append('ajax', 'true'); // AJAX 요청임을 명시
+
+                const response = await fetch(signinForm.action, {
+                    method: 'POST',
+                    body: new URLSearchParams(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    AuthManager.setUser({ userId: result.userId, email: result.email });
+                    window.location.href = '${pageContext.request.contextPath}/index.jsp';
+                } else {
+                    errorMessageDiv.textContent = result.message || '로그인에 실패했습니다.';
+                }
+            });
+        }
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -86,7 +130,7 @@
                         // 로그인 성공 메시지
                         // data.success가 있다면 "아이디님 환영합니다! /n 잠시 후 메인으로 이동합니다..."
                         // 없다면 "님 환영합니다! /n 잠시 후 메인으로 이동합니다..."
-                        const loginMessage = (data.success ? data.success + '님 환영합니다!' : '로그인 성공!')
+                        const loginMessage = (data.success ? data.userId  + '님 환영합니다!' : '로그인 성공!')
                                              + '\n잠시 후 메인으로 이동합니다...';
 
                         Swal.fire({
@@ -106,7 +150,7 @@
                         //alert(data.userId + '님 환영합니다!');
 
                         // 메인 페이지로 이동
-                        // window.location.href = '${pageContext.request.contextPath}/index.jsp';
+
                     } else {
                         // 로그인 실패
                         const errorMessage = data.message || '로그인에 실패했습니다. 잠시 후 다시 시도해 주세요.';

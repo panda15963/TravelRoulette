@@ -1,4 +1,4 @@
-package com.travelroulette.Service.User;
+package com.travelroulette.Service.User.MyPage;
 
 import com.travelroulette.Dto.User.UserDto;
 import com.travelroulette.Service.User.Exception.AuthenticationException;

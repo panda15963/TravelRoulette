@@ -1,4 +1,4 @@
-package com.travelroulette.Dao.User;
+package com.travelroulette.Dao.User.MyPage;
 
 import com.travelroulette.Dto.User.UserDto;
 import com.travelroulette.Utils.ConnectionPoolHelper;

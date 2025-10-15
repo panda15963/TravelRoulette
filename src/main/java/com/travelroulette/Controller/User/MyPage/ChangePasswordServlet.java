@@ -1,11 +1,12 @@
-package com.travelroulette.Controller.User;
+package com.travelroulette.Controller.User.MyPage; // Updated package
 
 import com.google.gson.JsonObject;
-import com.travelroulette.Dao.User.MyPageDao;
+import com.travelroulette.Dao.User.JdbcUserDAO; // Import JdbcUserDAO
+import com.travelroulette.Dao.User.MyPage.MyPageDao; // Import MyPageDao from new package
 import com.travelroulette.Dto.User.AuthenticatedUser;
-import com.travelroulette.Service.User.DefaultMyPageService;
+import com.travelroulette.Service.User.MyPage.DefaultMyPageService; // Import DefaultMyPageService from new package
 import com.travelroulette.Service.User.Exception.AuthenticationException;
-import com.travelroulette.Service.User.MyPageService;
+import com.travelroulette.Service.User.MyPage.MyPageService; // Import MyPageService from new package
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,6 +20,9 @@ import java.io.IOException;
  * - currentPassword / newPassword / confirmPassword 입력받아 JSON 응답
  * - JSP 새로고침 없이 fetch()로 호출 가능
  */
+/**
+ * 마이페이지에서 비밀번호 변경 요청을 비동기(AJAX)로 처리하는 컨트롤러(서블릿).
+ */
 @WebServlet("/mypage/change-password")
 public class ChangePasswordServlet extends HttpServlet {
 
@@ -26,9 +30,13 @@ public class ChangePasswordServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        myPageService = new DefaultMyPageService(new MyPageDao());
+        // Correctly instantiate DefaultMyPageService with both DAOs
+        myPageService = new DefaultMyPageService(new MyPageDao(), new JdbcUserDAO());
     }
 
+    /**
+     * 비밀번호 변경 POST 요청을 받아 처리합니다.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

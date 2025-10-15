@@ -23,6 +23,10 @@ import java.util.Objects;
  *   • 중복 유저 확인
  *   • 인증 성공 시 AuthenticatedUser 반환
  */
+/**
+ * UserService의 구현체.
+ * 사용자 등록(회원가입) 및 인증(로그인) 관련 비즈니스 로직을 처리합니다.
+ */
 @RequiredArgsConstructor
 public class DefaultUserService implements UserService {
 
@@ -33,6 +37,9 @@ public class DefaultUserService implements UserService {
     /**
      * ✅ 회원가입 기능
      * @param request 회원가입 시 입력받은 데이터 (userId, password, email, gender 등)
+     */
+    /**
+     * ✅ 회원가입 처리
      */
     @Override
     public void register(UserRegistrationRequest request) {
@@ -81,6 +88,9 @@ public class DefaultUserService implements UserService {
      * @param rawPassword 사용자가 입력한 비밀번호 (평문)
      * @return 인증된 사용자 정보 (AuthenticatedUser)
      */
+    /**
+     * ✅ 로그인(인증) 처리
+     */
     @Override
     public AuthenticatedUser authenticate(String userId, String rawPassword) {
         // 1️⃣ 입력값 검증
@@ -127,5 +137,21 @@ public class DefaultUserService implements UserService {
      */
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    /**
+     * ✅ 아이디 존재 여부 확인
+     */
+    @Override
+    public boolean existsByUserId(String userId) {
+        return userDao.existsByUserId(userId);
+    }
+
+    /**
+     * ✅ 이메일 존재 여부 확인
+     */
+    @Override
+    public boolean existsByEmail(String email) {
+        return userDao.existsByEmail(email);
     }
 }

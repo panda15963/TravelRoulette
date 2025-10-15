@@ -9,4 +9,6 @@ public interface UserDAO {
     boolean existsByEmail(String email);
     Optional<UserDto> findByUserId(String userId);
     void save(UserDto user);
+    boolean updatePassword(String userId, String newHashedPassword, String newSalt, int newHashIterations);
+    boolean updateEmail(String userId, String newEmail);
 }
