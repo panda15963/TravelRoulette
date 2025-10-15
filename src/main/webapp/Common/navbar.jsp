@@ -33,6 +33,9 @@
 				                          href = "${pageContext.request.contextPath}/pages/signIn.jsp">로그인</a></li>
 				<li class = "nav-item"><a class = "nav-link" id="nav-signup"
 				                          href = "${pageContext.request.contextPath}/pages/signUp.jsp">회원가입</a></li>
+				<li class="nav-item"><a class="nav-link"
+       									  href="${pageContext.request.contextPath}/pages/mypage.jsp">마이페이지</a></li>                          
+				                     
 
 				<!-- 다크모드 토글 버튼 -->
 				<li class = "nav-item">
