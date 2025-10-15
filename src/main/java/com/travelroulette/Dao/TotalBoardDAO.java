@@ -17,16 +17,38 @@ public class TotalBoardDAO {
 
         String sql =
                 "SELECT " +
-                        "   p.postNumber AS id, " +
-                        "   p.postTitle AS title, " +
-                        "   p.postDescription AS content, " +
-                        "   p.postDateWritten AS createdAt, " +
-                        "   u.userId AS userId, " +
-                        "   b.boardName AS boardType " +
-                        "FROM post p " +
-                        "JOIN user u ON p.userId = u.userId " +
-                        "JOIN board b ON p.boardNumber = b.boardNumber " +
-                        "ORDER BY createdAt DESC";
+                        "   ROW_NUMBER() OVER (ORDER BY " +
+                        "       CASE WHEN boardType = '자유게시판' THEN 1 ELSE 2 END, " +
+                        "       createdAt DESC) AS id, " +
+                        "   title, " +
+                        "   content, " +
+                        "   userId, " +
+                        "   createdAt, " +
+                        "   boardType " +
+                        "FROM ( " +
+                        "   SELECT " +
+                        "       p.postTitle AS title, " +
+                        "       p.postDescription AS content, " +
+                        "       p.postDateWritten AS createdAt, " +
+                        "       u.userId AS userId, " +
+                        "       b.boardName AS boardType " +
+                        "   FROM post p " +
+                        "   JOIN user u ON p.userId = u.userId " +
+                        "   JOIN board b ON p.boardNumber = b.boardNumber " +
+                        "   UNION ALL " +
+                        "   SELECT " +
+                        "       a.QnATitle AS title, " +
+                        "       a.QnADescription AS content, " +
+                        "       a.QnADateWritten AS createdAt, " +
+                        "       u.userId AS userId, " +
+                        "       '질의응답' AS boardType " +
+                        "   FROM answer a " +
+                        "   JOIN user u ON a.userId = u.userId " +
+                        "   WHERE a.QnADepth = 0 " +
+                        ") AS combined " +
+                        "ORDER BY " +
+                        "   CASE WHEN boardType = '자유게시판' THEN 1 ELSE 2 END, " +
+                        "   createdAt DESC";
 
         try (Connection conn = ConnectionPoolHelper.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -45,14 +67,7 @@ public class TotalBoardDAO {
                 list.add(dto);
             }
 
-            // ✅ 데이터 수 확인 로그
-            logger.info("✅ TotalBoardDAO.findAll() - {} posts fetched.", list.size());
-
-            // ✅ 상세 데이터 확인 로그 (필요 시 주석 해제)
-            for (TotalBoardDto dto : list) {
-                logger.debug("📄 [Post] id={}, title={}, userId={}, boardType={}, createdAt={}",
-                        dto.getId(), dto.getTitle(), dto.getUserId(), dto.getBoardType(), dto.getCreatedAt());
-            }
+            logger.info("✅ TotalBoardDAO.findAll() - {} posts fetched (게시글 + 질의응답)", list.size());
 
         } catch (SQLException e) {
             logger.error("❌ Error fetching total board posts", e);

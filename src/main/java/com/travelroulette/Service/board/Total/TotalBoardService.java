@@ -6,9 +6,9 @@ import com.travelroulette.Dto.TotalBoard.TotalBoardDto;
 import java.util.List;
 
 public class TotalBoardService {
-    private final TotalBoardDAO totalBoardDAO = new TotalBoardDAO();
+    private final TotalBoardDAO dao = new TotalBoardDAO();
 
     public List<TotalBoardDto> getAllBoards() {
-        return totalBoardDAO.findAll();
+        return dao.findAll();
     }
 }

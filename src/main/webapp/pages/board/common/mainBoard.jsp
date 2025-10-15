@@ -1,7 +1,19 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <!-- ✅ JSTL Core -->
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <!-- ✅ JSTL Format -->
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> <!-- ✅ JSTL Functions -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<%@ page import="com.travelroulette.Dao.TotalBoardDAO" %>
+<%@ page import="com.travelroulette.Dto.TotalBoard.TotalBoardDto" %>
+<%@ page import="java.util.List" %>
+
+<%
+    // ✅ JSP에서 DAO 직접 호출 — Controller 없이도 작동
+    TotalBoardDAO dao = new TotalBoardDAO();
+    List<TotalBoardDto> boardList = dao.findAll();
+    request.setAttribute("boardList", boardList);
+%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,6 +25,7 @@
 </head>
 
 <body id="pageBody" class="d-flex flex-column h-100 bg-white text-dark" data-mode="light">
+
 <%@ include file="/Common/navbar.jsp" %>
 <%@ include file="/Common/sidebar.jsp" %>
 
@@ -49,7 +62,6 @@
                             </thead>
 
                             <tbody class="text-center">
-                            <!-- ✅ 동적 데이터 출력 -->
                             <c:forEach var="post" items="${boardList}">
                                 <tr>
                                     <td>${post.id}</td>
@@ -64,26 +76,15 @@
                                         </c:choose>
                                     </td>
                                     <td class="text-start ps-3">
-                                        <c:choose>
-                                            <c:when test="${post.boardType eq '질의응답'}">
-                                                <a href="../qna/postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                                        ${post.title}
-                                                </a>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <a href="../community/postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                                        ${post.title}
-                                                </a>
-                                            </c:otherwise>
-                                        </c:choose>
+                                        <a href="../community/postView.jsp"
+                                           class="text-decoration-none text-dark fw-semibold">
+                                                ${post.title}
+                                        </a>
                                     </td>
                                     <td>${post.userId}</td>
                                     <td>
-                                        <!-- ✅ LocalDateTime을 Date로 변경했다면 fmt:formatDate 가능 -->
                                         <fmt:formatDate value="${post.createdAt}" pattern="yyyy-MM-dd" var="formattedDate" />
                                         <c:out value="${formattedDate}" />
-                                        <!-- ✅ 만약 createdAt이 String이면 아래 코드로 대체 가능 -->
-                                        <!-- ${fn:substring(post.createdAt, 0, 10)} -->
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -105,7 +106,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../../js/features/darkmode.js"></script>
-<script src="../../../js/utils/authManager.js"></script>
+<script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
 </body>
 </html>
