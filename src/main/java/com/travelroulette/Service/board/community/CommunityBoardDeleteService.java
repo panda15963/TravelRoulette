@@ -49,6 +49,5 @@ public class CommunityBoardDeleteService {
             e.printStackTrace();
             return 0;//실패
         }
-
     }
 }
