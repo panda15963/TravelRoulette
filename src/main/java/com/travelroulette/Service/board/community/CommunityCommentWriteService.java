@@ -1,4 +1,4 @@
-package com.travelroulette.Service.board.community;
+package com.travelroulette.Service.Board.Community;
 
 import com.travelroulette.Dao.CommunityBoardDAO;
 import com.travelroulette.Dto.Comment.CommentDto;

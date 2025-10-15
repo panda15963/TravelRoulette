@@ -22,12 +22,10 @@ public class TotalBoardDAO {
                         "   p.postDescription AS content, " +
                         "   p.postDateWritten AS createdAt, " +
                         "   u.userId AS userId, " +
-                        "   CASE " +
-                        "       WHEN p.postType = 'question' THEN '질의응답' " +
-                        "       ELSE '자유게시판' " +
-                        "   END AS boardType " +
+                        "   b.boardName AS boardType " +
                         "FROM post p " +
                         "JOIN user u ON p.userId = u.userId " +
+                        "JOIN board b ON p.boardNumber = b.boardNumber " +
                         "ORDER BY createdAt DESC";
 
         try (Connection conn = ConnectionPoolHelper.getConnection();
@@ -40,11 +38,20 @@ public class TotalBoardDAO {
                         .title(rs.getString("title"))
                         .content(rs.getString("content"))
                         .userId(rs.getString("userId"))
-                        .createdAt(rs.getTimestamp("createdAt").toLocalDateTime())
+                        .createdAt(rs.getTimestamp("createdAt"))
                         .boardType(rs.getString("boardType"))
                         .build();
 
                 list.add(dto);
+            }
+
+            // ✅ 데이터 수 확인 로그
+            logger.info("✅ TotalBoardDAO.findAll() - {} posts fetched.", list.size());
+
+            // ✅ 상세 데이터 확인 로그 (필요 시 주석 해제)
+            for (TotalBoardDto dto : list) {
+                logger.debug("📄 [Post] id={}, title={}, userId={}, boardType={}, createdAt={}",
+                        dto.getId(), dto.getTitle(), dto.getUserId(), dto.getBoardType(), dto.getCreatedAt());
             }
 
         } catch (SQLException e) {
