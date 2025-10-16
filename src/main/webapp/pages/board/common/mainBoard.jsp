@@ -76,10 +76,24 @@
                                         </c:choose>
                                     </td>
                                     <td class="text-start ps-3">
-                                        <a href="../community/postView.jsp"
-                                           class="text-decoration-none text-dark fw-semibold">
-                                                ${post.title}
-                                        </a>
+                                        <c:choose>
+                                            <c:when test="${post.boardType eq '질의응답'}">
+                                                <a href="../qna/postView.jsp?qnaNumber=${post.originalId}" class="text-decoration-none text-dark fw-semibold">
+                                                        ${post.title}
+                                                </a>
+                                            </c:when>
+                                            <c:when test="${post.boardType eq '여행후기'}">
+                                                <a href="../review/postView.jsp?postNumber=${post.originalId}" class="text-decoration-none text-dark fw-semibold">
+                                                        ${post.title}
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <%-- 자유게시판 --%>
+                                                <a href="../community/postView.jsp?postNumber=${post.originalId}" class="text-decoration-none text-dark fw-semibold">
+                                                        ${post.title}
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </td>
                                     <td>${post.userId}</td>
                                     <td>

@@ -7,14 +7,15 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class TotalBoardDto {
-    private Integer id;       // postNumber 또는 QnANumber
-    private String title;     // postTitle 또는 QnATitle
-    private String content;   // postDescription 또는 QnADescription
-    private String userId;    // 작성자 ID
-    private Date createdAt;   // ✅ LocalDateTime → Date로 변경
-    private String boardType; // 자유게시판 or 질의응답
+    private int id; // 통합 ID (ROW_NUMBER)
+    private int originalId; // 원본 게시글 ID (postNumber 또는 qnaNumber)
+    private String title;
+    private String content;
+    private String userId;
+    private Date createdAt;
+    private String boardType; // 게시판 종류 (자유게시판, 질의응답 등)
 }

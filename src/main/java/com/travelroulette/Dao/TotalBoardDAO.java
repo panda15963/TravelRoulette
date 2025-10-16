@@ -1,78 +1,72 @@
 package com.travelroulette.Dao;
 
+import com.travelroulette.Dao.CommunityBoardDAO;
+import com.travelroulette.Dao.QnABoard.QnAPostDao;
+import com.travelroulette.Dto.Post.PostDto;
+import com.travelroulette.Dto.QnABoard.QnABoardDto;
 import com.travelroulette.Dto.TotalBoard.TotalBoardDto;
-import com.travelroulette.Utils.ConnectionPoolHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class TotalBoardDAO {
     private static final Logger logger = LoggerFactory.getLogger(TotalBoardDAO.class);
 
+    // 각 게시판 DAO 인스턴스 생성
+    private final CommunityBoardDAO communityBoardDAO = new CommunityBoardDAO();
+    private final QnAPostDao qnaPostDao = new QnAPostDao();
+
     public List<TotalBoardDto> findAll() {
-        List<TotalBoardDto> list = new ArrayList<>();
+        List<TotalBoardDto> combinedList = new ArrayList<>();
 
-        String sql =
-                "SELECT " +
-                        "   ROW_NUMBER() OVER (ORDER BY " +
-                        "       CASE WHEN boardType = '자유게시판' THEN 1 ELSE 2 END, " +
-                        "       createdAt DESC) AS id, " +
-                        "   title, " +
-                        "   content, " +
-                        "   userId, " +
-                        "   createdAt, " +
-                        "   boardType " +
-                        "FROM ( " +
-                        "   SELECT " +
-                        "       p.postTitle AS title, " +
-                        "       p.postDescription AS content, " +
-                        "       p.postDateWritten AS createdAt, " +
-                        "       u.userId AS userId, " +
-                        "       b.boardName AS boardType " +
-                        "   FROM post p " +
-                        "   JOIN user u ON p.userId = u.userId " +
-                        "   JOIN board b ON p.boardNumber = b.boardNumber " +
-                        "   UNION ALL " +
-                        "   SELECT " +
-                        "       a.QnATitle AS title, " +
-                        "       a.QnADescription AS content, " +
-                        "       a.QnADateWritten AS createdAt, " +
-                        "       u.userId AS userId, " +
-                        "       '질의응답' AS boardType " +
-                        "   FROM answer a " +
-                        "   JOIN user u ON a.userId = u.userId " +
-                        "   WHERE a.QnADepth = 0 " +
-                        ") AS combined " +
-                        "ORDER BY " +
-                        "   CASE WHEN boardType = '자유게시판' THEN 1 ELSE 2 END, " +
-                        "   createdAt DESC";
+        // 1. 자유게시판(보드번호 1)과 여행후기(보드번호 2) 게시글 가져오기
+        // 페이지네이션 없이 모든 글을 가져오기 위해 큰 pageSize 값을 사용합니다.
+        List<PostDto> communityPosts1 = communityBoardDAO.selectAllPosts(1, 1, 1000, false, null);
+        List<PostDto> communityPosts2 = communityBoardDAO.selectAllPosts(2, 1, 1000, false, null);
 
-        try (Connection conn = ConnectionPoolHelper.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+        communityPosts1.forEach(p -> combinedList.add(TotalBoardDto.builder()
+                .originalId(p.getPostNumber())
+                .title(p.getPostTitle())
+                .content(p.getPostDescription())
+                .userId(p.getUserId())
+                .createdAt(java.sql.Timestamp.valueOf(p.getPostDateWritten()))
+                .boardType("자유게시판")
+                .build()));
 
-            while (rs.next()) {
-                TotalBoardDto dto = TotalBoardDto.builder()
-                        .id(rs.getInt("id"))
-                        .title(rs.getString("title"))
-                        .content(rs.getString("content"))
-                        .userId(rs.getString("userId"))
-                        .createdAt(rs.getTimestamp("createdAt"))
-                        .boardType(rs.getString("boardType"))
-                        .build();
+        communityPosts2.forEach(p -> combinedList.add(TotalBoardDto.builder()
+                .originalId(p.getPostNumber())
+                .title(p.getPostTitle())
+                .content(p.getPostDescription())
+                .userId(p.getUserId())
+                .createdAt(java.sql.Timestamp.valueOf(p.getPostDateWritten()))
+                .boardType("여행후기")
+                .build()));
 
-                list.add(dto);
-            }
+        // 2. 질의응답(Q&A) 게시글 가져오기 (원글만)
+        List<QnABoardDto> qnaPosts = qnaPostDao.selectAllQnAPosts(1, 1000, false, null);
+        qnaPosts.stream()
+                .filter(q -> q.getQnaDepth() == 0) // 원글(질문)만 필터링
+                .forEach(q -> combinedList.add(TotalBoardDto.builder()
+                        .originalId(q.getQnaNumber())
+                        .title(q.getQnaTitle())
+                        .content(q.getQnaDescription())
+                        .userId(q.getUserId())
+                        .createdAt(java.sql.Timestamp.valueOf(q.getQnaDateWritten()))
+                        .boardType("질의응답")
+                        .build()));
 
-            logger.info("✅ TotalBoardDAO.findAll() - {} posts fetched (게시글 + 질의응답)", list.size());
+        // 3. 모든 게시글을 최신순으로 정렬
+        combinedList.sort(Comparator.comparing(TotalBoardDto::getCreatedAt).reversed());
 
-        } catch (SQLException e) {
-            logger.error("❌ Error fetching total Board posts", e);
-        }
-
-        return list;
+        // 4. 정렬된 리스트에 순서대로 ID 부여
+        AtomicInteger counter = new AtomicInteger(1);
+        return combinedList.stream()
+                .peek(dto -> dto.setId(counter.getAndIncrement()))
+                .collect(Collectors.toList());
     }
 }
