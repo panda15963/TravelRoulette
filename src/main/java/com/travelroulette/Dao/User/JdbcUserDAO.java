@@ -50,13 +50,22 @@ public class JdbcUserDAO implements UserDAO {
     }
 
     private boolean exists(String value, String query) {
+        // Logging for debugging
+        System.out.println("[DEBUG] Executing exists query. Input value: " + value);
+
         try (Connection connection = ConnectionPoolHelper.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, value);
             try (ResultSet resultSet = statement.executeQuery()) {
-                return resultSet.next();
+                boolean result = resultSet.next();
+                // Logging for debugging
+                System.out.println("[DEBUG] Query result for '" + value + "': " + (result ? "Exists" : "Does not exist"));
+                return result;
             }
         } catch (SQLException e) {
+            // Logging for debugging
+            System.err.println("[ERROR] Failed to execute exists query for value: " + value);
+            e.printStackTrace();
             throw new RuntimeException("Failed to execute exists query", e);
         }
     }
