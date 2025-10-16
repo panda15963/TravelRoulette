@@ -17,6 +17,25 @@
             color: isDarkMode ? '#eaeaea' : '#000'
         });
     };
+
+    // 전역 confirm 함수를 SweetAlert로 대체합니다.
+    window.confirm = function(message) {
+        const isDarkMode = document.body.getAttribute('data-mode') === 'dark';
+
+        return Swal.fire({
+            text: message,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+            background: isDarkMode ? '#2a2a2a' : '#fff',
+            color: isDarkMode ? '#eaeaea' : '#000',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33'
+        }).then((result) => {
+            return result.isConfirmed;
+        });
+    };
 </script>
 
 <%@ include file="/Common/AuthInit.jsp" %>

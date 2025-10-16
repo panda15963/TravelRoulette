@@ -63,8 +63,9 @@ function createTask({ content, status, due, priority }) {
 }
 
 // 작업 삭제
-function deleteTask(taskId) {
-  if (!confirm('정말로 이 작업을 삭제하시겠습니까?')) return;
+async function deleteTask(taskId) {
+  const confirmed = await confirm('정말로 이 작업을 삭제하시겠습니까?');
+  if (!confirmed) return;
   let tasks = loadAll().filter(t => t.TASK_ID !== taskId);
   saveAll(tasks);
   normalizeOrders(loadAll());
