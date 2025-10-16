@@ -264,6 +264,30 @@
                 .attr("r", 4);
         }
 
+
+    // //차트 영역에 안내 메시지 출력
+    // function renderMessage(type, text) {
+    //     //차트 SVG 지우기
+    //     d3.select('#chart-container')
+    //         .select('svg')
+    //         .remove();
+    //
+    //     //기존 텍스트 제거
+    //     const box = document.querySelector('#chart-container');
+    //     if (!box) return;
+    //     box.innerHTML = '';
+    //
+    //     //안내문 추가
+    //     const p = document.createElement('p');
+    //     p.style.margin = '0';
+    //     p.style.padding = '120px 0';
+    //     p.style.textAlign = 'center';
+    //     p.style.fontSize = '14px';
+    //     p.style.color = (type === 'error') ? '#c0392b' : '#6c757d';
+    //     p.textContent = text;
+    //     box.appendChild(p);
+    // }
+
 </script>
 
 
