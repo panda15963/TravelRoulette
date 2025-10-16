@@ -236,7 +236,7 @@
         if (!tbody) return;
 
         if (!list.length) {
-            tbody.innerHTML = '<tr><td colspan="4" class="text-center">검색 결과가 없습니다.</td></tr>'; // 문구 약간 수정
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center">게시글이 없습니다.</td></tr>';
             return;
         }
 
