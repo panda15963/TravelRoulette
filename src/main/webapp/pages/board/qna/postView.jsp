@@ -151,10 +151,11 @@
         }
     };
 
-    document.getElementById('delete-button').addEventListener('click', function(event) {
+    document.getElementById('delete-button').addEventListener('click', async function(event) {
         event.preventDefault();
 
-        if (confirm('정말 삭제하시겠습니까?')) {
+        const confirmed = await confirm('정말 삭제하시겠습니까?');
+        if (confirmed) {
             const formData = new FormData();
             formData.append('qnaNumber', qnaNumber);
 
@@ -218,13 +219,14 @@
             });
     });
 
-    document.getElementById('answer-container').addEventListener('click', function(event) {
+    document.getElementById('answer-container').addEventListener('click', async function(event) {
         const target = event.target;
 
         if (target.id === 'answer-delete-btn') {
             event.preventDefault();
 
-            if (confirm('정말 삭제하시겠습니까?')) {
+            const confirmed = await confirm('정말 삭제하시겠습니까?');
+            if (confirmed) {
                 const answerId = target.dataset.answerId;
 
                 const formData = new FormData();

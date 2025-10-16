@@ -79,7 +79,8 @@ async function updateTask(taskId, status, content, priority, dueDate) {
 
 // ✅ 4. 카드 삭제
 async function deleteTask(taskId) {
-  if (!confirm("정말로 삭제하시겠습니까?")) return false;
+  const confirmed = await confirm("정말로 삭제하시겠습니까?");
+  if (!confirmed) return false;
   const res = await fetch(`/TravelRoulette/kanban?action=delete&taskId=${taskId}`);
   const data = await res.json();
   if (data.success) {
