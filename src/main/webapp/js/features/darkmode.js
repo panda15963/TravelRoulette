@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const aboutSection = document.getElementById("aboutSection");
     const boardSection = document.getElementById("boardSection");
     const introSection = document.getElementById("introSection");
+    const myPageContent = document.getElementById("myPageContent"); // ✅ MyPage 영역
     const header = document.querySelector("header");
 
     // 🎨 테마 스타일 정의
@@ -22,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 activeBg: "#333",
                 activeColor: "#fff"
             },
-            about: { bg: "#121212", color: "#eaeaea" },
             board: {
                 bg: "#1e1e1e",
                 color: "#eaeaea",
@@ -31,6 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 cardColor: "#f1f1f1",
                 border: "#555",
                 muted: "#888",
+                inputBg: "#2c2c2c",
+                inputColor: "#f1f1f1",
+                btnBg: "#444",
+                btnColor: "#fff",
                 tableHeaderBg: "#2a2a2a",
                 tableHeaderColor: "#f8f9fa",
                 badgeBg: "#444",
@@ -43,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
         light: {
             body: { bg: "#ffffff", color: "#000" },
             navbar: ["navbar-light", "bg-light"],
-            // ✅ 밝을 때만 사이드바 하늘색 배경
             sidebar: {
                 bg: "#eaf5ff",
                 color: "#000",
@@ -52,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 activeBg: "#d4ecff",
                 activeColor: "#0b5ed7"
             },
-            about: { bg: "#ffffff", color: "#000" },
             board: {
                 bg: "#ffffff",
                 color: "#000",
@@ -61,6 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 cardColor: "#000",
                 border: "#ddd",
                 muted: "#666",
+                inputBg: "#ffffff",
+                inputColor: "#000",
+                btnBg: "#ffffff",
+                btnColor: "#000",
                 tableHeaderBg: "#e9f6ff",
                 tableHeaderColor: "#007bff",
                 badgeBg: "#dff4ff",
@@ -83,28 +89,35 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 🔘 일반 섹션 색상 업데이트
+    // 🔘 일반 섹션 색상
     function updateSection(section, { bg, color }) {
         if (!section) return;
         section.style.setProperty("background-color", bg, "important");
         section.style.setProperty("color", color, "important");
     }
 
-    // 🔘 게시판 내부 요소 업데이트
+    // 🔘 게시판/마이페이지 내부 요소 업데이트
     function updateBoardElements(section, cfg) {
         if (!section) return;
 
-        // 카드
+        // ✅ 카드별 내부까지 처리
         section.querySelectorAll(".card").forEach(card => {
             card.style.setProperty("background-color", cfg.cardBg, "important");
             card.style.setProperty("border-color", cfg.border, "important");
             card.style.setProperty("color", cfg.cardColor, "important");
-        });
 
-        // 카드 헤더
-        section.querySelectorAll(".card-header").forEach(header => {
-            header.style.setProperty("background-color", cfg.cardHeaderBg, "important");
-            header.style.setProperty("color", cfg.cardColor, "important");
+            // 내부 글자(label, p 등)
+            card.querySelectorAll("label, p, span, h4, h5, h6").forEach(el => {
+                el.style.setProperty("color", cfg.cardColor, "important");
+            });
+
+            // 입력창 및 읽기 전용 텍스트
+            card.querySelectorAll(".form-control, .form-control-plaintext").forEach(input => {
+                input.style.setProperty("background-color", cfg.inputBg, "important");
+                input.style.setProperty("color", cfg.inputColor, "important");
+                input.style.setProperty("border-color", cfg.border, "important");
+            });
+
         });
 
         // 테이블
@@ -131,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 🔘 사이드바 업데이트
+    // 🔘 사이드바
     function updateSidebar(cfg) {
         if (!sidebar) return;
         sidebar.style.setProperty("background-color", cfg.bg, "important");
@@ -140,7 +153,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         sidebar.querySelectorAll(".nav-link").forEach(link => {
             link.style.setProperty("color", cfg.link, "important");
-            // ✅ active 항목에 맞춰 색상 강조
             if (link.classList.contains("active")) {
                 link.style.setProperty("background-color", cfg.activeBg, "important");
                 link.style.setProperty("color", cfg.activeColor, "important");
@@ -149,57 +161,39 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 🔘 모드 적용 함수
+    // 🔘 전체 모드 적용
     function applyMode(mode) {
         const config = themeConfig[mode];
         body.setAttribute("data-mode", mode);
 
-        // Body
         body.style.setProperty("background-color", config.body.bg, "important");
         body.style.setProperty("color", config.body.color, "important");
 
-        // 버튼
         updateButtons(config.btn);
 
-        // Navbar
         if (navbar) {
             navbar.classList.remove(...themeConfig.dark.navbar, ...themeConfig.light.navbar);
             navbar.classList.add(...config.navbar);
         }
 
-        // Sidebar
         updateSidebar(config.sidebar);
 
-        // About Section
-        updateSection(aboutSection, config.about);
+        // ✅ 모든 섹션(About, Board, Intro, MyPage)
+        [aboutSection, boardSection, introSection, myPageContent].forEach(sec => {
+            updateSection(sec, config.board);
+            updateBoardElements(sec, config.board);
+        });
 
-        // Board Section
-        if (boardSection) {
-            updateSection(boardSection, config.board);
-            updateBoardElements(boardSection, config.board);
-        }
+        if (header) updateSection(header, config.header);
 
-        // Intro Section
-        if (introSection) {
-            updateSection(introSection, config.board);
-            updateBoardElements(introSection, config.board);
-        }
-
-        // Header
-        if (header) {
-            updateSection(header, config.header);
-        }
-
-        // 구분선(hr)
         document.querySelectorAll("hr").forEach(hr => {
             hr.style.setProperty("border-top", config.hr, "important");
         });
 
-        // 저장
         localStorage.setItem("themeMode", mode);
     }
 
-    // 🔘 버튼 이벤트 연결
+    // 🔘 버튼 이벤트
     function bindToggle(btn) {
         if (!btn) return;
         btn.addEventListener("click", () => {
