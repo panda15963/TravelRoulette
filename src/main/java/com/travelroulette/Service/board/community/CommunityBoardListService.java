@@ -57,4 +57,6 @@ public class CommunityBoardListService {
     private int parseIntOrDefault(String s, int def) {
         try { return Integer.parseInt(s); } catch (Exception e) { return def; }
     }
+
+    //test
 }
