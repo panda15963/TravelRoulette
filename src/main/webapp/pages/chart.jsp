@@ -245,7 +245,7 @@
             svg.append("path")
                 .datum(data)
                 .attr("fill", "none")
-                .attr("stroke", "#0dcaf0") // info color
+                .attr("stroke", "#85C6FB") // info color
                 .attr("stroke-width", 2.5)
                 .attr("d", d3.line()
                     .x(function(d) { return x(d.date); })
@@ -257,7 +257,7 @@
                 .data(data)
                 .enter()
                 .append("circle")
-                .attr("fill", "#0dcaf0")
+                .attr("fill", "#85C6FB")
                 .attr("stroke", "none")
                 .attr("cx", function(d) { return x(d.date); })
                 .attr("cy", function(d) { return y(d.rate); })

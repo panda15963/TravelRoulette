@@ -1,6 +1,6 @@
 package com.travelroulette.Service;
 
-import com.travelroulette.Dao.KanbanDao;
+import com.travelroulette.Dao.KanbanDAO;
 import com.travelroulette.Dto.Kanban.KanBanDto;
 import com.travelroulette.Dto.Kanban.KanBanDto.TaskStatus;
 import com.travelroulette.Dto.Kanban.KanBanDto.Priority;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class KanbanService {
 
-    private final KanbanDao dao = new KanbanDao();
+    private final KanbanDAO dao = new KanbanDAO();
 
     /* ========= 조회 ========= */
 

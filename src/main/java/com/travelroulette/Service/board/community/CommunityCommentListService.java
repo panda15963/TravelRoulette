@@ -1,6 +1,6 @@
-package com.travelroulette.Service.board.community;
+package com.travelroulette.Service.Board.Community;
 
-import com.travelroulette.Dao.CommunityBoardDao;
+import com.travelroulette.Dao.CommunityBoardDAO;
 import com.travelroulette.Dto.Comment.CommentDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +16,7 @@ public class CommunityCommentListService {
         int postNumber = Integer.parseInt(postNumberStr);
 
         //댓글 목록
-        CommunityBoardDao dao = new CommunityBoardDao();
+        CommunityBoardDAO dao = new CommunityBoardDAO();
         List<CommentDto> commentList = dao.selectAllComments(postNumber);
 
         return commentList;

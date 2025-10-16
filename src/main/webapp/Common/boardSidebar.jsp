@@ -12,7 +12,7 @@
         <li class="nav-item mb-2">
             <a href="${pageContext.request.contextPath}/pages/board/common/mainBoard.jsp"
                class="nav-link fw-semibold
-               <%= currentPath.endsWith("mainBoard.jsp") ? "active bg-info text-dark fw-bold" : "text-dark" %>">
+               <%= currentPath.endsWith("mainBoard.jsp") ? "active bg-info fw-bold" : "" %>">
                 전체게시판
             </a>
         </li>
@@ -30,7 +30,7 @@
         <li class="nav-item mb-2">
             <a href="${pageContext.request.contextPath}/pages/board/community/communityBoard.jsp"
                class="nav-link fw-semibold
-               <%= currentPath.endsWith("communityBoard.jsp") ? "active bg-info text-dark fw-bold" : "text-dark" %>">
+               <%= currentPath.endsWith("communityBoard.jsp") ? "active bg-info fw-bold" : "" %>">
                 자유게시판
             </a>
         </li>
@@ -39,7 +39,7 @@
         <li class="nav-item mb-2">
             <a href="${pageContext.request.contextPath}/pages/board/qna/QnABoard.jsp"
                class="nav-link fw-semibold
-               <%= currentPath.endsWith("QnABoard.jsp") ? "active bg-info text-dark fw-bold" : "text-dark" %>">
+               <%= currentPath.endsWith("QnABoard.jsp") ? "active bg-info fw-bold" : "" %>">
                 질문답변게시판
             </a>
         </li>

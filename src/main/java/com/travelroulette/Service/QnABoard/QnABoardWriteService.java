@@ -1,7 +1,7 @@
-package com.travelroulette.Service.Board.Community;
+package com.travelroulette.Service.QnABoard;
 
-import com.travelroulette.Dao.CommunityBoardDAO;
-import com.travelroulette.Dto.Post.PostDto;
+import com.travelroulette.Dao.QnABoard.QnAPostDao;
+import com.travelroulette.Dto.QnABoard.QnABoardDto;
 import com.travelroulette.Dto.User.AuthenticatedUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,18 +9,16 @@ import jakarta.servlet.http.HttpSession;
 
 import java.sql.SQLException;
 
-public class CommunityBoardWriteService {
+public class QnABoardWriteService {
 
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        // ✅ 현재 요청의 세션 가져오기 (false = 없으면 새로 만들지 않음)
         HttpSession session = request.getSession(false);
         if (session == null) {
             System.out.println("⚠️ 세션이 없습니다. 로그인 필요.");
             return "login_required";
         }
 
-        // ✅ 로그인 정보 확인
         AuthenticatedUser authenticatedUser = (AuthenticatedUser) session.getAttribute("authenticatedUser");
         if (authenticatedUser == null) {
             System.out.println("⚠️ 세션에 로그인 정보(authenticatedUser)가 없습니다.");
@@ -33,7 +31,6 @@ public class CommunityBoardWriteService {
             return "login_required";
         }
 
-        // ✅ 제목과 내용 가져오기
         String title = request.getParameter("title");
         String content = request.getParameter("content");
 
@@ -42,23 +39,20 @@ public class CommunityBoardWriteService {
             return "invalid_input";
         }
 
-        // ✅ PostDto 생성
-        PostDto newPost = PostDto.builder()
-                .postTitle(title)
-                .postDescription(content)
-                .boardNumber(1)
+        QnABoardDto newPost = QnABoardDto.builder()
+                .qnaTitle(title)
+                .qnaDescription(content)
                 .userId(userId)
                 .build();
 
-        // ✅ 게시글 저장
-        CommunityBoardDAO dao = new CommunityBoardDAO();
+        QnAPostDao dao = new QnAPostDao();
         try {
-            dao.insertPost(newPost);
-            System.out.println("✅ 게시글 등록 성공 (" + title + ")");
+            dao.insertQnAPost(newPost);
+            System.out.println("✅ QnA 게시글 등록 성공 (" + title + ")");
             return "success";
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("❌ 게시글 등록 중 DB 오류 발생: " + e.getMessage());
+            System.out.println("❌ QnA 게시글 등록 중 DB 오류 발생: " + e.getMessage());
             return "db_error";
         }
     }

@@ -1,0 +1,126 @@
+body {
+    font-family: "Noto Sans KR", sans-serif;
+    background: #f8f9fb;
+    color: #222;
+    text-align: center;
+    margin: 0;
+    padding: 40px;
+}
+
+/* ====================== 플레이어 ====================== */
+#player-section {
+    margin-bottom: 50px;
+}
+
+.album-art {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.album-art img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    animation: spin 10s linear infinite;
+    animation-play-state: paused;
+    transition: transform 0.3s ease;
+}
+
+/* 💫 빛 반사 효과 (CD 느낌) */
+.light-reflection {
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+    transform: skewX(-25deg);
+    animation: shine 6s linear infinite;
+    opacity: 0.3;
+}
+
+@keyframes shine {
+    from { left: -50%; }
+    to { left: 150%; }
+}
+
+/* 회전 */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 재생 중일 때만 회전 */
+.album-art.playing img {
+    animation-play-state: running;
+}
+
+#track-title {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#track-artist {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+#seek-bar {
+    width: 60%;
+    margin: 10px 0;
+}
+
+.buttons button {
+    margin: 5px;
+    padding: 8px 14px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: white;
+    transition: background 0.3s;
+}
+
+.buttons button:hover {
+    background: #d8e9ff;
+}
+
+/* ====================== 검색 결과 ====================== */
+#result {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.track {
+    width: 70%;
+    max-width: 600px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.track:hover {
+    transform: scale(1.02);
+    background: #f3f9ff;
+}
+
+.track img {
+    border-radius: 6px;
+}
+
