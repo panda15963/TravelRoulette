@@ -1,12 +1,9 @@
 package com.travelroulette.Dao;
 
-import com.travelroulette.Dao.CommunityBoardDAO;
 import com.travelroulette.Dao.QnABoard.QnAPostDao;
 import com.travelroulette.Dto.Post.PostDto;
 import com.travelroulette.Dto.QnABoard.QnABoardDto;
 import com.travelroulette.Dto.TotalBoard.TotalBoardDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,7 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class TotalBoardDAO {
-    private static final Logger logger = LoggerFactory.getLogger(TotalBoardDAO.class);
 
     // 각 게시판 DAO 인스턴스 생성
     private final CommunityBoardDAO communityBoardDAO = new CommunityBoardDAO();
