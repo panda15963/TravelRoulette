@@ -58,10 +58,6 @@ public class CommunityBoardListService {
         try { return Integer.parseInt(s); } catch (Exception e) { return def; }
     }
 }
-<<<<<<< HEAD
-=======
-
-
 //package com.travelroulette.Service.board.community;
 //
 //import com.travelroulette.Dao.CommunityBoardDAO;
@@ -122,4 +118,3 @@ public class CommunityBoardListService {
 //        try { return Integer.parseInt(s); } catch (Exception e) { return def; }
 //    }
 //}
->>>>>>> 72610d824fc23f818496d9c77b7fbda4696e9a77
