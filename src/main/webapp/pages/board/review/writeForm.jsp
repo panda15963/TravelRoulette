@@ -101,7 +101,7 @@
         formData.append('content', content);
 
         // 후기 등록 요청
-        fetch('${pageContext.request.contextPath}/board/review/write.do', {
+        fetch('${pageContext.request.contextPath}/Board/Review/write.do', {
             method: 'POST',
             body: formData
         })

@@ -46,7 +46,7 @@ public class ReviewBoardWriteService {
         PostDto newPost = PostDto.builder()
                 .postTitle(title)
                 .postDescription(content)
-                .boardNumber(1)
+                .boardNumber(3)
                 .userId(userId)
                 .build();
 

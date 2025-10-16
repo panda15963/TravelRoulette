@@ -56,7 +56,7 @@
 
         if (postNumber) {
             // 기존 detail.do 엔드포인트 재사용
-            fetch('${pageContext.request.contextPath}/board/review/detail.do?postNumber=' + postNumber)
+            fetch('${pageContext.request.contextPath}/Board/Review/detail.do?postNumber=' + postNumber)
                 .then(response => response.json())
                 .then(post => {
                     if (post) {
@@ -90,7 +90,7 @@
         formData.append('title', title);
         formData.append('content', content);
 
-        fetch('${pageContext.request.contextPath}/board/review/update.do', {
+        fetch('${pageContext.request.contextPath}/Board/Review/update.do', {
             method: 'POST',
             body: formData
         })
@@ -99,7 +99,8 @@
                 if (data.status === 'success') {
                     alert('후기가 성공적으로 수정되었습니다.');
                     // 수정된 후기 상세 페이지로 이동
-                    location.href = '${pageContext.request.contextPath}/pages/Board/review/postView.jsp?postNumber=' + postNumber;
+                    //location.href = '${pageContext.request.contextPath}/pages/Board/review/postView.jsp?postNumber=' + postNumber;
+                    location.href = 'postView.jsp?postNumber=' + postNumber;
                 } else {
                     alert('후기 수정 실패: ' + (data.message || '서버 오류'));
                 }

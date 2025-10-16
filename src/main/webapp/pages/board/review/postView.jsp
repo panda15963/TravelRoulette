@@ -74,7 +74,7 @@
     function loadComments(pNum) {
         const currentUserId = AuthManager.getUserId();
 
-        fetch('${pageContext.request.contextPath}/board/review/comments.do?postNumber=' + pNum)
+        fetch('${pageContext.request.contextPath}/Board/Review/comments.do?postNumber=' + pNum)
             .then(response => response.json())
             .then(comments => {
                 const container = document.getElementById('comment-list-container');
@@ -92,15 +92,15 @@
                                 '</div>';
                         }
 
-                        html += `
-                            <div class="border rounded p-3 mb-2">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <strong>${comment.userId}</strong>
-                                    ${actionsHtml}
-                                </div>
-                                <p class="mb-1">${comment.commentDescription}</p>
-                                <small class="text-muted">${comment.dateWritten}</small>
-                            </div>`;
+                        html +=
+                            '<div class="border rounded p-3 mb-2">' +
+                            '<div class="d-flex justify-content-between align-items-center">' +
+                            '<strong>' + comment.userId + '</strong>' +
+                            actionsHtml +
+                            '</div>' +
+                            '<p class="mb-1">' + comment.commentDescription + '</p>' +
+                            '<small class="text-muted">' + comment.dateWritten + '</small>' +
+                            '</div>';
                     });
                     container.innerHTML = html;
                 } else {
@@ -116,7 +116,7 @@
     // 후기 상세 불러오기
     window.onload = function() {
         if (postNumber) {
-            fetch('${pageContext.request.contextPath}/board/review/detail.do?postNumber=' + postNumber)
+            fetch('${pageContext.request.contextPath}/Board/Review/detail.do?postNumber=' + postNumber)
                 .then(response => response.json())
                 .then(post => {
                     document.getElementById('post-title').innerText = post.postTitle;
@@ -124,7 +124,7 @@
                     document.getElementById('post-author').innerText = '작성자: ' + post.userId;
                     document.getElementById('post-content').innerText = post.postDescription;
 
-                    document.getElementById('edit-button').href = `editForm.jsp?postNumber=${post.postNumber}`;
+                    document.getElementById('edit-button').href = 'editForm.jsp?postNumber=' + post.postNumber;
 
                     const currentUserId = AuthManager.getUserId();
                     if (currentUserId && currentUserId === post.userId) {
@@ -148,7 +148,7 @@
             const formData = new FormData();
             formData.append('postNumber', postNumber);
 
-            fetch('${pageContext.request.contextPath}/board/review/delete.do', {
+            fetch('${pageContext.request.contextPath}/Board/Review/delete.do', {
                 method: 'POST',
                 body: formData
             })
@@ -183,7 +183,7 @@
         formData.append('postNumber', postNumber);
         formData.append('commentDescription', commentDescription);
 
-        fetch('${pageContext.request.contextPath}/board/review/comment/write.do', {
+        fetch('${pageContext.request.contextPath}/Board/Review/comment/write.do', {
             method: 'POST',
             body: formData
         })
@@ -222,14 +222,14 @@
             contentP.style.display = 'none';
             actionsDiv.style.display = 'none';
 
-            const editFormHtml = `
-                <div class="edit-form">
-                    <textarea class="form-control mb-2">${originalText}</textarea>
-                    <div class="text-end">
-                        <button type="button" class="btn btn-sm btn-secondary" data-action="cancel">취소</button>
-                        <button type="button" class="btn btn-sm btn-info text-white" data-action="save" data-comment-id="${commentId}">저장</button>
-                    </div>
-                </div>`;
+            const editFormHtml =
+                '<div class="edit-form">' +
+                '<textarea class="form-control mb-2">' + originalText + '</textarea>' +
+                '<div class="text-end">' +
+                '<button type="button" class="btn btn-sm btn-secondary" data-action="cancel">취소</button>' +
+                '<button type="button" class="btn btn-sm btn-info text-white" data-action="save" data-comment-id="' + commentId + '">저장</button>' +
+                '</div>' +
+                '</div>';
             contentP.insertAdjacentHTML('afterend', editFormHtml);
         }
 
@@ -252,7 +252,7 @@
             formData.append('commentNumber', commentId);
             formData.append('commentDescription', newDescription);
 
-            fetch('${pageContext.request.contextPath}/board/review/comment/update.do', {
+            fetch('${pageContext.request.contextPath}/Board/Review/comment/update.do', {
                 method: 'POST',
                 body: formData
             })
@@ -278,7 +278,7 @@
                 const formData = new FormData();
                 formData.append('commentNumber', commentId);
 
-                fetch('${pageContext.request.contextPath}/board/review/comment/delete.do', {
+                fetch('${pageContext.request.contextPath}/Board/Review/comment/delete.do', {
                     method: 'POST',
                     body: formData
                 })

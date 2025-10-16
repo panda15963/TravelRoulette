@@ -12,7 +12,7 @@ public class ReviewBoardListService {
 
     public BoardPageDto execute(HttpServletRequest request, HttpServletResponse response) {
 
-        int boardNumber = 1; //자유게시판 번호
+        int boardNumber = 3; //여행후기게시판 번호
 
         int currentPage = parseIntOrDefault(request.getParameter("page"), 1);
         int pageSize    = parseIntOrDefault(request.getParameter("pageSize"), 10);
