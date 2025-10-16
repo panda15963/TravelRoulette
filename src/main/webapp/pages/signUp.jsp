@@ -9,7 +9,7 @@
     <link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/css/features/sign/signStyle.css" rel="stylesheet"/>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
 </head>
@@ -151,14 +151,15 @@
         // --- 중복 확인 버튼 이벤트 리스너 ---
         if (checkUserIdDuplicateBtn) {
             checkUserIdDuplicateBtn.addEventListener('click', async function() {
+                const isDarkMode = document.body.getAttribute('data-mode') === 'dark';
                 const userId = userIdInput.value;
                 if (!userId) {
-                    Swal.fire({ icon: 'warning', title: '아이디 입력', text: '아이디를 입력해주세요.', timer: 2000, timerProgressBar: true, showConfirmButton: false });
+                    Swal.fire({ icon: 'warning', title: '아이디 입력', text: '아이디를 입력해주세요.', timer: 2000, timerProgressBar: true, showConfirmButton: false, background: isDarkMode ? '#2a2a2a' : '#fff', color: isDarkMode ? '#eaeaea' : '#000' });
                     return;
                 }
                 const result = await checkDuplicate('userId', userId, contextPath);
                 isIdCheckedAndValid = result.isValid;
-                Swal.fire({ icon: result.isValid ? 'success' : 'error', title: '중복 확인', text: result.message, timer: 2000, timerProgressBar: true, showConfirmButton: false });
+                Swal.fire({ icon: result.isValid ? 'success' : 'error', title: '중복 확인', text: result.message, timer: 2000, timerProgressBar: true, showConfirmButton: false, background: isDarkMode ? '#2a2a2a' : '#fff', color: isDarkMode ? '#eaeaea' : '#000' });
                 userIdMessage.textContent = result.message;
                 userIdMessage.style.color = result.isValid ? 'green' : 'red';
                 updateSubmitButtonState();
@@ -167,19 +168,20 @@
 
         if (checkEmailDuplicateBtn) {
             checkEmailDuplicateBtn.addEventListener('click', async function() {
+                const isDarkMode = document.body.getAttribute('data-mode') === 'dark';
                 const email = emailInput.value;
                 if (!email) {
-                    Swal.fire({ icon: 'warning', title: '이메일 입력', text: '이메일을 입력해주세요.', timer: 2000, timerProgressBar: true, showConfirmButton: false });
+                    Swal.fire({ icon: 'warning', title: '이메일 입력', text: '이메일을 입력해주세요.', timer: 2000, timerProgressBar: true, showConfirmButton: false, background: isDarkMode ? '#2a2a2a' : '#fff', color: isDarkMode ? '#eaeaea' : '#000' });
                     return;
                 }
                 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
                 if (!emailPattern.test(email)) {
-                    Swal.fire({ icon: 'warning', title: '이메일 형식 오류', text: '유효하지 않은 이메일 형식입니다.', timer: 2000, timerProgressBar: true, showConfirmButton: false });
+                    Swal.fire({ icon: 'warning', title: '이메일 형식 오류', text: '유효하지 않은 이메일 형식입니다.', timer: 2000, timerProgressBar: true, showConfirmButton: false, background: isDarkMode ? '#2a2a2a' : '#fff', color: isDarkMode ? '#eaeaea' : '#000' });
                     return;
                 }
                 const result = await checkDuplicate('email', email, contextPath);
                 isEmailCheckedAndValid = result.isValid;
-                Swal.fire({ icon: result.isValid ? 'success' : 'error', title: '중복 확인', text: result.message, timer: 2000, timerProgressBar: true, showConfirmButton: false });
+                Swal.fire({ icon: result.isValid ? 'success' : 'error', title: '중복 확인', text: result.message, timer: 2000, timerProgressBar: true, showConfirmButton: false, background: isDarkMode ? '#2a2a2a' : '#fff', color: isDarkMode ? '#eaeaea' : '#000' });
                 emailMessage.textContent = result.message;
                 emailMessage.style.color = result.isValid ? 'green' : 'red';
                 updateSubmitButtonState();
@@ -189,6 +191,7 @@
         // --- 최종 가입 버튼 클릭 이벤트 핸들러 ---
         submitBtn.addEventListener('click', function(event) {
             event.preventDefault(); // 폼 제출을 일단 막습니다.
+            const isDarkMode = document.body.getAttribute('data-mode') === 'dark';
 
             if (isFormValid()) {
                 signupForm.submit(); // 유효하면 폼을 제출합니다.
@@ -208,6 +211,8 @@
                     icon: 'error',
                     title: '가입 조건 미충족',
                     text: alertMessage,
+                    background: isDarkMode ? '#2a2a2a' : '#fff',
+                    color: isDarkMode ? '#eaeaea' : '#000'
                 });
             }
         });

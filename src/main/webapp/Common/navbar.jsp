@@ -1,4 +1,24 @@
 <%@ page contentType = "text/html; charset=UTF-8" pageEncoding = "UTF-8" %>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Global Alert Override -->
+<script>
+    // 전역 alert 함수를 SweetAlert로 대체합니다.
+    window.alert = function(message) {
+        const isDarkMode = document.body.getAttribute('data-mode') === 'dark';
+
+        Swal.fire({
+            text: message,
+            confirmButtonText: '확인',
+            timer: 3000,
+            timerProgressBar: true,
+            background: isDarkMode ? '#2a2a2a' : '#fff',
+            color: isDarkMode ? '#eaeaea' : '#000'
+        });
+    };
+</script>
+
 <%@ include file="/Common/AuthInit.jsp" %>
 <%@ page import="com.travelroulette.Dto.User.AuthenticatedUser" %>
 <!-- Navigation-->
