@@ -1,15 +1,32 @@
-body {
+/* 🎵 music.jsp 전용 스타일 */
+#music-page {
     font-family: "Noto Sans KR", sans-serif;
-    background: #f8f9fb;
-    color: #222;
-    text-align: center;
+    background-color: #f7f7f7;
     margin: 0;
-    padding: 40px;
+    padding: 0;
+    text-align: center;
+}
+
+/* ✅ navbar 때문에 상단 여백 추가 */
+#music-page main,
+#music-page section {
+    margin-top: 100px;
+}
+
+/* ✅ footer 공백 제거 */
+footer {
+    width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 /* ====================== 플레이어 ====================== */
 #player-section {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
 }
 
 .album-art {
@@ -19,6 +36,7 @@ body {
     margin: 0 auto 15px;
     border-radius: 50%;
     overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .album-art img {
@@ -31,31 +49,26 @@ body {
     transition: transform 0.3s ease;
 }
 
-/* 💫 빛 반사 효과 (CD 느낌) */
+/* 💫 빛 반사 효과 */
 .light-reflection {
     position: absolute;
     top: 0;
     left: -50%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(120deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+    background: linear-gradient(120deg, rgba(255,255,255,0.25), rgba(255,255,255,0));
     transform: skewX(-25deg);
     animation: shine 6s linear infinite;
-    opacity: 0.3;
+    opacity: 0.35;
 }
-
 @keyframes shine {
     from { left: -50%; }
     to { left: 150%; }
 }
-
-/* 회전 */
 @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
-
-/* 재생 중일 때만 회전 */
 .album-art.playing img {
     animation-play-state: running;
 }
@@ -64,63 +77,215 @@ body {
     margin-top: 10px;
     font-size: 20px;
     font-weight: bold;
+    color: #333;
 }
-
 #track-artist {
     font-size: 15px;
-    color: #555;
+    color: #666;
     margin-bottom: 10px;
 }
 
-#seek-bar {
-    width: 60%;
-    margin: 10px 0;
-}
-
-.buttons button {
-    margin: 5px;
-    padding: 8px 14px;
-    font-size: 18px;
+/* ====================== 재생바 ====================== */
+#music-page #seek-bar {
+    display: block;
+    margin: 20px auto; /* 중앙 정렬 */
+    width: 40%;
+    height: 6px;
+    border-radius: 5px;
+    background: #d4d8e3;
     cursor: pointer;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    background: white;
-    transition: background 0.3s;
+    accent-color: #4e7cfb;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
-.buttons button:hover {
-    background: #d8e9ff;
+/* 트랙 (회색 라인) */
+#music-page #seek-bar::-webkit-slider-runnable-track {
+    height: 6px;
+    background: #d4d8e3;
+    border-radius: 5px;
+}
+#music-page #seek-bar::-moz-range-track {
+    height: 6px;
+    background: #d4d8e3;
+    border-radius: 5px;
+}
+
+/* 손잡이 (파란 동그라미) */
+#music-page #seek-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #4e7cfb;
+    cursor: pointer;
+    margin-top: -6px; /* 트랙 중앙정렬 */
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+#music-page #seek-bar::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    background: #3a67e0;
+}
+#music-page #seek-bar::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #4e7cfb;
+    cursor: pointer;
+    border: none;
+}
+
+/* 반응형 */
+@media (min-width: 1200px) {
+    #music-page #seek-bar { width: 30%; }
+}
+@media (max-width: 768px) {
+    #music-page #seek-bar { width: 80%; }
+}
+
+/* ====================== 재생 버튼 ====================== */
+#play-btn {
+    width: 60px;
+    height: 60px;
+    margin-top: 20px;
+    border-radius: 50%;
+    border: none;
+    background-color: #eaf3ff;
+    color: #4e7cfb;
+    font-size: 22px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+#play-btn:hover {
+    background-color: #5b9be0;
+    color: #fff;
+    transform: scale(1.07);
+}
+
+/* ====================== 검색 영역 ====================== */
+.search-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#query {
+    width: 300px;
+    padding: 10px 14px;
+    border: 1.5px solid #d0d8e8;
+    border-radius: 8px;
+    outline: none;
+    font-size: 0.95em;
+    background-color: #f4f7ff;
+    transition: 0.2s ease;
+}
+#query:focus {
+    border-color: #7ab8f5;
+    box-shadow: 0 0 0 3px rgba(122, 184, 245, 0.2);
+}
+
+/* 🔍 검색 버튼 (동그란 버튼 스타일) */
+#search-btn {
+    background-color: #7ab8f5;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+    transition: all 0.25s ease;
+}
+#search-btn:hover {
+    background-color: #5b9be0;
+    transform: scale(1.07);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+#search-btn i {
+    color: white;
+    font-size: 18px;
 }
 
 /* ====================== 검색 결과 ====================== */
 #result {
-    margin-top: 30px;
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
 }
-
 .track {
     width: 70%;
     max-width: 600px;
-    background: #fff;
+    background: #ffffff;
     border-radius: 14px;
-    padding: 12px;
+    padding: 12px 14px;
     display: flex;
     align-items: center;
     gap: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     cursor: pointer;
-    transition: transform 0.15s ease;
+    transition: transform 0.15s ease, background 0.3s ease;
+    border: 1px solid #e3eaf6;
 }
-
 .track:hover {
     transform: scale(1.02);
-    background: #f3f9ff;
+    background: #eef6ff;
+    border-color: #c8dcff;
 }
-
 .track img {
     border-radius: 6px;
 }
+
+/* ➕ 음악 추가 버튼 */
+/* ➕ 음악 추가 버튼 */
+.track .add-btn {
+    background: none;
+    border: none;
+    color: #5b9be0; /* ✅ 통일된 블루 색상 */
+    font-size: 22px;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease, transform 0.15s ease;
+}
+.track .add-btn:hover {
+    color: #7ab8f5; /* ✅ hover 시 밝은 블루 */
+    transform: scale(1.15);
+}
+
+
+/* ====================== 나의 플레이리스트 카드 ====================== */
+/* ====================== 나의 플레이리스트 카드 ====================== */
+#playlist-card {
+    width: 160px;
+    height: 160px; /* ✅ 정사각형으로 변경 */
+    background-color: #eaf3ff;
+    border-radius: 16px;
+    margin: 60px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+#playlist-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+#playlist-card span {
+    font-size: 2em;
+}
+#playlist-card p {
+    font-weight: 500;
+    margin-top: 8px;
+    color: #333;
+}
+
+
 
