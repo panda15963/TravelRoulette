@@ -108,6 +108,14 @@ public class QnABoardController extends HttpServlet {
         QnABoardDetailService service = new QnABoardDetailService();
         com.travelroulette.Dto.QnABoard.QnABoardDetailDto detailDto = service.execute(request, response);
 
+        // Service에서 (오류 등으로) 게시물 정보를 못가져온 경우 404 에러 처리
+        if (detailDto == null || detailDto.getPost() == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.setContentType("application/json; charset=UTF-8");
+            response.getWriter().write("{\"error\":\"Post not found\"}");
+            return;
+        }
+
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (src, typeOfSrc, context) ->
                         new com.google.gson.JsonPrimitive(src.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
@@ -129,8 +137,20 @@ public class QnABoardController extends HttpServlet {
 
         if (resultMessage.equals("success")) {
             out.print("{\"status\":\"success\"}");
+        } else if (resultMessage.equals("login_required")) {
+            out.print("{\"status\":\"fail\",\"message\":\"로그인이 필요합니다.\"}");
+        } else if (resultMessage.equals("unauthorized")) {
+            out.print("{\"status\":\"fail\",\"message\":\"수정 권한이 없습니다.\"}");
+        } else if (resultMessage.equals("post_not_found")) {
+            out.print("{\"status\":\"fail\",\"message\":\"게시글을 찾을 수 없습니다.\"}");
+        } else if (resultMessage.equals("missing_qnaNumber")) {
+            out.print("{\"status\":\"fail\",\"message\":\"게시글 번호가 없습니다.\"}");
+        } else if (resultMessage.equals("empty_fields")) {
+            out.print("{\"status\":\"fail\",\"message\":\"제목과 내용을 입력해주세요.\"}");
+        } else if (resultMessage.equals("invalid_qnaNumber")) {
+            out.print("{\"status\":\"fail\",\"message\":\"잘못된 게시글 번호입니다.\"}");
         } else {
-            out.print("{\"status\":\"fail\"}");
+            out.print("{\"status\":\"fail\",\"message\":\"" + resultMessage + "\"}");
         }
         out.flush();
     }
