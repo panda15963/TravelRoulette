@@ -84,6 +84,7 @@ style ="margin-top: 150px; margin-bottom: 100px;"
 
 <script src="../js/features/deezer.js"></script>
 <script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <%@ include file="../Common/footer.jsp" %>
 

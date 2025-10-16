@@ -180,6 +180,7 @@
 <body id="playlist-page">
 
 <%@ include file="../Common/navbar.jsp" %>
+<%@ include file="../Common/sidebar.jsp" %>
 
 <section id="playlist-header" style="margin-top: 130px;">
     <div id="playlist-cover">🎵</div>
@@ -223,6 +224,8 @@ style="margin-top: 5px; margin-bottom:100px;"
 
 
 
+<!-- Dark/Light Mode JS -->
+<script src="../js/features/darkmode.js"></script>
 <script>
     async function loadPlaylist() {
         const res = await fetch("../playlist/list");
@@ -292,12 +295,8 @@ style="margin-top: 5px; margin-bottom:100px;"
         location.href = "<%= request.getContextPath() %>/pages/music.jsp";
     }
 
-
 </script>
-
-
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
