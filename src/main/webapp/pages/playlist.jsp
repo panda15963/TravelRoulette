@@ -181,14 +181,16 @@
 
 <%@ include file="../Common/navbar.jsp" %>
 
-<section id="playlist-header">
+<section id="playlist-header" style="margin-top: 130px;">
     <div id="playlist-cover">🎵</div>
     <div id="playlist-title">playlist</div>
 </section>
 
 
 
-<section id="playlist-box">
+<section id="playlist-box"
+style="margin-top: 5px; margin-bottom:100px;"
+>
     <button class="btn-home" onclick="goHome()" style="
     padding-top: 5px;
     padding-bottom: 5px;
@@ -198,7 +200,7 @@
     border-right-width: 0px;
     border-bottom-width: 0px;
     border-left-width: 0px;
-    margin-right: 100px;
+    margin-right: 140px;
     margin-bottom: 15px;
 ">🔍</button>
 
