@@ -55,7 +55,7 @@
         const qnaNumber = urlParams.get('qnaNumber');
 
         if (qnaNumber) {
-            fetch(`/TravelRoulette/board/qna/detail.do?qnaNumber=${qnaNumber}`)
+            fetch(`/TravelRoulette/Board/qna/detail.do?qnaNumber=${qnaNumber}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data && data.post) {
@@ -80,7 +80,7 @@
         formData.append('title', title);
         formData.append('content', content);
 
-        fetch('/TravelRoulette/board/qna/update.do', {
+        fetch('/TravelRoulette/Board/qna/update.do', {
             method: 'POST',
             body: formData
         })

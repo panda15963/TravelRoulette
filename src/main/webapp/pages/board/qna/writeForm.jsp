@@ -90,7 +90,7 @@
         formData.append('title', title);
         formData.append('content', content);
 
-        fetch('/TravelRoulette/board/qna/write.do', {
+        fetch('/TravelRoulette/Board/qna/write.do', {
             method: 'POST',
             body: formData
         })

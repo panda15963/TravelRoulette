@@ -1,13 +1,13 @@
-package com.travelroulette.Service.QnABoard;
+package com.travelroulette.Service.Board.QnABoard;
 
-import com.travelroulette.Dao.QnABoard.QnAAnswerDao;
 import com.travelroulette.Dao.QnABoard.QnAPostDao;
+import com.travelroulette.Dto.QnABoard.QnABoardDto;
 import com.travelroulette.Dto.User.AuthenticatedUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class QnABoardDeleteService {
+public class QnABoardUpdateService {
 
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
@@ -24,19 +24,23 @@ public class QnABoardDeleteService {
         }
 
         String qnaNumberStr = request.getParameter("qnaNumber");
-        int qnaNumber = Integer.parseInt(qnaNumberStr);
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
 
-        QnAAnswerDao answerDao = new QnAAnswerDao();
-        answerDao.deleteAnswersByRef(qnaNumber);
+        QnABoardDto updatedPost = QnABoardDto.builder()
+                .qnaNumber(Integer.parseInt(qnaNumberStr))
+                .qnaTitle(title)
+                .qnaDescription(content)
+                .build();
 
-        QnAPostDao postDao = new QnAPostDao();
-        int result = postDao.deleteQnAPost(qnaNumber);
+        QnAPostDao dao = new QnAPostDao();
+        int result = dao.updateQnAPost(updatedPost);
 
         if (result > 0) {
-            System.out.println("✅ QnA 게시글 삭제 성공");
+            System.out.println("✅ QnA 게시글 수정 성공");
             return "success";
         } else {
-            System.out.println("❌ QnA 게시글 삭제 실패");
+            System.out.println("❌ QnA 게시글 수정 실패");
             return "fail";
         }
     }

@@ -1,4 +1,4 @@
-package com.travelroulette.Service.QnABoard;
+package com.travelroulette.Service.Board.QnABoard;
 
 import com.travelroulette.Dao.QnABoard.QnAAnswerDao;
 import com.travelroulette.Dto.User.AuthenticatedUser;

@@ -1,15 +1,13 @@
-package com.travelroulette.Service.QnABoard;
+package com.travelroulette.Service.Board.QnABoard;
 
-import com.travelroulette.Dao.QnABoard.QnAPostDao;
+import com.travelroulette.Dao.QnABoard.QnAAnswerDao;
 import com.travelroulette.Dto.QnABoard.QnABoardDto;
 import com.travelroulette.Dto.User.AuthenticatedUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import java.sql.SQLException;
-
-public class QnABoardWriteService {
+public class QnAAnswerWriteService {
 
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
@@ -31,6 +29,7 @@ public class QnABoardWriteService {
             return "login_required";
         }
 
+        String qnaRefStr = request.getParameter("qnaRef");
         String title = request.getParameter("title");
         String content = request.getParameter("content");
 
@@ -39,21 +38,31 @@ public class QnABoardWriteService {
             return "invalid_input";
         }
 
-        QnABoardDto newPost = QnABoardDto.builder()
+        int qnaRef = Integer.parseInt(qnaRefStr);
+
+        // 답글 중복 체크 - 이미 답글이 있는지 확인
+        QnAAnswerDao dao = new QnAAnswerDao();
+        if (dao.hasAnswer(qnaRef)) {
+            System.out.println("⚠️ 이미 답글이 존재합니다. qnaRef: " + qnaRef);
+            return "already_exists";
+        }
+
+        QnABoardDto newAnswer = QnABoardDto.builder()
                 .qnaTitle(title)
                 .qnaDescription(content)
+                .qnaRef(qnaRef)
                 .userId(userId)
                 .build();
 
-        QnAPostDao dao = new QnAPostDao();
-        try {
-            dao.insertQnAPost(newPost);
-            System.out.println("✅ QnA 게시글 등록 성공 (" + title + ")");
+        int result = dao.insertAnswer(newAnswer);
+
+        if (result > 0) {
+            System.out.println("✅ QnA 답글 등록 성공");
             return "success";
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("❌ QnA 게시글 등록 중 DB 오류 발생: " + e.getMessage());
-            return "db_error";
+        } else {
+            System.out.println("❌ QnA 답글 등록 실패");
+            return "fail";
         }
     }
 }
+

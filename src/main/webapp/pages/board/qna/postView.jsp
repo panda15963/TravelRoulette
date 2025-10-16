@@ -67,7 +67,7 @@
 
     window.onload = function() {
         if (qnaNumber) {
-            fetch(`/TravelRoulette/board/qna/detail.do?qnaNumber=\${qnaNumber}`)
+            fetch(`/TravelRoulette/Board/qna/detail.do?qnaNumber=\${qnaNumber}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log("서버로부터 받은 상세 데이터:", data);
@@ -158,7 +158,7 @@
             const formData = new FormData();
             formData.append('qnaNumber', qnaNumber);
 
-            fetch('/TravelRoulette/board/qna/delete.do', {
+            fetch('/TravelRoulette/Board/qna/delete.do', {
                 method: 'POST',
                 body: formData
             })
@@ -196,7 +196,7 @@
         formData.append('title', title);
         formData.append('content', content);
 
-        fetch('/TravelRoulette/board/qna/answer/write.do', {
+        fetch('/TravelRoulette/Board/qna/answer/write.do', {
             method: 'POST',
             body: formData
         })
@@ -230,7 +230,7 @@
                 const formData = new FormData();
                 formData.append('qnaNumber', answerId);
 
-                fetch('/TravelRoulette/board/qna/answer/delete.do', {
+                fetch('/TravelRoulette/Board/qna/answer/delete.do', {
                     method: 'POST',
                     body: formData
                 })
@@ -307,7 +307,7 @@
             formData.append('title', newTitle);
             formData.append('content', newContent);
 
-            fetch('/TravelRoulette/board/qna/answer/update.do', {
+            fetch('/TravelRoulette/Board/qna/answer/update.do', {
                 method: 'POST',
                 body: formData
             })
