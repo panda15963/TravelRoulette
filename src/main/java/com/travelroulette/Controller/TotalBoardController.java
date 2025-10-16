@@ -25,7 +25,7 @@ public class TotalBoardController extends HttpServlet {
         System.out.println("✅ boardList size = " + boardList.size());
 
         request.setAttribute("boardList", boardList);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/board/common/mainBoard.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/Board/common/mainBoard.jsp");
         dispatcher.forward(request, response);
     }
 }

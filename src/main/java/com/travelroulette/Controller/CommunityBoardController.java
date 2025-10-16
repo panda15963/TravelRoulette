@@ -21,7 +21,7 @@ import com.google.gson.JsonSerializer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-//@WebServlet("/board/community/*")
+//@WebServlet("/Board/Community/*")
 @MultipartConfig
 public class CommunityBoardController extends HttpServlet {
 
@@ -39,7 +39,7 @@ public class CommunityBoardController extends HttpServlet {
         System.out.println("요청 Command: " + command);
 
         //작업 분기
-        if (command.equals("/board/community/list.do")) {
+        if (command.equals("/Board/Community/list.do")) {
             System.out.println("커뮤니티 게시판 목록 요청 처리");
 
             //정렬 파라미터
@@ -65,7 +65,7 @@ public class CommunityBoardController extends HttpServlet {
 
 
 
-        else if (command.equals("/board/community/write.do")) {
+        else if (command.equals("/Board/Community/write.do")) {
             System.out.println("글쓰기 요청 처리");
 
             CommunityBoardWriteService service = new CommunityBoardWriteService();
@@ -93,7 +93,7 @@ public class CommunityBoardController extends HttpServlet {
             out.flush();
         }
 
-        else if (command.equals("/board/community/detail.do")) {
+        else if (command.equals("/Board/Community/detail.do")) {
             System.out.println("상세보기 요청 처리");
 
             CommunityBoardDetailService service = new CommunityBoardDetailService();
@@ -113,7 +113,7 @@ public class CommunityBoardController extends HttpServlet {
             out.flush();
         }
 
-        else if (command.equals("/board/community/update.do")) {
+        else if (command.equals("/Board/Community/update.do")) {
             System.out.println("글 수정 요청 처리");
 
             //글 수정 서비스 객체 생성 및 실행
@@ -136,7 +136,7 @@ public class CommunityBoardController extends HttpServlet {
         }
 
 
-        else if (command.equals("/board/community/delete.do")) {
+        else if (command.equals("/Board/Community/delete.do")) {
             System.out.println("글 삭제 요청 처리");
 
             CommunityBoardDeleteService service = new CommunityBoardDeleteService();
@@ -157,7 +157,7 @@ public class CommunityBoardController extends HttpServlet {
             out.flush();
         }
 
-        else if (command.equals("/board/community/comments.do")) {
+        else if (command.equals("/Board/Community/comments.do")) {
             System.out.println("댓글 목록 요청 처리(비동기)");
 
             CommunityCommentListService service = new CommunityCommentListService();
@@ -179,7 +179,7 @@ public class CommunityBoardController extends HttpServlet {
         }
 
 
-        else if (command.equals("/board/community/comment/write.do")) {
+        else if (command.equals("/Board/Community/comment/write.do")) {
             System.out.println("댓글 쓰기 요청 처리");
 
             CommunityCommentWriteService service = new CommunityCommentWriteService();
@@ -200,7 +200,7 @@ public class CommunityBoardController extends HttpServlet {
         }
 
 
-        else if (command.equals("/board/community/comment/update.do")) {
+        else if (command.equals("/Board/Community/comment/update.do")) {
             System.out.println("댓글 수정 요청 처리(비동기)");
 
             CommunityCommentUpdateService service = new CommunityCommentUpdateService();
@@ -221,7 +221,7 @@ public class CommunityBoardController extends HttpServlet {
         }
 
 
-        else if (command.equals("/board/community/comment/delete.do")) {
+        else if (command.equals("/Board/Community/comment/delete.do")) {
             System.out.println("댓글 삭제 요청 처리(비동기)");
 
             CommunityCommentDeleteService service = new CommunityCommentDeleteService();

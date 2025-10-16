@@ -113,7 +113,7 @@
     }
 
     function loadList() {
-        let url = '/TravelRoulette/board/qna/list.do?page=' + state.page +
+        let url = '/TravelRoulette/Board/qna/list.do?page=' + state.page +
             '&pageSize=' + state.size +
             '&sort=' + state.sort;
         if (state.searchKeyword && state.searchKeyword.trim() !== '') {

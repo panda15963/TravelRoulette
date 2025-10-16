@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@WebServlet("/board/qna/*")
+@WebServlet("/Board/qna/*")
 @MultipartConfig
 public class QnABoardController extends HttpServlet {
 
@@ -34,35 +34,35 @@ public class QnABoardController extends HttpServlet {
         System.out.println("요청 URI: " + requestURI);
         System.out.println("요청 Command: " + command);
 
-        if (command.equals("/board/qna/list.do")) {
+        if (command.equals("/Board/qna/list.do")) {
             System.out.println("QnA 게시판 목록 요청 처리");
             handleList(request, response);
         }
-        else if (command.equals("/board/qna/write.do")) {
+        else if (command.equals("/Board/qna/write.do")) {
             System.out.println("QnA 게시글 작성 요청 처리");
             handleWrite(request, response);
         }
-        else if (command.equals("/board/qna/detail.do")) {
+        else if (command.equals("/Board/qna/detail.do")) {
             System.out.println("QnA 게시글 상세보기 요청 처리");
             handleDetail(request, response);
         }
-        else if (command.equals("/board/qna/update.do")) {
+        else if (command.equals("/Board/qna/update.do")) {
             System.out.println("QnA 게시글 수정 요청 처리");
             handleUpdate(request, response);
         }
-        else if (command.equals("/board/qna/delete.do")) {
+        else if (command.equals("/Board/qna/delete.do")) {
             System.out.println("QnA 게시글 삭제 요청 처리");
             handleDelete(request, response);
         }
-        else if (command.equals("/board/qna/answer/write.do")) {
+        else if (command.equals("/Board/qna/answer/write.do")) {
             System.out.println("QnA 답글 작성 요청 처리");
             handleAnswerWrite(request, response);
         }
-        else if (command.equals("/board/qna/answer/update.do")) {
+        else if (command.equals("/Board/qna/answer/update.do")) {
             System.out.println("QnA 답글 수정 요청 처리");
             handleAnswerUpdate(request, response);
         }
-        else if (command.equals("/board/qna/answer/delete.do")) {
+        else if (command.equals("/Board/qna/answer/delete.do")) {
             System.out.println("QnA 답글 삭제 요청 처리");
             handleAnswerDelete(request, response);
         }

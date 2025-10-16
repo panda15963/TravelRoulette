@@ -70,7 +70,7 @@ public class TotalBoardDAO {
             logger.info("✅ TotalBoardDAO.findAll() - {} posts fetched (게시글 + 질의응답)", list.size());
 
         } catch (SQLException e) {
-            logger.error("❌ Error fetching total board posts", e);
+            logger.error("❌ Error fetching total Board posts", e);
         }
 
         return list;

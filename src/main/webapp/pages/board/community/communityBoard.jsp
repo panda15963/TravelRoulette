@@ -193,7 +193,7 @@
     //게시글 목록 불러오기
     function loadList() {
 
-        const url = '${pageContext.request.contextPath}/board/community/list.do?page=' + state.page
+        const url = '${pageContext.request.contextPath}/Board/Community/list.do?page=' + state.page
             + '&pageSize=' + state.pageSize
             + '&sort=' + state.sort
             + (state.searchKeyword ? '&searchKeyword=' + encodeURIComponent(state.searchKeyword) : '');

@@ -43,5 +43,14 @@
                 질문답변게시판
             </a>
         </li>
+
+        <!-- 여행후기게시판 -->
+        <li class="nav-item mb-2">
+            <a href="${pageContext.request.contextPath}/pages/board/review/reviewBoard.jsp"
+               class="nav-link fw-semibold
+               <%= currentPath.endsWith("reviewBoard.jsp") ? "active bg-info fw-bold" : "" %>">
+                여행후기게시판
+            </a>
+        </li>
     </ul>
 </nav>

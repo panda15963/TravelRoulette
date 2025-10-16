@@ -39,7 +39,7 @@
 
     <servlet-mapping>
         <servlet-name>CommunityBoardController</servlet-name>
-        <url-pattern>/board/community/*</url-pattern>
+        <url-pattern>/Board/Community/*</url-pattern>
     </servlet-mapping>
 
 
