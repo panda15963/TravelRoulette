@@ -107,7 +107,7 @@
         const currentUserId = AuthManager.getUserId();
 
         //fetch(`/TravelRoulette/Board/Community/comments.do?postNumber=\${pNum}`)
-        fetch('${pageContext.request.contextPath}/board/community/comments.do?postNumber=' + pNum)
+        fetch('${pageContext.request.contextPath}/Board/Community/comments.do?postNumber=' + pNum)
             .then(response => response.json())
             .then(comments => {
                 const container = document.getElementById('comment-list-container');
@@ -155,7 +155,7 @@
         if (postNumber) {
             //비동기
             //fetch(`/TravelRoulette/Board/Community/detail.do?postNumber=\${postNumber}`)
-            fetch('${pageContext.request.contextPath}/board/community/detail.do?postNumber=' + postNumber)
+            fetch('${pageContext.request.contextPath}/Board/Community/detail.do?postNumber=' + postNumber)
                 .then(response => response.json()) //응답을 JSON으로 변환
                 .then(post => {
                     console.log("서버로부터 받은 상세 데이터:", post);
@@ -207,7 +207,7 @@
 
             //비동기
             //fetch('/TravelRoulette/Board/Community/delete.do', {
-            fetch('${pageContext.request.contextPath}/board/community/delete.do', {
+            fetch('${pageContext.request.contextPath}/Board/Community/delete.do', {
                 method: 'POST',
                 body: formData
             })
@@ -246,7 +246,7 @@
 
 
         //fetch('/TravelRoulette/Board/Community/comment/write.do', {
-        fetch('${pageContext.request.contextPath}/board/community/comment/write.do', {
+        fetch('${pageContext.request.contextPath}/Board/Community/comment/write.do', {
             method: 'POST',
             body: formData
         })
@@ -328,7 +328,7 @@
             formData.append('commentDescription', newDescription);
 
             //fetch('/TravelRoulette/Board/Community/comment/update.do', {
-            fetch('${pageContext.request.contextPath}/board/community/comment/update.do', {
+            fetch('${pageContext.request.contextPath}/Board/Community/comment/update.do', {
                 method: 'POST',
                 body: formData
             })
@@ -359,7 +359,7 @@
                 formData.append('commentNumber', commentId);
 
                 //fetch('/TravelRoulette/Board/Community/comment/delete.do', {
-                fetch('${pageContext.request.contextPath}/board/community/comment/delete.do', {
+                fetch('${pageContext.request.contextPath}/Board/Community/comment/delete.do', {
                     method: 'POST',
                     body: formData
                 })

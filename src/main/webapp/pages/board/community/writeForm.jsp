@@ -119,7 +119,7 @@
 
         //비동기
         //fetch('/TravelRoulette/Board/Community/write.do', {
-        fetch('${pageContext.request.contextPath}/board/community/write.do', {
+        fetch('${pageContext.request.contextPath}/Board/Community/write.do', {
             method: 'POST',
             body: formData
         })
