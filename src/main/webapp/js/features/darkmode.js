@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const body = document.getElementById("pageBody");
+    const body = document.getElementById("pageBody") || document.body;
     const navbar = document.getElementById("mainNavbar");
     const toggleBtn = document.getElementById("modeToggle");
     const toggleBtnSidebar = document.getElementById("modeToggleSidebar");

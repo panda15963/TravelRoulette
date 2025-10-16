@@ -16,6 +16,7 @@
 
 <body id="music-page">
 <%@ include file="../Common/navbar.jsp" %>
+<%@ include file="../Common/sidebar.jsp" %>
 
 <!-- 🎵 미니 플레이어 -->
 <section id="player-section"
@@ -82,7 +83,9 @@ style ="margin-top: 150px; margin-bottom: 100px;"
 </script>
 
 <script src="../js/features/deezer.js"></script>
+<script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
 
 <%@ include file="../Common/footer.jsp" %>
+
 </body>
 </html>
