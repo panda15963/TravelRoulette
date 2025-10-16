@@ -40,8 +40,7 @@
                 <li class="nav-item"><a class="nav-link"
                                         href="${pageContext.request.contextPath}/pages/signUp.jsp">회원가입</a></li>
                 <% } else { %>
-                <li cla
-                    ss="nav-item"><a class="nav-link text-primary fw-bold"
+                <li class="nav-item"><a class="nav-link text-primary fw-bold"
                                         href="${pageContext.request.contextPath}/pages/myPage.jsp">
                     <%= ((AuthenticatedUser)request.getAttribute("authUser")).getUserId() %>님
                 </a></li>
