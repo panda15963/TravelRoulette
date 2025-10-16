@@ -214,6 +214,7 @@
 
         // 페이지 로드 시 버튼의 초기 상태를 설정합니다.
         updateSubmitButtonState();
+    });
 </script>
 </body>
 </html>

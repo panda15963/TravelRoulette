@@ -24,16 +24,28 @@ public class QnAAnswerUpdateService {
         }
 
         String qnaNumberStr = request.getParameter("qnaNumber");
+        int qnaNumber = Integer.parseInt(qnaNumberStr);
         String title = request.getParameter("title");
         String content = request.getParameter("content");
 
+        QnAAnswerDao dao = new QnAAnswerDao();
+
+        // ✅ 1. 수정 전 원본 답글 정보 조회
+        QnABoardDto answerToUpdate = dao.selectOneAnswer(qnaNumber);
+
+        // ✅ 2. 답글이 존재하지 않거나, 작성자가 현재 사용자와 다른 경우 작업 중단
+        if (answerToUpdate == null || !answerToUpdate.getUserId().equals(authenticatedUser.getUserId())) {
+            System.out.println("❌ 답글 수정 권한 없음: 답글이 없거나 작성자가 다릅니다.");
+            return "unauthorized";
+        }
+
+        // ✅ 3. 권한 확인 후 수정 진행
         QnABoardDto updatedAnswer = QnABoardDto.builder()
-                .qnaNumber(Integer.parseInt(qnaNumberStr))
+                .qnaNumber(qnaNumber)
                 .qnaTitle(title)
                 .qnaDescription(content)
                 .build();
 
-        QnAAnswerDao dao = new QnAAnswerDao();
         int result = dao.updateAnswer(updatedAnswer);
 
         if (result > 0) {

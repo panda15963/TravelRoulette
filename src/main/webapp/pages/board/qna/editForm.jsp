@@ -51,21 +51,52 @@
 
 <script>
     window.onload = function() {
+        console.log('📍 window.location.href:', window.location.href);
+        console.log('📍 window.location.search:', window.location.search);
+
         const urlParams = new URLSearchParams(window.location.search);
         const qnaNumber = urlParams.get('qnaNumber');
 
-        if (qnaNumber) {
-            fetch(`/TravelRoulette/Board/qna/detail.do?qnaNumber=${qnaNumber}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.post) {
-                        const post = data.post;
-                        document.getElementById('qnaNumber').value = post.qnaNumber;
-                        document.getElementById('title').value = post.qnaTitle;
-                        document.getElementById('content').value = post.qnaDescription;
-                    }
-                });
+        console.log('📍 Extracted qnaNumber:', qnaNumber);
+        console.log('📍 qnaNumber type:', typeof qnaNumber);
+        console.log('📍 qnaNumber is null?', qnaNumber === null);
+        console.log('📍 qnaNumber is empty string?', qnaNumber === '');
+
+        if (!qnaNumber) {
+            alert('잘못된 접근입니다. 게시글 번호가 없습니다.');
+            history.back();
+            return;
         }
+
+        console.log('Loading post data for qnaNumber:', qnaNumber);
+
+        const fetchUrl = '/TravelRoulette/Board/qna/detail.do?qnaNumber=' + qnaNumber;
+        console.log('📍 Fetch URL:', fetchUrl);
+
+        fetch(fetchUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('HTTP error! status: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Received data:', data);
+                if (data && data.post) {
+                    const post = data.post;
+                    document.getElementById('qnaNumber').value = post.qnaNumber;
+                    document.getElementById('title').value = post.qnaTitle;
+                    document.getElementById('content').value = post.qnaDescription;
+                } else {
+                    alert('게시글을 찾을 수 없습니다.');
+                    history.back();
+                }
+            })
+            .catch(error => {
+                console.error('Error loading post:', error);
+                alert('게시글을 불러오는 중 오류가 발생했습니다.');
+                history.back();
+            });
     };
 
     document.getElementById('edit-form').addEventListener('submit', function(event) {
@@ -74,6 +105,18 @@
         const qnaNumber = document.getElementById('qnaNumber').value;
         const title = document.getElementById('title').value;
         const content = document.getElementById('content').value;
+
+        if (!qnaNumber) {
+            alert('게시글 번호가 없습니다.');
+            return;
+        }
+
+        if (!title.trim() || !content.trim()) {
+            alert('제목과 내용을 입력해주세요.');
+            return;
+        }
+
+        console.log('Updating post:', { qnaNumber, title, content });
 
         const formData = new FormData();
         formData.append('qnaNumber', qnaNumber);
@@ -84,18 +127,25 @@
             method: 'POST',
             body: formData
         })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error('HTTP error! status: ' + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('Update response:', data);
                 if (data.status === 'success') {
                     alert('게시글이 성공적으로 수정되었습니다.');
-                    location.href = `postView.jsp?qnaNumber=${qnaNumber}`;
+                    location.href = 'postView.jsp?qnaNumber=' + qnaNumber;
                 } else {
-                    alert('수정 실패: ' + data.message);
+                    alert('수정 실패: ' + (data.message || '알 수 없는 오류'));
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('수정 중 오류가 발생했습니다.');
+                console.error('Error updating post:', error);
+                alert('수정 중 오류가 발생했습니다. 콘솔을 확인해주세요.');
             });
     });
 </script>

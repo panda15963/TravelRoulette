@@ -85,6 +85,50 @@ public class QnAAnswerDao {
         return answer;
     }
 
+    // 특정 답글 조회 (qnaNumber 기준)
+    public QnABoardDto selectOneAnswer(int qnaNumber) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        QnABoardDto answer = null;
+
+        String sql = "SELECT qnaNumber, qnaTitle, qnaDescription, qnaDateWritten, qnaRef, qnaDepth, qnaStep, userId " +
+                "FROM Answer " +
+                "WHERE qnaNumber = ? AND qnaDepth = 1";
+
+        try {
+            conn = ConnectionPoolHelper.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, qnaNumber);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                java.sql.Timestamp ts = rs.getTimestamp("qnaDateWritten");
+                java.time.LocalDateTime dateWritten = (ts != null) ? ts.toLocalDateTime() : null;
+
+                answer = QnABoardDto.builder()
+                        .qnaNumber(rs.getInt("qnaNumber"))
+                        .qnaTitle(rs.getString("qnaTitle"))
+                        .qnaDescription(rs.getString("qnaDescription"))
+                        .qnaDateWritten(dateWritten)
+                        .qnaRef(rs.getInt("qnaRef"))
+                        .qnaDepth(rs.getInt("qnaDepth"))
+                        .qnaStep(rs.getInt("qnaStep"))
+                        .userId(rs.getString("userId"))
+                        .build();
+            }
+        } catch (SQLException e) {
+            System.out.println("특정 답글 조회 오류");
+            e.printStackTrace();
+        } finally {
+            ConnectionPoolHelper.close(rs);
+            ConnectionPoolHelper.close(pstmt);
+            ConnectionPoolHelper.close(conn);
+        }
+
+        return answer;
+    }
+
     // 답글 작성
     public int insertAnswer(QnABoardDto answer) {
         Connection conn = null;
