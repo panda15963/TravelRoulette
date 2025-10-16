@@ -89,7 +89,7 @@
     });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
 
@@ -110,6 +110,7 @@
         if (signinForm) {
             signinForm.addEventListener('submit', function(e) {
                 e.preventDefault();
+                const isDarkMode = document.body.getAttribute('data-mode') === 'dark';
 
                 const formData = new FormData(signinForm);
                 formData.append('ajax', 'true');
@@ -128,8 +129,6 @@
                         });
 
                         // 로그인 성공 메시지
-                        // data.success가 있다면 "아이디님 환영합니다! /n 잠시 후 메인으로 이동합니다..."
-                        // 없다면 "님 환영합니다! /n 잠시 후 메인으로 이동합니다..."
                         const loginMessage = (data.success ? data.userId  + '님 환영합니다!' : '로그인 성공!')
                                              + '\n잠시 후 메인으로 이동합니다...';
 
@@ -140,29 +139,26 @@
                           showConfirmButton: false,
                           timer: 2000,
                           timerProgressBar: true,
+                          background: isDarkMode ? '#2a2a2a' : '#fff',
+                          color: isDarkMode ? '#eaeaea' : '#000',
                           didClose: () => {
-                            // 2초 타이머가 끝난 후, 이 함수가 실행되며 페이지를 이동시킵니다.
-                            // 메인 페이지로 이동
                             window.location.href = '${pageContext.request.contextPath}/index.jsp';
                           }
                         });
-
-                        //alert(data.userId + '님 환영합니다!');
-
-                        // 메인 페이지로 이동
 
                     } else {
                         // 로그인 실패
                         const errorMessage = data.message || '로그인에 실패했습니다. 잠시 후 다시 시도해 주세요.';
                         Swal.fire({
-                          icon: 'error', // 실패는 보통 'error' 아이콘을 사용합니다.
+                          icon: 'error',
                           title: '로그인 오류',
                           text: errorMessage,
-                          timer: 2000, // 타이머
+                          timer: 2000,
                           timerProgressBar: true,
-                          showConfirmButton: false
+                          showConfirmButton: false,
+                          background: isDarkMode ? '#2a2a2a' : '#fff',
+                          color: isDarkMode ? '#eaeaea' : '#000'
                         });
-                       // alert(data.message || '로그인에 실패했습니다.');
                     }
                 })
                 .catch(error => {
