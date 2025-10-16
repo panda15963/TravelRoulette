@@ -45,8 +45,9 @@ async function searchDeezer() {
                 return `
           <div class="track"
                style="display:flex; align-items:center; justify-content:space-between; gap:10px;
-                      border-bottom:1px solid #ddd; padding:8px 0;">
-            <div style="display:flex; align-items:center; gap:10px; cursor:pointer;"
+                      border-bottom:1px solid #ddd; padding:8px 0;
+                      ">
+            <div style="display:flex; align-items:center; gap:10px; cursor:pointer;padding-left: 10px;"
                  onclick="playEncoded('${safeData}')">
               <img src="${coverUrl}"
                    alt="cover"
@@ -55,10 +56,10 @@ async function searchDeezer() {
               <div style="text-align:left;">
                 <b>${t.title}</b><br>
                 <span style="font-size:0.9em;color:#555;">${t.artist.name}</span>
-              </div>
+              </div>              
             </div>
             <button class="add-btn"
-                    onclick="addToPlaylist(event, '${safeData}')">➕</button>
+                    onclick="addToPlaylist(event, '${safeData}')" style="padding-right: 10px;">➕</button>
           </div>`;
             })
             .join("");

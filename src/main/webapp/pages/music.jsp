@@ -66,11 +66,12 @@ style ="margin-top: 150px; margin-bottom: 100px;"
 
 <!-- 🎵 나의 플레이리스트 카드 -->
 <section id="my-playlist" style="margin: 40px 0; border-top-width: 40px; padding-top: 100px; padding-bottom: 100px;">
-    <h3 style="text-align: left; margin-left: 20%;">나의 여행 플레이리스트</h3>
+    <h3 style="text-align: center; ">🎧 나의 여행 플레이리스트</h3>
 
     <div id="playlist-card" onclick="openPlaylist()" style="margin-top: 80px;">
         <span style="font-size: 2em;">🎵</span>
-        <p style="margin: 8px 0 0; font-weight: 500;">나의 플레이리스트</p>
+        <!--
+        <p style="margin: 8px 0 0; font-weight: 500;">playlist</p>-->
     </div>
 
 </section>
