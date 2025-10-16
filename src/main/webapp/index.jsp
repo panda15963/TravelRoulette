@@ -44,12 +44,12 @@
 <!-- Bootstrap JS -->
 <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src = "js/features/darkmode.js"></script>
-<!-- 필요없는부분인데 혹시몰라서 주석처리
-<script>
-    const CONTEXT_PATH = "${pageContext.request.contextPath}";
-</script>
-<script defer src="js/features/signUpAndValidate.js"></script> </body>
-<script src="${pageContext.request.contextPath}/js/auth/auth.js"></script>
--->
+
+
+
+
+
+
+
 </body>
 </html>

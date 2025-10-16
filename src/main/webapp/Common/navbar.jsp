@@ -41,7 +41,9 @@
                                         href="${pageContext.request.contextPath}/pages/signUp.jsp">회원가입</a></li>
                 <% } else { %>
                 <li class="nav-item"><a class="nav-link text-primary fw-bold"
-                                        href="#"><%= ((AuthenticatedUser)request.getAttribute("authUser")).getUserId() %>님</a></li>
+                                        href="${pageContext.request.contextPath}/pages/myPage.jsp">
+                    <%= ((AuthenticatedUser)request.getAttribute("authUser")).getUserId() %>님
+                </a></li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" id="navLogoutBtn">로그아웃</a>
                 </li>
@@ -82,3 +84,4 @@
         }
     });
 </script>
+
