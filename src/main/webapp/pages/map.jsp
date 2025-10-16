@@ -4,10 +4,10 @@
 <head>
     <title>TripWiki</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico?v=2" />
-    <link href="../css/styles.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico?v=2"/>
+    <link href="../css/styles.css" rel="stylesheet"/>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 
 <body id="pageBody" class="d-flex flex-column h-100" data-mode="light" style="background-color:#fff; color:#000;">
@@ -45,8 +45,8 @@
     </div>
 
     <!-- Hidden inputs -->
-    <input type="hidden" id="continentInput" />
-    <input type="hidden" id="continentInputNumber" />
+    <input type="hidden" id="continentInput"/>
+    <input type="hidden" id="continentInputNumber"/>
     <input type="hidden" id="countryInput" name="country">
     <input type="hidden" id="countryEnglishInput" name="countryEnglish">
     <input type="hidden" id="countryCodeInput" name="countryCode">
@@ -94,7 +94,8 @@
     </div>
 </div>
 
-    <!-- 지도 + 장소 리스트 -->
+<!-- ✅ container로 감싸기 -->
+<div class="container mt-4">
     <div class="d-flex mt-3">
         <!-- 지도 -->
         <div class="position-relative" style="width:70%; height:500px;">
@@ -136,16 +137,19 @@
 
 <!-- Random City UI -->
 <script type="module">
-    import { initRandomCityUI } from "../js/features/randomCity.js";
+    import {initRandomCityUI} from "../js/features/randomCity.js";
+
     initRandomCityUI();
 </script>
 
 <!-- Google Maps API -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK_cxakbGGco-bruqrtL1PPdKYYj_a1UA&libraries=places&loading=async" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK_cxakbGGco-bruqrtL1PPdKYYj_a1UA&libraries=places&loading=async"
+        async defer></script>
 
 <!-- Google Map Logic -->
 <script type="module">
-    import { initMap, triggerMapResize } from "../js/features/googleMap.js";
+    import {initMap, triggerMapResize} from "../js/features/googleMap.js";
+
     window.addEventListener("load", () => {
         initMap();
         setTimeout(() => triggerMapResize(), 300);
