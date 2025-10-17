@@ -96,51 +96,8 @@
                             </tr>
                             </thead>
 
-                        <!-- <table class="table align-middle table-hover mb-0">
-                            <thead class="table-info text-primary text-center">
-                            <tr>
-                                <th class="w-10">번호</th>
-                                <th>제목</th>
-                                <th class="w-25">작성자</th>
-                                <th class="w-25">작성일</th>
-                            </tr>
-                            </thead>
-                            -->
-
                             <!-- ✅ tbody: 제목 클릭 시 상세 페이지로 이동 -->
                             <tbody id="post-list-body" class="text-center">
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    <a href="postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        Bootstrap 클래스만으로 디자인!
-                                    </a>
-                                </td>
-                                <td>홍길동</td>
-                                <td>2025-10-11</td>
-                            </tr>
-
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <a href="postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        Travel Roulette 색상 없이도 예쁘네요
-                                    </a>
-                                </td>
-                                <td>김민수</td>
-                                <td>2025-10-10</td>
-                            </tr>
-
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <a href="postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        순수 Bootstrap 버전 테스트
-                                    </a>
-                                </td>
-                                <td>이영희</td>
-                                <td>2025-10-09</td>
-                            </tr>
                             </tbody>
                         </table>
 

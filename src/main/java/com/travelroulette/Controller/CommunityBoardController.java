@@ -251,7 +251,7 @@ public class CommunityBoardController extends HttpServlet {
             String sort = "asc".equalsIgnoreCase(sortParam) ? "asc" : "desc";
 
             ReviewBoardListService service = new ReviewBoardListService();
-            BoardPageDto pageDto = service.execute(request, response);
+            TotalBoardPageDto pageDto = service.execute(request, response);
 
             //JSON 변환
             Gson gson = new GsonBuilder()

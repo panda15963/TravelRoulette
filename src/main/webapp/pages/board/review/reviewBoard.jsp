@@ -95,38 +95,6 @@
                             </thead>
 
                             <tbody id="post-list-body" class="text-center">
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    <a href="postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        제주도 일주 여행기 🌴
-                                    </a>
-                                </td>
-                                <td>홍길동</td>
-                                <td>2025-10-11</td>
-                            </tr>
-
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <a href="postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        일본 오사카 맛집 탐방기 🍜
-                                    </a>
-                                </td>
-                                <td>김민수</td>
-                                <td>2025-10-10</td>
-                            </tr>
-
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <a href="postView.jsp" class="text-decoration-none text-dark fw-semibold">
-                                        유럽 배낭여행 후기 ✈️
-                                    </a>
-                                </td>
-                                <td>이영희</td>
-                                <td>2025-10-09</td>
-                            </tr>
                             </tbody>
                         </table>
 

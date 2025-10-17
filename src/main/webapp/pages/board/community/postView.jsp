@@ -27,16 +27,13 @@
             <!-- 게시글 본문 -->
             <div class="card border-info shadow-sm mb-4">
                 <div class="card-header bg-info-subtle d-flex justify-content-between align-items-center">
-                    <span id="post-title" class="fw-bold">Lorem Ipsum</span>
-                    <small id="post-date" class="text-muted">작성일자: 2025-10-11</small>
+                    <span id="post-title" class="fw-bold"></span>
+                    <small id="post-date" class="text-muted"></small>
                 </div>
                 <div class="card-body">
-                    <p id="post-author" class="text-secondary mb-2">작성자: 홍길동</p>
+                    <p id="post-author" class="text-secondary mb-2"></p>
                     <hr>
                     <p id="post-content" class="mb-0">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                     </p>
                 </div>
             </div>
@@ -48,35 +45,12 @@
                     <%-- JavaScript가 이 안에 댓글들을 채워 넣을 겁니다. --%>
                 </div>
             </div>
-<%--            <div class="mb-4">--%>
-<%--                <div class="border rounded p-3 mb-2">--%>
-<%--                    <strong>이민호</strong>--%>
-<%--                    <p class="mb-1">좋은 글이에요!</p>--%>
-<%--                    <small class="text-muted">2025-10-11 14:00</small>--%>
-<%--                </div>--%>
-<%--                <div class="border rounded p-3 mb-2">--%>
-<%--                    <strong>김하늘</strong>--%>
-<%--                    <p class="mb-1">저도 가보고 싶네요 ✈️</p>--%>
-<%--                    <small class="text-muted">2025-10-11 13:45</small>--%>
-<%--                </div>--%>
-<%--            </div>--%>
 
             <!-- 댓글 입력 -->
             <form id="comment-form" class="d-flex align-items-center mt-3">
                 <input type="text" id="comment-input" class="form-control border-info" placeholder="댓글을 남겨주세요" required>
                 <button type="submit" class="btn text-white ms-2" style="background-color: #64A5E6;">➤</button>
             </form>
-<%--            <form class="d-flex align-items-center mt-3">--%>
-<%--                <label>--%>
-<%--                    <input type="text" class="form-control border-info" placeholder="댓글을 남겨주세요" />--%>
-<%--                </label>--%>
-<%--                <button type="submit" class="btn text-white ms-2" style="background-color: #64A5E6;">➤</button>--%>
-<%--            </form>--%>
-
-<%--            <!-- 뒤로가기 버튼 -->--%>
-<%--            <div class="mt-4 text-end">--%>
-<%--                <a href="communityBoard.jsp" class="btn btn-outline-secondary px-4 fw-semibold">뒤로가기</a>--%>
-<%--            </div>--%>
 
             <!-- 수정, 삭제, 글 목록 버튼 -->
             <div class="mt-4 d-flex justify-content-end gap-2">

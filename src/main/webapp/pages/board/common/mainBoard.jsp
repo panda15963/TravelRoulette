@@ -4,14 +4,25 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ page import="com.travelroulette.Dao.TotalBoardDAO" %>
+<%@ page import="com.travelroulette.Dto.TotalBoard.TotalBoardPageDto" %>
 <%@ page import="com.travelroulette.Dto.TotalBoard.TotalBoardDto" %>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.*" %>
 
 <%
-    // ✅ JSP에서 DAO 직접 호출 — Controller 없이도 작동
+    int pageNumber = 1;
+    if (request.getParameter("page") != null) {
+        pageNumber = Integer.parseInt(request.getParameter("page"));
+    }
+
     TotalBoardDAO dao = new TotalBoardDAO();
-    List<TotalBoardDto> boardList = dao.findAll();
-    request.setAttribute("boardList", boardList);
+    TotalBoardPageDto pageDto = dao.findPagedPosts(pageNumber);
+
+    request.setAttribute("boardList", pageDto.getPosts());
+    request.setAttribute("currentPage", pageDto.getCurrentPage());
+    request.setAttribute("startPage", pageDto.getStartPage());
+    request.setAttribute("endPage", pageDto.getEndPage());
+    request.setAttribute("hasPrev", pageDto.isHasPrev());
+    request.setAttribute("hasNext", pageDto.isHasNext());
 %>
 
 <!DOCTYPE html>
@@ -106,7 +117,6 @@
                                 </tr>
                             </c:forEach>
 
-                            <!-- ✅ 게시글이 없을 경우 -->
                             <c:if test="${empty boardList}">
                                 <tr>
                                     <td colspan="5" class="text-muted py-4">등록된 게시글이 없습니다.</td>
@@ -118,11 +128,113 @@
                 </div>
             </div>
 
+            <!-- ✅ TripWiki 스타일 페이지네이션 -->
+            <nav class="d-flex justify-content-center my-3 w-100 mb-0">
+                <ul id="pagination"
+                    class="pagination mb-0"
+                    style="display:flex; justify-content:center; align-items:center; gap:0; margin-bottom:0;
+             border-radius:10px; overflow:hidden;
+             border:1px solid #d0d0d0; background-color:#f0f2f5;">
+                    <!-- JS에서 버튼(li) 자동 생성 -->
+                </ul>
+            </nav>
         </main>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/features/darkmode.js"></script>
+
+<script>
+    // ✅ 페이지네이션 JS 함수
+    function renderPagination(opts) {
+        const ul = document.getElementById('pagination');
+        if (!ul) return;
+
+        const c = Number(opts.currentPage) || 1;
+        const t = Number(opts.totalPages) || 1;
+        const s = Number(opts.startPage) || 1;
+        const e = Number(opts.endPage) || t;
+
+        const hasPrevBlock = opts.hasPrev;
+        const hasNextBlock = opts.hasNext;
+
+        // ✅ 버튼 생성 함수 (회색 배경 + 파란색 활성 + 구분선 수정)
+        function li(label, page, disabled, active, isLast) {
+            // 마지막(`»`)만 border-right 제거
+            const borderStyle = isLast ? "" : "border-right:1px solid #d9d9d9;";
+            const baseStyle =
+                "background-color:#e9ecef; color:#0d6efd; border:none; margin:0; " +
+                borderStyle +
+                " border-radius:0; padding:8px 14px; transition:background-color 0.2s;";
+            const activeStyle = active
+                ? "background-color:#0d6efd; color:#fff; font-weight:600;"
+                : "";
+            const disabledStyle = disabled
+                ? "color:#adb5bd; pointer-events:none;"
+                : "";
+            const hoverAttr = disabled
+                ? ""
+                : 'onmouseover="if(!this.parentElement.classList.contains(\'active\')) this.style.backgroundColor=\'#d8d8d8\'" ' +
+                'onmouseout="if(!this.parentElement.classList.contains(\'active\')) this.style.backgroundColor=\'#e9ecef\'"';
+
+            const cls =
+                "page-item" + (disabled ? " disabled" : "") + (active ? " active" : "");
+            return (
+                '<li class="' +
+                cls +
+                '" style="list-style:none;">' +
+                '<a class="page-link" href="#" data-page="' +
+                page +
+                '" ' +
+                hoverAttr +
+                ' style="' +
+                baseStyle +
+                activeStyle +
+                disabledStyle +
+                '">' +
+                label +
+                "</a></li>"
+            );
+        }
+
+        let html = "";
+        html += li("«", 1, c === 1, false, false);
+        html += li("‹", hasPrevBlock ? s - 1 : c, !hasPrevBlock, false, false);
+
+        for (let p = s; p <= e; p++) {
+            html += li(String(p), p, false, p === c, false);
+        }
+
+        html += li("›", hasNextBlock ? e + 1 : c, !hasNextBlock, false, false);
+        html += li("»", t, c === t, false, true); // ✅ 마지막만 border 제거
+
+        ul.innerHTML = html;
+
+        // ✅ 클릭 이벤트 처리
+        const links = ul.querySelectorAll("a[data-page]");
+        for (let link of links) {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (this.parentElement.classList.contains("disabled")) return;
+                const next = Number(this.getAttribute("data-page"));
+                if (!next || next === c) return;
+                location.href = "?page=" + next;
+            });
+        }
+    }
+
+    // ✅ 서버에서 받은 값으로 JS 페이지네이션 렌더링
+    document.addEventListener('DOMContentLoaded', () => {
+        renderPagination({
+            currentPage: ${currentPage},
+            totalPages: ${endPage},
+            startPage: ${startPage},
+            endPage: ${endPage},
+            hasPrev: ${hasPrev},
+            hasNext: ${hasNext}
+        });
+    });
+</script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 package com.travelroulette.Controller;
 
-import com.travelroulette.Dto.TotalBoard.TotalBoardDto;
+import com.travelroulette.Dto.TotalBoard.TotalBoardPageDto;
 import com.travelroulette.Service.Board.Total.TotalBoardService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/totalBoard")
 public class TotalBoardController extends HttpServlet {
@@ -19,13 +18,27 @@ public class TotalBoardController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<TotalBoardDto> boardList = totalBoardService.getAllBoards();
+        // ✅ page 파라미터 기본값 1
+        int page = 1;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageParam);
+            } catch (NumberFormatException ignored) {}
+        }
 
-        // 디버깅
-        System.out.println("✅ boardList size = " + boardList.size());
+        // ✅ 페이지 데이터 가져오기
+        TotalBoardPageDto pageData = totalBoardService.getPagedPosts(page);
 
-        request.setAttribute("boardList", boardList);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/Board/common/mainBoard.jsp");
+        // ✅ JSP에 전달
+        request.setAttribute("pageData", pageData);
+
+        // ✅ 디버깅
+        System.out.println("✅ Total posts = " + pageData.getTotalPostCount());
+        System.out.println("✅ Current page = " + pageData.getCurrentPage());
+        System.out.println("✅ Posts in this page = " + pageData.getPosts().size());
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/board/common/mainBoard.jsp");
         dispatcher.forward(request, response);
     }
 }

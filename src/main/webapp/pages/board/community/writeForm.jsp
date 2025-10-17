@@ -26,9 +26,6 @@
                 <h1 class="h3 fw-bold text-primary mb-4">자유게시판</h1>
 
                 <!-- 글쓰기 폼 -->
-                <!--
-                <form action="/Board/Community/savePost.jsp" method="post" class="border-0">
-                -->
                 <form id="write-form" class="border-0">
 
                     <!-- 제목 입력 -->
@@ -68,18 +65,6 @@
                         >
                             취소
                         </a>
-
-                        <!-- 등록 버튼 -->
-                        <!--
-                        <button
-                                type="submit"
-                                class="btn text-white fw-semibold px-4"
-                                style="background-color: #64A5E6;"
-                        >
-                            등록
-                        </button>
-                        -->
-
                         <button type="button"
                                 id="submit-button"
                                 class="btn text-white fw-semibold px-4"
@@ -87,7 +72,6 @@
                         >
                             등록
                         </button>
-
                     </div>
                 </form>
             </div>
