@@ -78,6 +78,7 @@ public class ExchangeRateController extends HttpServlet {
             }
 
             //환율 API 호출
+            /*
             else if (command.equals("/chart/exchange/api.do")) {
                 try {
                     String searchDate = request.getParameter("searchdate");
@@ -128,7 +129,9 @@ public class ExchangeRateController extends HttpServlet {
                 }
             }
 
-            /*
+             */
+
+
             else if (command.equals("/chart/exchange/api.do")) {
                 try {
                     String searchDate = request.getParameter("searchdate");
@@ -160,7 +163,7 @@ public class ExchangeRateController extends HttpServlet {
                 }
             }
 
-             */
+
 
 
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
