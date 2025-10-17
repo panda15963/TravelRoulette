@@ -26,12 +26,13 @@
                 <img class="img-fluid rounded mb-5 mb-lg-0"
                      src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1000&q=80"
                      alt="랜덤 여행 이미지 2" />
+                />
             </div>
             <div class="col-lg-6 order-lg-1">
-                <h2 class="fw-bolder">조건 맞춤 추천</h2>
+                <h2 class="fw-bolder">여행 계획 세우기</h2>
                 <p class="lead fw-normal mb-0">
-                    기후, 거리, 취향 등 조건을 설정해 자신만의 랜덤 여행을 즐기세요.<br />
-                    추천 알고리즘이 당신에게 꼭 맞는 <strong>맞춤형 랜덤 여행지</strong>를 찾아드립니다.
+                    여행 일정을 계획하고, 방문할 <strong>관광지</strong>, 머물 <strong>숙소</strong>, 그리고 맛있는 <strong>식당</strong>을 선택해보세요.<br />
+                    자신만의 일정표를 만들고 여행 루트를 정리하여 완벽한 하루를 준비할 수 있습니다.
                 </p>
             </div>
         </div>
