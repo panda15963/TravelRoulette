@@ -8,11 +8,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.cookie.BasicCookieStore;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.net.URIBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -74,11 +78,66 @@ public class ExchangeRateController extends HttpServlet {
             }
 
             //환율 API 호출
+            /*
+            else if (command.equals("/chart/exchange/api.do")) {
+                try {
+                    String searchDate = request.getParameter("searchdate");
+                    String authKey = request.getParameter("authkey");
+
+                    URI apiUri = new URIBuilder("https://www.koreaexim.go.kr/site/program/financial/exchangeJSON")
+                            .addParameter("authkey", authKey)
+                            .addParameter("searchdate", searchDate)
+                            .addParameter("data", "AP01")
+                            .build();
+
+                    BasicCookieStore cookieStore = new BasicCookieStore();
+                    try (CloseableHttpClient httpClient = HttpClients.custom()
+                            .disableRedirectHandling() // ← 핵심: 자동 리다이렉트 끔
+                            .setDefaultCookieStore(cookieStore)
+                            .build()) {
+
+                        HttpGet httpGet = new HttpGet(apiUri);
+                        httpGet.addHeader(HttpHeaders.ACCEPT, "application/json");
+                        httpGet.addHeader(HttpHeaders.USER_AGENT, "Mozilla/5.0");
+
+                        try (CloseableHttpResponse httpResponse = httpClient.execute(httpGet)) {
+                            int statusCode = httpResponse.getCode();
+
+                            if (statusCode >= 300 && statusCode < 400) {
+                                Header locationHeader = httpResponse.getFirstHeader("Location");
+                                String redirectUrl = (locationHeader != null) ? locationHeader.getValue() : "(none)";
+                                System.err.println("Upstream redirect to: " + redirectUrl);
+                                response.sendError(HttpServletResponse.SC_BAD_GATEWAY,
+                                        "Upstream redirected unexpectedly: " + redirectUrl);
+                                return;
+                            }
+
+                            HttpEntity entity = httpResponse.getEntity();
+                            String responseJson = EntityUtils.toString(entity);
+
+                            response.setContentType("application/json; charset=UTF-8");
+                            response.getWriter().write(responseJson);
+                        }
+                    }
+                    return;
+
+                } catch (Exception e) {
+                    System.err.println("API 호출 중 예외 발생 in ExchangeRateController");
+                    e.printStackTrace();
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "API 호출 중 서버 내부 오류 발생");
+                    return;
+                }
+            }
+
+             */
+
+
             else if (command.equals("/chart/exchange/api.do")) {
                 try {
                     String searchDate = request.getParameter("searchdate");
                     String authKey = request.getParameter("authkey");
                     String apiUrl = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=" + authKey + "&searchdate=" + searchDate + "&data=AP01";
+                    //String apiUrl = "https://www.koreaexim.go.kr/site/program/financial/exchangeReport?authkey=" + authKey + "&searchdate=" + searchDate + "&data=AP01";
 
                     try (CloseableHttpClient httpClient = com.travelroulette.Utils.HttpClientHelper.getSslBypassClient()) {
 
@@ -103,6 +162,8 @@ public class ExchangeRateController extends HttpServlet {
                     return;
                 }
             }
+
+
 
 
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
