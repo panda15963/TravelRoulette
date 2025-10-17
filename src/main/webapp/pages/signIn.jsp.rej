@@ -1,0 +1,10 @@
+diff a/src/main/webapp/pages/signIn.jsp b/src/main/webapp/pages/signIn.jsp	(rejected hunks)
+@@ -89,7 +89,7 @@
+     });
+ </script>
+ 
+-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
++
+ 
+ 
+ 

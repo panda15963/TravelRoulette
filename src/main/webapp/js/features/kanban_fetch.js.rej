@@ -1,0 +1,9 @@
+diff a/src/main/webapp/js/features/kanban_fetch.js b/src/main/webapp/js/features/kanban_fetch.js	(rejected hunks)
+@@ -79,7 +79,6 @@
+ 
+ // ✅ 4. 카드 삭제
+ async function deleteTask(taskId) {
+-  if (!confirm("정말로 삭제하시겠습니까?")) return false;
+   const confirmed = await confirm("정말로 삭제하시겠습니까?");
+   if (!confirmed) return false;
+   const res = await fetch(`/TravelRoulette/kanban?action=delete&taskId=${taskId}`);

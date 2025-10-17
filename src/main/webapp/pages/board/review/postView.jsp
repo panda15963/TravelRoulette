@@ -142,9 +142,10 @@
     };
 
     // 후기 삭제
-    document.getElementById('delete-button').addEventListener('click', function(event) {
+    document.getElementById('delete-button').addEventListener('click', async function(event) {
         event.preventDefault();
-        if (confirm('정말 삭제하시겠습니까?')) {
+        const confirmed = await confirm('정말 삭제하시겠습니까?');
+        if (confirmed) {
             const formData = new FormData();
             formData.append('postNumber', postNumber);
 
@@ -203,7 +204,7 @@
     });
 
     // 댓글 수정/삭제
-    document.getElementById('comment-list-container').addEventListener('click', function(event) {
+    document.getElementById('comment-list-container').addEventListener('click', async function(event) {
         const target = event.target;
         const action = target.dataset.action;
         if (!action) return;
@@ -273,7 +274,8 @@
         // 삭제
         if (action === 'delete') {
             event.preventDefault();
-            if (confirm('정말 삭제하시겠습니까?')) {
+            const confirmed = await confirm('정말 삭제하시겠습니까?');
+            if (confirmed) {
                 const commentId = target.dataset.commentId;
                 const formData = new FormData();
                 formData.append('commentNumber', commentId);

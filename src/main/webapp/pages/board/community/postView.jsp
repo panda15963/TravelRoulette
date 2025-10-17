@@ -168,11 +168,12 @@
 
 
     //삭제 버튼 클릭 시
-    document.getElementById('delete-button').addEventListener('click', function(event) {
+    document.getElementById('delete-button').addEventListener('click', async function(event) {
         event.preventDefault();
 
         //삭제 재확인
-        if (confirm('정말 삭제하시겠습니까?')) {
+        const confirmed = await confirm('정말 삭제하시겠습니까?');
+        if (confirmed) {
             const urlParams = new URLSearchParams(window.location.search);
             const postNumber = urlParams.get('postNumber');
 
@@ -241,7 +242,7 @@
     });
 
     //댓글 수정 버튼 클릭 시
-    document.getElementById('comment-list-container').addEventListener('click', function(event) {
+    document.getElementById('comment-list-container').addEventListener('click', async function(event) {
         const target = event.target;
         const action = target.dataset.action;
 
@@ -326,7 +327,8 @@
             event.preventDefault();
 
             //ㄹㅇ 삭제할 지 재확인
-            if (confirm('정말 삭제하시겠습니까?')) {
+            const confirmed = await confirm('정말 삭제하시겠습니까?');
+            if (confirmed) {
                 const commentId = target.dataset.commentId;
 
                 const formData = new FormData();

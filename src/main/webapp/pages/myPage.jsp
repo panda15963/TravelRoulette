@@ -67,7 +67,7 @@
                     </div>
                     <div class="mb-0">
                         <label class="text-muted small mb-1">현재 이메일</label>
-                        <div class="fw-bold"><%= ((AuthenticatedUser)session.getAttribute("authenticatedUser")).getEmail() %></div>
+                        <div class="fw-bold" id="currentEmailDisplay"><%= ((AuthenticatedUser)session.getAttribute("authenticatedUser")).getEmail() %></div>
                     </div>
                 </div>
             </div>
@@ -203,6 +203,11 @@
 
         const msgEl = document.getElementById("pwMsg");
         if (data.success) {
+            // 입력 필드 초기화
+            document.getElementById("currentPassword").value = '';
+            document.getElementById("newPassword").value = '';
+            document.getElementById("confirmPassword").value = '';
+
             Swal.fire({
                 icon: 'success',
                 title: '비밀번호 변경 성공!',
@@ -276,6 +281,12 @@
             const data = await res.json();
 
             if (data.success) {
+                // 입력 필드 초기화
+                document.getElementById("newEmail").value = '';
+
+                // 현재 이메일 표시 갱신
+                document.getElementById("currentEmailDisplay").textContent = newEmail;
+
                 Swal.fire({
                     icon: 'success',
                     title: '이메일 변경 성공!',
@@ -285,8 +296,6 @@
                     showConfirmButton: false,
                     background: isDarkMode ? '#2a2a2a' : '#fff',
                     color: isDarkMode ? '#eaeaea' : '#000'
-                }).then(() => {
-                    window.location.href = '${pageContext.request.contextPath}/index.jsp'; // Redirect to index.jsp
                 });
             } else {
                 let timer = 2000;
