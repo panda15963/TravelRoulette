@@ -162,7 +162,14 @@
         dates.reverse();
 
         const promises = dates.map(function(date) { // `date`는 "YYYYMMDD" 형식의 문자열
-            const url = '${pageContext.request.contextPath}/chart/exchange/api.do?authkey=' + authKey + '&searchdate=' + date;
+            const url1 = '${pageContext.request.contextPath}/chart/exchange/api.do?authkey=' + authKey + '&searchdate=' + date;
+
+            const params = new URLSearchParams({
+                authkey: authKey,
+                searchdate: date
+            });
+
+            const url = '${pageContext.request.contextPath}/chart/exchange/api.do?' + params.toString();
 
             return fetch(url)
                 .then(response => response.json())
