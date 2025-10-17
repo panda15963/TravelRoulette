@@ -5,16 +5,12 @@ import com.travelroulette.Dto.Post.PostDto;
 import com.travelroulette.Dto.QnABoard.QnABoardDto;
 import com.travelroulette.Dto.TotalBoard.TotalBoardDto;
 import com.travelroulette.Dto.TotalBoard.TotalBoardPageDto;
-
-import java.text.SimpleDateFormat;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class TotalBoardDAO {
-
     private final CommunityBoardDAO communityBoardDAO = new CommunityBoardDAO();
     private final QnAPostDao qnaPostDao = new QnAPostDao();
 
