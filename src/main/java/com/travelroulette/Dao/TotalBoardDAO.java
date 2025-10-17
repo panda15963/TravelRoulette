@@ -20,10 +20,10 @@ public class TotalBoardDAO {
     public List<TotalBoardDto> findAll() {
         List<TotalBoardDto> combinedList = new ArrayList<>();
 
-        // 1. 자유게시판(보드번호 1)과 여행후기(보드번호 2) 게시글 가져오기
-        // 페이지네이션 없이 모든 글을 가져오기 위해 큰 pageSize 값을 사용합니다.
+        // 1. 자유게시판(보드번호 1)과 여행후기(보드번호 3) 게시글 가져오기
+// 자유게시판(보드번호 1)과 여행후기(보드번호 3)
         List<PostDto> communityPosts1 = communityBoardDAO.selectAllPosts(1, 1, 1000, false, null);
-        List<PostDto> communityPosts2 = communityBoardDAO.selectAllPosts(2, 1, 1000, false, null);
+        List<PostDto> communityPosts3 = communityBoardDAO.selectAllPosts(3, 1, 1000, false, null);
 
         communityPosts1.forEach(p -> combinedList.add(TotalBoardDto.builder()
                 .originalId(p.getPostNumber())
@@ -34,13 +34,13 @@ public class TotalBoardDAO {
                 .boardType("자유게시판")
                 .build()));
 
-        communityPosts2.forEach(p -> combinedList.add(TotalBoardDto.builder()
+        communityPosts3.forEach(p -> combinedList.add(TotalBoardDto.builder()
                 .originalId(p.getPostNumber())
                 .title(p.getPostTitle())
                 .content(p.getPostDescription())
                 .userId(p.getUserId())
                 .createdAt(java.sql.Timestamp.valueOf(p.getPostDateWritten()))
-                .boardType("여행후기")
+                .boardType("여행후기게시판")
                 .build()));
 
         // 2. 질의응답(Q&A) 게시글 가져오기 (원글만)

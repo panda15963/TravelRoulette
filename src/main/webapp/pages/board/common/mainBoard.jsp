@@ -70,6 +70,9 @@
                                             <c:when test="${post.boardType eq '질의응답'}">
                                                 <span class="badge bg-primary-subtle text-primary">질의응답</span>
                                             </c:when>
+                                            <c:when test="${post.boardType eq '여행후기게시판'}">
+                                                <span class="badge bg-success-subtle text-success">여행후기게시판</span>
+                                            </c:when>
                                             <c:otherwise>
                                                 <span class="badge bg-info text-dark">자유게시판</span>
                                             </c:otherwise>
