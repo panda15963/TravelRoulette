@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <!-- ✅ UTF-8 Encoding Filter -->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.travelroulette.Filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- ✅ ContinentController Servlet 등록 -->
+    <servlet>
+        <servlet-name>ContinentController</servlet-name>
+        <servlet-class>com.travelroulette.Controller.ContinentController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ContinentController</servlet-name>
+        <url-pattern>/api/continents</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- ✅ CommunityBoardController 서블릿 등록 -->
+    <servlet>
+        <servlet-name>CommunityBoardController</servlet-name>
+        <servlet-class>com.travelroulette.Controller.CommunityBoardController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CommunityBoardController</servlet-name>
+        <url-pattern>/Board/Community/*</url-pattern>
+    </servlet-mapping>
+
+
+
+</web-app>

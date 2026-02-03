@@ -1,0 +1,259 @@
+:root {
+  --bg: #ffffff;
+  --panel: #f9f9f9;
+  --panel-2: #f1f1f1;
+  --text: #222222;
+  --muted: #666666;
+  --accent: #1976d2;
+  --success: #2e7d32;
+  --warn: #ed6c02;
+  --danger: #d32f2f;
+  --border: #cccccc;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 58px;
+}
+
+header {
+  position: sticky; top: 0; z-index: 10;
+  background: #ffffffcc;
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border);
+}
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 12px 16px; }
+.row { display:flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+h1 { font-size: 18px; margin: 0; font-weight: 700; }
+small.code { font-family: monospace; color: var(--muted); }
+
+.toolbar { display:flex; gap: 8px; align-items:center; margin-left:auto; }
+button, select, input, textarea {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+button { cursor: pointer; }
+button.primary { background: var(--accent); color: #fff; border-color: #1565c0; font-weight: 700; }
+
+main { flex: 1; }
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start; /* ✅ 컬럼 높이 기준을 일관되게 */
+}
+
+/* ===== 컬럼 ===== */
+.column {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display:flex;
+  flex-direction:column;
+  min-height: 60vh;
+  transition: min-height 0.25s ease; /* ✅ 높이 변화 부드럽게 */
+}
+
+.column-header {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px;
+  border-bottom:1px solid var(--border);
+}
+
+.dot { width:10px; height:10px; border-radius:999px; display:inline-block; }
+.dot.todo { background:#1976d2; }
+.dot.inprogress { background:#ed6c02; }
+.dot.done { background:#2e7d32; }
+
+.column-title { font-weight:800; }
+.count { margin-left:auto; color: var(--muted); }
+
+/* ===== 리스트 ===== */
+.list {
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-height: 40vh;
+  transition: min-height 0.25s ease; /* ✅ 높이 변화 자연스럽게 */
+}
+
+/* ✅ 드래그 시 효과 개선 */
+.list.drag-over {
+  outline:2px dashed var(--accent);
+  outline-offset: -4px;
+  border-radius: 14px;
+  background: rgba(25, 118, 210, 0.05);
+}
+
+/* ===== 카드 ===== */
+.card {
+  background: #ffffff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.card-header { display:flex; align-items:center; gap:8px; }
+.task-id { font: 600 12px monospace; color: var(--muted); }
+
+.priority { padding:2px 8px; border-radius:999px; border:1px solid var(--border); font-size:12px; }
+.priority.High { background:#fdecea; border-color:#f28b82; color:#c62828; }
+.priority.Medium { background:#fff4e5; border-color:#fbc02d; color:#e65100; }
+.priority.Low { background:#e8f5e9; border-color:#81c784; color:#2e7d32; }
+
+.meta { display:flex; gap:8px; flex-wrap:wrap; color: var(--muted); font-size:12px; }
+.meta b { color: var(--text); font-weight:600; }
+
+.card-actions { display:flex; gap:6px; margin-top: 2px; }
+
+/* ===== 카드 수정 모달 ===== */
+.edit-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.edit-modal-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.edit-modal-content h3 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.edit-modal-content label {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.edit-modal-content textarea,
+.edit-modal-content select,
+.edit-modal-content input[type="date"] {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.edit-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.edit-buttons button {
+  flex: 1;
+  margin: 0 4px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary { background-color: #007bff; color: white; }
+.btn-secondary { background-color: #ccc; color: black; }
+
+/* ===== 하단 고정 카드 추가 폼 ===== */
+.new-form {
+  position: fixed;           /* 화면에 고정 */
+  bottom: 0;                 /* 하단 고정 */
+  left: 0;
+  width: 100%;               /* 가로 전체 */
+  background: rgba(255, 255, 255, 0.85); /* 반투명 흰색 배경 */
+  backdrop-filter: blur(8px); /* 유리 느낌 */
+  border-top: 1px solid #ccc; /* 구분선 */
+  display: flex;
+  flex-wrap: wrap;           /* 줄바꿈 허용 (반응형) */
+  gap: 8px;
+  padding: 10px 16px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 50;
+}
+
+/* ===== 각 입력 요소 기본 크기 ===== */
+.new-form input[type="text"],
+.new-form input[type="date"],
+.new-form select {
+  flex: 1 1 150px;   /* 기본 최소폭 150px */
+  min-width: 100px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+/* 버튼 스타일 */
+.new-form button.primary {
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+.new-form button.primary:hover {
+  background-color: #1259a3;
+}
+
+/* ===== 신규 카드 추가 폼 ===== */
+.new-form {
+  display:grid;
+  grid-template-columns: 1fr 130px 130px 120px auto;
+  gap:8px;
+  padding:12px 16px;
+  background: var(--panel-2);
+  border-top:1px solid var(--border);
+}
+
+@media (max-width: 920px) {
+  .new-form { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .new-form .full { grid-column: 1/-1; }
+}
+
+@media (max-width: 640px) {
+  .board { grid-template-columns: 1fr; }
+}

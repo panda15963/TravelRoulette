@@ -1,0 +1,214 @@
+
+@charset "UTF-8";
+
+/* --- 로그인/회원가입 페이지 전용 body 스타일 --- */
+.sign-page-body {
+    padding-top: 10rem;
+    padding-bottom: 2rem;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* --- 카드 레이아웃 스타일 (새 디자인) --- */
+.sign-page-body .container .card {
+    border: none;
+    border-radius: 16px;
+    transition: transform 0.2s, background-color 0.3s, border-color 0.3s;
+}
+
+.sign-page-body .form-control {
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.sign-page-body .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+.sign-page-body .btn-primary {
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.sign-page-body .btn-outline-primary:hover {
+    transform: translateY(-1px);
+    transition: transform 0.2s;
+}
+
+.sign-page-body #submitBtn:disabled,
+.sign-page-body #submitBtn.btn-custom-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.sign-page-body .input-group .btn {
+    border-radius: 0 8px 8px 0 !important;
+}
+
+.sign-page-body .input-group .form-control {
+    border-radius: 8px 0 0 8px !important;
+}
+
+/* --- 공용 컨테이너 스타일 (구버전 - 하위 호환성) --- */
+.sign-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #000;
+}
+
+/* --- 개별 컨테이너 최대 너비 설정 --- */
+.signin-container { max-width: 500px; }
+.signup-container { max-width: 680px; }
+
+/* --- 폼 내부 요소 공통 스타일 --- */
+.sign-container h2 { margin-bottom: 20px; text-align: center; }
+.sign-container input[type="text"],
+.sign-container input[type="password"],
+.sign-container input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+.sign-container button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: skyblue;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.sign-container button:hover { background-color: blue; }
+.error-message { color: red; margin-bottom: 15px; font-size: 0.9rem; text-align: center; }
+
+/* 회원가입 페이지 전용 스타일 */
+.signup-container .radio-group { display: flex; justify-content: center; width: 100%; margin-bottom: 15px; }
+.signup-container .radio-group label { margin: 0 10px; }
+.signup-container .terms-checkbox { display: flex; align-items: center; justify-content: center; width: 100%; margin-bottom: 20px; }
+.signup-container .terms-checkbox input { margin-right: 10px; }
+
+/* --- 다크 모드 스타일 (새 디자인) --- */
+[data-mode="dark"] .sign-page-body .card {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+[data-mode="dark"] .sign-page-body .form-control {
+    background-color: #333;
+    border-color: #555;
+    color: #eaeaea;
+}
+
+[data-mode="dark"] .sign-page-body .form-control:focus {
+    background-color: #3a3a3a;
+    border-color: #0d6efd;
+    color: #eaeaea;
+}
+
+[data-mode="dark"] .sign-page-body .form-control::placeholder {
+    color: #888;
+}
+
+[data-mode="dark"] .sign-page-body .text-muted {
+    color: #aaa !important;
+}
+
+[data-mode="dark"] .sign-page-body .form-label {
+    color: #eaeaea;
+}
+
+[data-mode="dark"] .sign-page-body .form-text {
+    color: #aaa;
+}
+
+[data-mode="dark"] .sign-page-body h2 {
+    color: #eaeaea;
+}
+
+[data-mode="dark"] .sign-page-body .btn-outline-primary {
+    color: #6ea8fe;
+    border-color: #6ea8fe;
+}
+
+[data-mode="dark"] .sign-page-body .btn-outline-primary:hover {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+}
+
+[data-mode="dark"] .sign-page-body .alert-success {
+    background-color: #1f3a1f;
+    border-color: #2e5a2e;
+    color: #d4edda;
+}
+
+[data-mode="dark"] .sign-page-body .alert-danger {
+    background-color: #3a1f1f;
+    border-color: #5a2e2e;
+    color: #f8d7da;
+}
+
+[data-mode="dark"] .sign-page-body .btn-close {
+    filter: invert(1);
+}
+
+[data-mode="dark"] .sign-page-body .form-check-label {
+    color: #eaeaea;
+}
+
+/* --- 다크 모드 스타일 (구버전 - 하위 호환성) --- */
+body[data-mode="dark"] { background-color: #121212; }
+body[data-mode="dark"] .sign-container {
+    background-color: #1e1e1e;
+    border: 1px solid #444;
+    color: tomato;
+}
+body[data-mode="dark"] .sign-container input[type="text"],
+body[data-mode="dark"] .sign-container input[type="password"],
+body[data-mode="dark"] .sign-container input[type="email"] {
+    background-color: #212121;
+    color: #eee;
+    border: 1px solid #555;
+}
+body[data-mode="dark"] .sign-container button { background-color: #1E90FF; }
+body[data-mode="dark"] .sign-container button:hover { background-color: #4682B4; }
+
+/* --- [추가] 다크모드 모달 스타일 --- */
+body[data-mode="dark"] .modal-content {
+    background-color: #212529;
+    border: 1px solid #555;
+    color: #dee2e6;
+}
+body[data-mode="dark"] .modal-header { border-bottom: 1px solid #495057; }
+body[data-mode="dark"] .modal-footer { border-top: 1px solid #495057; }
+body[data-mode="dark"] #modal-welcome-message { color: tomato; }
+
+/* --- 반응형 디자인 --- */
+@media (max-width: 768px) {
+    .sign-page-body { padding-top: 8rem; }
+    .sign-container { padding: 20px; }
+}
+
+.sign-container button.btn-custom-disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
